@@ -17,7 +17,7 @@
         <TabControl x:Name="tabControl"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
-            <TabItem Header="Формирование рассылки" x:Name="tabSenders"
+            <TabItem x:Name="tabSenders" Header="Формирование рассылки"
                      Width="{Binding ElementName=c1, Path=ActualWidth}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -109,7 +109,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="33"/>
                         <RowDefinition Height="33"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0"
