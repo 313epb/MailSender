@@ -4,9 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Mail_Sender"
+        xmlns:view="clr-namespace:Mail_Sender.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="450" Width="875"
+        MinWidth="875">
+    <Grid Background="#FF4E4E4C">
+        <UniformGrid Columns="4" Margin="5,0">
+            <FrameworkElement x:Name="c1"/>
+        </UniformGrid>
+        <TabControl x:Name="tabControl"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+            <TabItem x:Name="tabSenders" Header="Формирование рассылки"
+                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="45"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ToolBar Grid.Column="0">
+                            <view:AEDClassItemControl Grid.Row="0" Margin="5"/>
+                        </ToolBar>
+                        <ToolBar Grid.Column="1">
+                            <view:AEDClassItemControl Grid.Row="0" Margin="5"/>
+                        </ToolBar>
+
+                    </Grid>
+                    
+
+                </Grid>
+                
+            </TabItem>
+            <TabItem x:Name="tabMail" Header="Рассылка"
+                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+            </TabItem>
+            <TabItem x:Name="tabHistory" Header="История"
+                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

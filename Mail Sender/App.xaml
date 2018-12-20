@@ -12,7 +12,8 @@
               <ResourceDictionary Source="/Styles/Brushes.xaml"/>
               <ResourceDictionary Source="/Styles/Icons.xaml"/>
               <ResourceDictionary>
-                <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:Mail_Sender.ViewModel" />
+                <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" 
+                                     xmlns:vm="clr-namespace:Mail_Sender.ViewModel" />
               </ResourceDictionary>
           </ResourceDictionary.MergedDictionaries>  
       </ResourceDictionary>
