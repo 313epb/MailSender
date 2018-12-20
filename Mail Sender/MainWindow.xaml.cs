@@ -23,6 +23,7 @@ namespace Mail_Sender
         public MainWindow()
         {
             InitializeComponent();
+
         }
     }
 }
