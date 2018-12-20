@@ -36,19 +36,22 @@
                  Width="225" Margin="5"
                  Text="{Binding Path=EmailInfo.Id,Mode=TwoWay,NotifyOnValidationError=True}" 
                  Validation.Error="TextBox_Error"/>
-        <Button x:Name="btnAddEdit" Grid.Column="7" Margin="5">
+        <Button x:Name="btnAddEdit" Grid.Column="7" Height="31" Margin="5" HorizontalAlignment="Center">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="35"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Viewbox Grid.Column="0" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <Viewbox Grid.Column="0"  VerticalAlignment="Center" Margin="5 2 2 2">
                     <Path Width="20" Height="20"
                           Stretch="Fill"
                           Data="{StaticResource page_addStyle0}" 
                           Stroke="#FFFD9804"/>
                 </Viewbox>
-                <TextBlock Text="Добавить" Grid.Column="1" Margin="10"/>
+                <TextBlock Text="Добавить" 
+                           Grid.Column="1" Margin="10 0 10 0" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center"/>
             </Grid>
         </Button>
     </Grid>
