@@ -18,10 +18,10 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="ClassName" 
+        <TextBlock x:Name="ClassName" 
                Grid.Row="0" Grid.Column="0" 
                Width="Auto" 
-               Content="Ждем"
+               Text="Ждем"
                Margin="10 0 0 0"/>
         <ComboBox x:Name="cbSelect" 
                       Grid.Column="0" Grid.Row="1"

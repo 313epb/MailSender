@@ -18,19 +18,19 @@
               <ColumnDefinition Width="Auto"/>
               <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
-        <Label Content="ID:" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Text="ID:" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
         <TextBox x:Name="IdTextBox" 
                  Grid.Column="1" TextWrapping="Wrap" 
                  Width="50" Margin="5"
                  Text="{Binding Path=EmailInfo.Id,Mode=TwoWay,NotifyOnValidationError=True}" 
                  Validation.Error="TextBox_Error"/>
-        <Label Content="Email:" Grid.Column="3" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Text="Email:" Grid.Column="3" VerticalAlignment="Center" Margin="5"/>
         <TextBox x:Name="ValueTextBox" 
                  Grid.Column="4" TextWrapping="Wrap" 
                  Width="225" Margin="5"
                  Text="{Binding Path=EmailInfo.Id,Mode=TwoWay,NotifyOnValidationError=True}" 
                  Validation.Error="TextBox_Error"/>
-        <Label Content="Адресат:" Grid.Column="5" VerticalAlignment="Center" Margin="5"/>
+        <TextBlock Text="Адресат:" Grid.Column="5" VerticalAlignment="Center" Margin="5"/>
         <TextBox x:Name="NameTextBox" 
                  Grid.Column="6" TextWrapping="Wrap" 
                  Width="225" Margin="5"
