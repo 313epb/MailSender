@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:Mail_Sender"
         xmlns:view="clr-namespace:Mail_Sender.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="875"
-        MinWidth="875">
+        Icon="Styles/MainWindowIcon.png"
+        Title="Рассыльщик" Height="680" Width="875"
+        MinWidth="875" MinHeight="680">
     <Grid Background="#FF4E4E4C">
         <UniformGrid Columns="4" Margin="5,0">
             <FrameworkElement x:Name="c1"/>
@@ -21,7 +22,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80"/>
                         <RowDefinition Height="55"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="450"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -37,9 +38,8 @@
 
                     </Grid>
                     <view:AEReceivers Grid.Row="1"/>
-
+                    <view:ReceiversList Grid.Row="2"/>
                 </Grid>
-                
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"
                      Width="{Binding ElementName=c1, Path=ActualWidth}">

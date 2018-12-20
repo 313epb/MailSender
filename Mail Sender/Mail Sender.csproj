@@ -178,6 +178,9 @@
     <Compile Include="View\AEReceivers.xaml.cs">
       <DependentUpon>AEReceivers.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ReceiversList.xaml.cs">
+      <DependentUpon>ReceiversList.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -207,6 +210,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AEReceivers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ReceiversList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
