@@ -1,4 +1,5 @@
 ﻿using MailSender.Domain.Entities.Base;
+using MailSender.Domain.Entities.Base.Interface;
 
 namespace MailSender.Domain.Entities
 {
@@ -6,12 +7,14 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс отправителя
     /// </summary>
-    public class Sender:NamedEntity
+    public class Sender:PairEntity
     {
         /// <summary>
-        /// Пароль
+        /// Название класса
         /// </summary>
-        public string Password { get; set; }
-
+        public static string ClassName
+        {
+            get => Constants.ClassNamesConstants.SenderClassName;
+        }
     }
 }

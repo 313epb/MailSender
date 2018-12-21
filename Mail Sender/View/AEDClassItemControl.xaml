@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mail_Sender.View"
              mc:Ignorable="d" 
-              d:DesignHeight="65" d:DesignWidth="390"
-             DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ToolBar}}}">
-    <Grid>
+             x:Name="parent"
+             d:DesignHeight="65" d:DesignWidth="390"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
@@ -18,17 +19,18 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="ClassName" 
+        <TextBlock x:Name="tbClassName"
+                   Text="{Binding ClassName}"
                Grid.Row="0" Grid.Column="0" 
                Width="Auto" 
-               Text="Ждем"
                Margin="10 0 0 0"/>
         <ComboBox x:Name="cbSelect" 
+                  ItemsSource="{Binding ItemsList}"
                       Grid.Column="0" Grid.Row="1"
                       Margin="5"
                       Height="30" Width="270" 
                       VerticalAlignment="Bottom" 
-                      SelectedValuePath="Value" DisplayMemberPath="Key"/>
+                      SelectedValuePath="{Binding ItemsList[0].Value}" DisplayMemberPath="{Binding ItemsList[0].Id}"/>
         <Button x:Name="btnAdd"
                     Grid.Column="1" Grid.Row="1"
                     ToolTip="Добавить" 

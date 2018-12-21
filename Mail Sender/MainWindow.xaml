@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:Mail_Sender"
         xmlns:view="clr-namespace:Mail_Sender.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:model="clr-namespace:Mail_Sender.Model"
+        xmlns:domain="assembly=MailSender.Domain..NETStandard,Version=v2.0"
+        xmlns:entities="clr-namespace:MailSender.Domain.Entities;assembly=MailSender.Domain"
+        xmlns:constants="clr-namespace:MailSender.Domain.Constants;assembly=MailSender.Domain"
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
@@ -31,10 +35,16 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <ToolBar Grid.Column="0">
-                            <view:AEDClassItemControl Grid.Row="0" Margin="5"/>
+                            <view:AEDClassItemControl 
+                                Grid.Row="0" Margin="5"  
+                                ClassName="{x:Static entities:Sender.ClassName}" 
+                                ItemsList="{x:Static model:DBInitialize.Senders}"/>
                         </ToolBar>
                         <ToolBar Grid.Column="1">
-                            <view:AEDClassItemControl Grid.Row="0" Margin="5"/>
+                            <view:AEDClassItemControl 
+                                Grid.Row="0" Margin="5" 
+                                ClassName="{x:Static entities:SMTP.ClassName}"
+                                ItemsList="{x:Static model:DBInitialize.Senders}"/>
                         </ToolBar>
 
                     </Grid>
@@ -80,22 +90,34 @@
                             VerticalAlignment="Center"
                             FontSize="20"
                             Width="Auto"/>
-                        <Button Width="125" Height="27" 
+                        <Button x:Name="btnLoadMail" 
+                                Width="125" Height="27" 
                                 Grid.Row="0"
                                 Content="Загрузить письмо"
                                 VerticalAlignment="Center"
                                 Margin="510 3 10 3"/>
-                        <Button Width="125" Height="27"
-                                Grid.Row="1"
-                                Content="Сохранить письмо"
-                                VerticalAlignment="Center"
-                                Margin="510 3 10 3"/>
-                        <CheckBox Grid.Row="1"
+                        <TextBlock Grid.Row="1"
+                                   Margin="125 3 3 3"
+                                   VerticalAlignment="Center"
+                                   Text="Тема письма:"/>
+                        <TextBox x:Name="tbTopic"
+                                 
+                                 Grid.Row="1"
+                                 Width="225"/>
+                        <CheckBox x:Name="cbIsHTML" 
+                                  Grid.Row="1"
                                   Width="65"
                                   VerticalAlignment="Center" 
                                   Content="HTML"
                                   Margin="325 3 10 3"/>
-                        <RichTextBox Grid.Row="2"
+                        <Button x:Name="btnSaveMail" 
+                                Width="125" Height="27"
+                                Grid.Row="1"
+                                Content="Сохранить письмо"
+                                VerticalAlignment="Center"
+                                Margin="510 3 10 3"/>
+                        <RichTextBox x:Name="rtbContent" 
+                                     Grid.Row="2"
                                      HorizontalAlignment="Stretch"
                                      VerticalAlignment="Stretch"
                                      Height="Auto"

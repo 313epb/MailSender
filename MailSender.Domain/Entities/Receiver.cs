@@ -1,15 +1,13 @@
 ﻿using MailSender.Domain.Entities.Base;
+using MailSender.Domain.Entities.Base.Interface;
 
 namespace MailSender.Domain.Entities
 {
     /// <summary>
     /// Класс получателя
     /// </summary>
-    public class Receiver:NamedEntity
+    public class Receiver:PairEntity
     {
-        /// <summary>
-        /// Email получателя
-        /// </summary>
-        public string Email { get; set; }  
+        public static string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }
     }
 }

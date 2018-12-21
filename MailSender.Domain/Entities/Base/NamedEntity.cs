@@ -4,6 +4,6 @@ namespace MailSender.Domain.Entities.Base
 {
     public class NamedEntity:BaseEntity,INamedEntity
     {
-        public string Name { get; set; }
+        public string ClassName { get; }
     }
 }

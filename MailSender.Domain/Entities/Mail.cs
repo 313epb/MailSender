@@ -1,4 +1,5 @@
-﻿using MailSender.Domain.Entities.Base;
+﻿using System;
+using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
 
 namespace MailSender.Domain.Entities
@@ -7,7 +8,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс для писем
     /// </summary>
-    public class Mail:DateTimeEntity,INamedEntity
+    public class Mail:NamedEntity,IDateTimeEntity
     {
 
         /// <summary>
@@ -24,6 +25,10 @@ namespace MailSender.Domain.Entities
         /// <summary>
         /// Тема 
         /// </summary>
-        public string Name { get; set; }
+        public string Topic { get; set; }
+
+        public static string ClassName { get => Constants.ClassNamesConstants.MailClassName; }
+
+        public DateTime Created { get; set; }
     }
 }

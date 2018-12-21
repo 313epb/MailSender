@@ -5,11 +5,11 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс для SMTP серверов
     /// </summary>
-    public class SMTP:NamedEntity
+    public class SMTP:PairEntity
     {
-        /// <summary>
-        /// Имя порта
-        /// </summary>
-        public int PortName { get; set; }
+        public static string ClassName
+        {
+            get => Constants.ClassNamesConstants.SMTPClassName;
+        }
     }
 }
