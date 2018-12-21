@@ -26,8 +26,7 @@
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80"/> 
-                        <RowDefinition Height="55"/>
-                        <RowDefinition Height="450"/>
+                        <RowDefinition Height="505"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -48,8 +47,7 @@
                         </ToolBar>
 
                     </Grid>
-                    <view:AEReceivers x:Name="AeReceivers"  Grid.Row="1" DataContext="{Binding ElementName=ReceiversList, Path=SelectedReceiver}"/>
-                    <view:ReceiversList x:Name="ReceiversList" Grid.Row="2"/>
+                    <view:ReceiversList x:Name="ReceiversList" Grid.Row="1"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"
