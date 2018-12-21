@@ -7,10 +7,16 @@ namespace MailSender.Domain.Entities
     /// </summary>
     public class SMTP:NamedEntity
     {
+        public string ClassName
+        {
+            get => Constants.Constants.ClassNames.SMTPClassName;
+        }
+
         /// <summary>
-        /// Название класса
+        /// Название SMTP сервера
         /// </summary>
-        public readonly string ClassTitle = Constants.Constants.SMTPClassName;
+        public string SMTPServer { get; set; }
+
         /// <summary>
         /// Имя порта
         /// </summary>

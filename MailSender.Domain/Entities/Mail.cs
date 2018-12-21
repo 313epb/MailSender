@@ -24,6 +24,8 @@ namespace MailSender.Domain.Entities
         /// <summary>
         /// Тема 
         /// </summary>
-        public string Name { get; set; }
+        public string Topic { get; set; }
+
+        public string ClassName { get => Constants.Constants.ClassNames.MailClassName; }
     }
 }
