@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MailSender.Domain.Entities;
+using Mail_Sender.ViewModel;
 
 namespace Mail_Sender.View
 {
@@ -20,11 +22,26 @@ namespace Mail_Sender.View
     /// </summary>
     public partial class ReceiversList : UserControl
     {
+
+        public Receiver SelectedReceiver
+        {
+            get { return (Receiver)GetValue(SelectedReceiverProperty); }
+            set { SetValue(SelectedReceiverProperty, value); }
+        }
+
+        public static readonly DependencyProperty SelectedReceiverProperty =
+            DependencyProperty.Register("SelectedReceiver", typeof(Receiver),
+                typeof(AEDClassItemControl), new PropertyMetadata(default(Receiver)));
+
         public ReceiversList()
         {
             InitializeComponent();
         }
 
- 
+
+        private void DgReceivers_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedReceiver = (Receiver) dgReceivers.SelectedItem;
+        }
     }
 }

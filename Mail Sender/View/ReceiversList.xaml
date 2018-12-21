@@ -38,15 +38,19 @@
                    TextWrapping="Wrap" 
                    Text="Поиск по имени:" VerticalAlignment="Top"
                    Width="231" />
-        <DataGrid x:Name="dgEmails" Grid.Row="2" 
+        <DataGrid x:Name="dgReceivers" Grid.Row="2" 
                   ItemsSource="{x:Static viewModel:MainViewModel.Receivers}"
                   ColumnWidth="*" Margin="0,10,0,28" 
                   RenderTransformOrigin="0.5,0.5"
-                  IsReadOnly="False"   AutoGenerateColumns="False">
+                  IsReadOnly="False"   
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False"
+                  SelectionChanged="DgReceivers_OnSelectionChanged">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn x:Name="dgcBoxColumn" Header="В рассылку" Width="75" IsReadOnly="False"/>
-                <DataGridTextColumn Header="ID" Binding="{Binding Email}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding ReceiverName}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Почта" Binding="{Binding Email}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding ReceiverName}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="btnloadallemails" Content="Отобразить данные"

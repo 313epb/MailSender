@@ -147,7 +147,7 @@ namespace Mail_Sender.ViewModel
                 Id = 4,
                 Email = "deruginds@gmail.com",
                 ReceiverName = "ִלטענטי"
-            },
+            }
         };
 
         public static ObservableCollection<Receiver> Receivers
@@ -155,6 +155,8 @@ namespace Mail_Sender.ViewModel
             get => _receivers;
             set => _receivers = value;
         }
+
+        public static Receiver rec=new Receiver();
 
         public MainViewModel()
         {

@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:Mail_Sender"
         xmlns:view="clr-namespace:Mail_Sender.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:model="clr-namespace:Mail_Sender.Model"
         xmlns:domain="assembly=MailSender.Domain..NETStandard,Version=v2.0"
         xmlns:entities="clr-namespace:MailSender.Domain.Entities;assembly=MailSender.Domain"
         xmlns:constants="clr-namespace:MailSender.Domain.Constants;assembly=MailSender.Domain"
@@ -49,8 +48,8 @@
                         </ToolBar>
 
                     </Grid>
-                    <view:AEReceivers Grid.Row="1"/>
-                    <view:ReceiversList Grid.Row="2"/>
+                    <view:AEReceivers x:Name="AeReceivers"  Grid.Row="1" DataContext="{Binding ElementName=ReceiversList, Path=SelectedReceiver}"/>
+                    <view:ReceiversList x:Name="ReceiversList" Grid.Row="2"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"

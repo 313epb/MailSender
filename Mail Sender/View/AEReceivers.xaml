@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:Mail_Sender.View"
              mc:Ignorable="d" 
              d:DesignHeight="55" d:DesignWidth="875"
-             DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}">
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
           <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto"/>
@@ -22,19 +22,20 @@
         <TextBox x:Name="IdTextBox" 
                  Grid.Column="1" TextWrapping="Wrap" 
                  Width="50" Margin="5"
-                 Text="{Binding Path=EmailInfo.Id,Mode=TwoWay,NotifyOnValidationError=True}" 
-                 Validation.Error="TextBox_Error"/>
+                 Text="{Binding Id}" 
+                 Validation.Error="TextBox_Error"
+                 IsReadOnly="True"/>
         <TextBlock Text="Email:" Grid.Column="3" VerticalAlignment="Center" Margin="5"/>
         <TextBox x:Name="ValueTextBox" 
                  Grid.Column="4" TextWrapping="Wrap" 
                  Width="225" Margin="5"
-                 Text="{Binding Path=EmailInfo.Id,Mode=TwoWay,NotifyOnValidationError=True}" 
+                 Text="{Binding Email}" 
                  Validation.Error="TextBox_Error"/>
         <TextBlock Text="Адресат:" Grid.Column="5" VerticalAlignment="Center" Margin="5"/>
         <TextBox x:Name="NameTextBox" 
                  Grid.Column="6" TextWrapping="Wrap" 
                  Width="225" Margin="5"
-                 Text="{Binding Path=EmailInfo.Id,Mode=TwoWay,NotifyOnValidationError=True}" 
+                 Text="{Binding ReceiverName}" 
                  Validation.Error="TextBox_Error"/>
         <Button x:Name="btnAddEdit" Grid.Column="7" Height="31" Margin="20 0 0 0" >
             <Grid>
