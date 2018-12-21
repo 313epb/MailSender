@@ -36,10 +36,15 @@
                         </Grid.ColumnDefinitions>
                         <ToolBar Grid.Column="0">
                             <view:AEDClassItemControl 
-                                Grid.Row="0" Margin="5" />
+                                Grid.Row="0" Margin="5"  
+                                ClassName="{x:Static entities:Sender.ClassName}" 
+                                ItemsList="{x:Static model:DBInitialize.Senders}"/>
                         </ToolBar>
                         <ToolBar Grid.Column="1">
-                            <view:AEDClassItemControl Grid.Row="0" Margin="5" ClassName="{x:Static model:Names.test}"/>
+                            <view:AEDClassItemControl 
+                                Grid.Row="0" Margin="5" 
+                                ClassName="{x:Static entities:SMTP.ClassName}"
+                                ItemsList="{x:Static model:DBInitialize.Senders}"/>
                         </ToolBar>
 
                     </Grid>

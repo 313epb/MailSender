@@ -6,14 +6,8 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс получателя
     /// </summary>
-    public class Receiver:EmailEntity
+    public class Receiver:PairEntity
     {
-        
-        /// <summary>
-        /// Имя получателя
-        /// </summary>
-        public string ReceiverName { get; set; }
-
-        public static string ClassName { get => Constants.Constants.ClassNames.ReceiverClassName; }
+        public static string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }
     }
 }

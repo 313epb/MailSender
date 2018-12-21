@@ -5,8 +5,9 @@ using MailSender.Domain.Entities.Base.Interface;
 
 namespace MailSender.Domain.Entities.Base
 {
-    public class EmailEntity:NamedEntity,IEmail
+    public class PairEntity:NamedEntity,IPair
     {
-        public string Email { get; set; }
+        public string Key { get; set; }
+        public string Value { get; set; }
     }
 }

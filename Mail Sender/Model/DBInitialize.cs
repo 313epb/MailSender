@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MailSender.Domain.Entities;
+using MailSender.Domain.Entities.Base.Interface;
 
 namespace Mail_Sender.Model
 {
@@ -65,29 +66,29 @@ namespace Mail_Sender.Model
             set => _mails = value;
         }
 
-        private static List<Sender> _senders = new  List<Sender>
+        private static List<IPair> _senders = new  List<IPair>
         {
             new Sender()
             {
                 Id = 0,
-                Email = "dsderugin@gmail.com",
-                Password = "89224027506313epb"
+                Key = "dsderugin@gmail.com",
+                Value = "89224027506313epb"
             },
             new Sender()
             {
                 Id = 0,
-                Email = "rusoptsales@gmail.com",
-                Password = "89224027506"
+                Key = "rusoptsales@gmail.com",
+                Value = "89224027506"
             },
             new Sender()
             {
                 Id = 0,
-                Email = "nnderygina@gmail.com",
-                Password = "89224027506"
+                Key = "nnderygina@gmail.com",
+                Value = "89224027506"
             }
         };
 
-        public static List<Sender> Senders
+        public static List<IPair> Senders
         {
             get => _senders;
             set => _senders = value;

@@ -27,7 +27,7 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public string Topic { get; set; }
 
-        public static string ClassName { get => Constants.Constants.ClassNames.MailClassName; }
+        public static string ClassName { get => Constants.ClassNamesConstants.MailClassName; }
 
         public DateTime Created { get; set; }
     }

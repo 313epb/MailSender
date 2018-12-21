@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MailSender.Domain.Entities.Base;
+using MailSender.Domain.Entities.Base.Interface;
 
 namespace Mail_Sender.View
 {
@@ -20,10 +22,12 @@ namespace Mail_Sender.View
     /// </summary>
     public partial class AEDClassItemControl : UserControl
     {
-
-        public String ClassName
+        /// <summary>
+        /// Имя класса для отображения
+        /// </summary>
+        public string ClassName
         {
-            get { return (String)GetValue(ClassNameProperty); }
+            get { return (string)GetValue(ClassNameProperty); }
             set { SetValue(ClassNameProperty, value); }
         }
 
@@ -31,19 +35,25 @@ namespace Mail_Sender.View
             DependencyProperty.Register("ClassName", typeof(string),
                 typeof(AEDClassItemControl), new PropertyMetadata(""));
 
-        //public List ItemsList
-        //{
-        //    get { return (List)GetValue(ItemListProperty); }
-        //    set { SetValue(ItemListProperty, value); }
-        //}
+        /// <summary>
+        /// Получаем объект Sender или SMTP.
+        /// Sender - key = email value=password
+        /// SMTP-key=SMTP value=port
+        /// </summary>
+        public List<IPair> ItemsList
+        {
+            get { return (List<IPair>)GetValue(ItemListProperty); }
+            set { SetValue(ItemListProperty, value); }
+        }
 
-        //public static readonly DependencyProperty ItemListProperty =
-        //    DependencyProperty.Register("ClassName", typeof(string),
-        //        typeof(AEDClassItemControl), new PropertyMetadata(""));
+        public static readonly DependencyProperty ItemListProperty =
+            DependencyProperty.Register("ItemsList", typeof(List<IPair>),
+                typeof(AEDClassItemControl), new PropertyMetadata(""));
 
         public AEDClassItemControl()
         {
             InitializeComponent();
+            MainGrid.DataContext = this;
         }
     }
 }

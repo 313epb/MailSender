@@ -7,20 +7,14 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс отправителя
     /// </summary>
-    public class Sender:EmailEntity
+    public class Sender:PairEntity
     {
         /// <summary>
         /// Название класса
         /// </summary>
-        //public static string ClassName
-        //{
-        //    get => Constants.Constants.ClassNames.SenderClassName;
-        //}
-
-        /// <summary>
-        /// Пароль
-        /// </summary>
-        public string Password { get; set; }
-
+        public static string ClassName
+        {
+            get => Constants.ClassNamesConstants.SenderClassName;
+        }
     }
 }
