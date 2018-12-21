@@ -34,39 +34,50 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="ID:" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
             <TextBox x:Name="IdTextBox" 
                  Grid.Column="1" TextWrapping="Wrap" 
                  Width="50" Margin="5"
-                 Text="{Binding Id}" 
+                 Text="{Binding SelectedItem.Id,ElementName=dgReceivers}" 
                  IsReadOnly="True"/>
             <TextBlock Text="Email:" Grid.Column="3" VerticalAlignment="Center" Margin="5"/>
             <TextBox x:Name="ValueTextBox" 
                  Grid.Column="4" TextWrapping="Wrap" 
                  Width="225" Margin="5"
-                 Text="{Binding Email}"/>
+                 Text="{Binding SelectedItem.Email, ElementName=dgReceivers}"/>
             <TextBlock Text="Адресат:" Grid.Column="5" VerticalAlignment="Center" Margin="5"/>
             <TextBox x:Name="NameTextBox" 
                  Grid.Column="6" TextWrapping="Wrap" 
                  Width="225" Margin="5"
-                 Text="{Binding ReceiverName}"/>
-            <Button x:Name="btnAddEdit" Grid.Column="7" Height="31" Margin="20 0 0 0" >
+                 Text="{Binding SelectedItem.ReceiverName, ElementName=dgReceivers}"/>
+            <Button x:Name="btnAdd" Grid.Column="7" Height="31" Margin="20 0 20 0" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="35"/>
-                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Viewbox Grid.Column="0"  VerticalAlignment="Center" Margin="5 2 2 2">
+                    <Viewbox Grid.Column="0"  VerticalAlignment="Center" Margin="2 2 2 2">
                         <Path Width="20" Height="20"
                           Stretch="Fill"
                           Data="{StaticResource page_addStyle0}" 
                           Stroke="#FFFD9804"/>
                     </Viewbox>
-                    <TextBlock Text="Добавить" 
-                           Grid.Column="1" Margin="10 0 10 0" 
-                           VerticalAlignment="Center" 
-                           HorizontalAlignment="Center"/>
+                    
+                </Grid>
+            </Button>
+            <Button x:Name="btnDelete" Grid.Column="8" Height="31" Margin="20 0 20 0" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="0"  VerticalAlignment="Center" Margin="2 2 2 2">
+                        <Path Width="20" Height="20"
+                              Stretch="Fill"
+                              Data="{StaticResource closeStyle0}" 
+                              Stroke="#FFFD9804"/>
+                    </Viewbox>
+                    
                 </Grid>
             </Button>
         </Grid>

@@ -33,19 +33,14 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <ToolBar Grid.Column="0" >
-                            <view:AEDClassItemControl 
-                                Grid.Row="0" Margin="5"  
+                            <view:AEDClassItemControl Grid.Column="0"
+                                Grid.Row="0" Margin="2"  
                                 ClassName="{x:Static entities:Sender.ClassName}" 
                                 ItemsList="{x:Static viewModel:MainViewModel.Senders}"/>
-                        </ToolBar>
-                        <ToolBar Grid.Column="1">
-                            <view:AEDClassItemControl 
-                                Grid.Row="0" Margin="5" 
+                            <view:AEDClassItemControl Grid.Column="1"
+                                Grid.Row="0" Margin="2" 
                                 ClassName="{x:Static entities:SMTP.ClassName}"
                                 ItemsList="{x:Static viewModel:MainViewModel.SMTPs}"/>
-                        </ToolBar>
-
                     </Grid>
                     <view:ReceiversList x:Name="ReceiversList" Grid.Row="1"/>
                 </Grid>

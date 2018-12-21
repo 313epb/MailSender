@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:Mail_Sender.View"
              mc:Ignorable="d" 
              x:Name="parent"
-             d:DesignHeight="65" d:DesignWidth="390"
+             d:DesignHeight="80" d:DesignWidth="390"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
+<ToolBar>
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -69,4 +70,5 @@
             </Viewbox>
         </Button>
     </Grid>
+</ToolBar>
 </UserControl>
