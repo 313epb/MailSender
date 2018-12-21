@@ -29,7 +29,9 @@
                       Grid.Column="0" Grid.Row="1"
                       Margin="5"
                       Height="30" Width="270" 
-                      VerticalAlignment="Bottom" />
+                      VerticalAlignment="Bottom" 
+                      DisplayMemberPath="Key"
+                  SelectedValuePath="Id"/>
         <Button x:Name="btnAdd"
                     Grid.Column="1" Grid.Row="1"
                     ToolTip="Добавить" 

@@ -7,7 +7,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс отправителя
     /// </summary>
-    public class Sender:PairEntity
+    public class Sender:NamedEntity,IPair
     {
         /// <summary>
         /// Название класса
@@ -17,9 +17,10 @@ namespace MailSender.Domain.Entities
             get => Constants.ClassNamesConstants.SenderClassName;
         }
 
-        public override string ToString()
-        {
-            return Key;
-        }
+        public string Email { get; set; }
+        public string Password { get; set; }
+
+        public string Key { get=>Email; set=>Email=value; }
+        public string Value { get=>Password; set=>Password=value; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,7 +63,7 @@ namespace Mail_Sender.Model
             set => _mails = value;
         }
 
-        private static List<IPair> _senders = new  List<IPair>
+        private static ObservableCollection<IPair> _senders = new ObservableCollection<IPair>
         {
             new Sender()
             {
@@ -84,12 +85,79 @@ namespace Mail_Sender.Model
             }
         };
 
-        public static List<IPair> Senders
+        public static ObservableCollection<IPair> Senders
         {
             get => _senders;
             set => _senders = value;
         }
 
+        private static ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
+        {
+            new SMTP
+            {
+                Id = 0,
+                Key = "smtp.gmail.com",
+                Value = "587"
+            },
+            new SMTP
+            {
+                Id = 1,
+                Key = "smtp.yandex.ru",
+                Value = "465"
+            },
+            new SMTP
+            {
+                Id = 2,
+                Key = "smtp.mail.ru",
+                Value = "465"
+            }
+        };
+
+        public static ObservableCollection<IPair> SMTPs
+        {
+            get => _smtps;
+            set => _smtps = value;
+        }
+
+        private static ObservableCollection<Receiver> _receivers= new ObservableCollection<Receiver>
+        {
+            new Receiver
+            {
+                Id = 0,
+                Email = "dsderugin@gmail.com",
+                ReceiverName = "Дмитрий"
+            },
+            new Receiver
+            {
+                Id = 1,
+                Email = "rusoptsales@gmail.com",
+                ReceiverName = "Дмитрий"
+            },
+            new Receiver
+            {
+                Id = 2,
+                Email = "uchihasaskekun@gmail.com",
+                ReceiverName = "Дмитрий"
+            },
+            new Receiver
+            {
+                Id = 3,
+                Email = "dsderyugin@gmail.com",
+                ReceiverName = "Дмитрий"
+            },
+            new Receiver
+            {
+                Id = 4,
+                Email = "deruginds@gmail.com",
+                ReceiverName = "Дмитрий"
+            },
+        };
+
+        public static ObservableCollection<Receiver> Receivers
+        {
+            get => _receivers;
+            set => _receivers = value;
+        }
         
     }
 

@@ -44,7 +44,7 @@
                             <view:AEDClassItemControl 
                                 Grid.Row="0" Margin="5" 
                                 ClassName="{x:Static entities:SMTP.ClassName}"
-                                ItemsList="{x:Static model:DBInitialize.Senders}"/>
+                                ItemsList="{x:Static model:DBInitialize.SMTPs}"/>
                         </ToolBar>
 
                     </Grid>

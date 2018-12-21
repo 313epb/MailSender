@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,15 +41,15 @@ namespace Mail_Sender.View
         /// Sender - key = email value=password
         /// SMTP-key=SMTP value=port
         /// </summary>
-        public List<IPair> ItemsList
+        public ObservableCollection<IPair> ItemsList
         {
-            get { return (List<IPair>)GetValue(ItemListProperty); }
+            get { return (ObservableCollection<IPair>)GetValue(ItemListProperty); }
             set { SetValue(ItemListProperty, value); }
         }
 
         public static readonly DependencyProperty ItemListProperty =
-            DependencyProperty.Register("ItemsList", typeof(List<IPair>),
-                typeof(AEDClassItemControl), new PropertyMetadata(default(List<IPair>)));
+            DependencyProperty.Register("ItemsList", typeof(ObservableCollection<IPair>),
+                typeof(AEDClassItemControl), new PropertyMetadata(default(ObservableCollection<IPair>)));
 
         public AEDClassItemControl()
         {
