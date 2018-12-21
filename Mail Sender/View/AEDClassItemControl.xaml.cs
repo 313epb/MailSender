@@ -13,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Mail_Sender
+namespace Mail_Sender.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AEDClassItemControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AEDClassItemControl : UserControl
     {
-        public MainWindow()
+        public AEDClassItemControl()
         {
             InitializeComponent();
-
         }
     }
 }

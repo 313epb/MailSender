@@ -13,17 +13,21 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Mail_Sender
+namespace Mail_Sender.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AEReceivers.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AEReceivers : UserControl
     {
-        public MainWindow()
+        public AEReceivers()
         {
             InitializeComponent();
+        }
 
+        private void TextBox_Error(object sender, ValidationErrorEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

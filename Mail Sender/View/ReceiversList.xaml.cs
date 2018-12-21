@@ -13,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Mail_Sender
+namespace Mail_Sender.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ReceiversList.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ReceiversList : UserControl
     {
-        public MainWindow()
+        public ReceiversList()
         {
             InitializeComponent();
-
         }
     }
 }
