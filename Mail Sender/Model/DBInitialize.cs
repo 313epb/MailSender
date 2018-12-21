@@ -72,19 +72,19 @@ namespace Mail_Sender.Model
             {
                 Id = 0,
                 Key = "dsderugin@gmail.com",
-                Value = "89224027506313epb"
+                Value = "892asdasdas"
             },
             new Sender()
             {
                 Id = 0,
                 Key = "rusoptsales@gmail.com",
-                Value = "89224027506"
+                Value = "8dasdasdf7506"
             },
             new Sender()
             {
                 Id = 0,
                 Key = "nnderygina@gmail.com",
-                Value = "89224027506"
+                Value = "89sdfssgsg6"
             }
         };
 
