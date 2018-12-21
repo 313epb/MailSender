@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Mail_Sender.View"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:command="http://www.galasoft.ch/mvvmlight"
+             xmlns:viewModel="clr-namespace:Mail_Sender.ViewModel"
              mc:Ignorable="d" 
              DataContext="{Binding Main,Source={StaticResource Locator}}"
              Height="450" Width="850">
@@ -38,10 +39,15 @@
                    Text="Поиск по имени:" VerticalAlignment="Top"
                    Width="231" />
         <DataGrid x:Name="dgEmails" Grid.Row="2" 
-                  ItemsSource="{Binding EmailsView}"
+                  ItemsSource="{x:Static viewModel:MainViewModel.Receivers}"
                   ColumnWidth="*" Margin="0,10,0,28" 
                   RenderTransformOrigin="0.5,0.5"
-                  IsReadOnly="True" >
+                  IsReadOnly="False"   AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn x:Name="dgcBoxColumn" Header="В рассылку" Width="75" IsReadOnly="False"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Email}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding ReceiverName}" IsReadOnly="True"/>
+            </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="btnloadallemails" Content="Отобразить данные"
                 Grid.Row="3"

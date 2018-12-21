@@ -10,6 +10,7 @@
         xmlns:domain="assembly=MailSender.Domain..NETStandard,Version=v2.0"
         xmlns:entities="clr-namespace:MailSender.Domain.Entities;assembly=MailSender.Domain"
         xmlns:constants="clr-namespace:MailSender.Domain.Constants;assembly=MailSender.Domain"
+        xmlns:viewModel="clr-namespace:Mail_Sender.ViewModel"
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
@@ -25,7 +26,7 @@
                      Width="{Binding ElementName=c1, Path=ActualWidth}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="80"/> 
                         <RowDefinition Height="55"/>
                         <RowDefinition Height="450"/>
                     </Grid.RowDefinitions>
@@ -34,17 +35,17 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <ToolBar Grid.Column="0">
+                        <ToolBar Grid.Column="0" >
                             <view:AEDClassItemControl 
                                 Grid.Row="0" Margin="5"  
                                 ClassName="{x:Static entities:Sender.ClassName}" 
-                                ItemsList="{x:Static model:DBInitialize.Senders}"/>
+                                ItemsList="{x:Static viewModel:MainViewModel.Senders}"/>
                         </ToolBar>
                         <ToolBar Grid.Column="1">
                             <view:AEDClassItemControl 
                                 Grid.Row="0" Margin="5" 
                                 ClassName="{x:Static entities:SMTP.ClassName}"
-                                ItemsList="{x:Static model:DBInitialize.SMTPs}"/>
+                                ItemsList="{x:Static viewModel:MainViewModel.SMTPs}"/>
                         </ToolBar>
 
                     </Grid>
