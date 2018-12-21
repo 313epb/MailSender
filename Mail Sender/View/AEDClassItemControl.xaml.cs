@@ -20,6 +20,27 @@ namespace Mail_Sender.View
     /// </summary>
     public partial class AEDClassItemControl : UserControl
     {
+
+        public String ClassName
+        {
+            get { return (String)GetValue(ClassNameProperty); }
+            set { SetValue(ClassNameProperty, value); }
+        }
+
+        public static readonly DependencyProperty ClassNameProperty =
+            DependencyProperty.Register("ClassName", typeof(string),
+                typeof(AEDClassItemControl), new PropertyMetadata(""));
+
+        //public List ItemsList
+        //{
+        //    get { return (List)GetValue(ItemListProperty); }
+        //    set { SetValue(ItemListProperty, value); }
+        //}
+
+        //public static readonly DependencyProperty ItemListProperty =
+        //    DependencyProperty.Register("ClassName", typeof(string),
+        //        typeof(AEDClassItemControl), new PropertyMetadata(""));
+
         public AEDClassItemControl()
         {
             InitializeComponent();

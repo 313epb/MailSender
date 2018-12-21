@@ -7,6 +7,9 @@
         xmlns:view="clr-namespace:Mail_Sender.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:model="clr-namespace:Mail_Sender.Model"
+        xmlns:domain="assembly=MailSender.Domain..NETStandard,Version=v2.0"
+        xmlns:entities="clr-namespace:MailSender.Domain.Entities;assembly=MailSender.Domain"
+        xmlns:constants="clr-namespace:MailSender.Domain.Constants;assembly=MailSender.Domain"
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
@@ -31,11 +34,12 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <ToolBar Grid.Column="0" DataContext="{x:Static model:DBInitialize.Senders}">
-                            <view:AEDClassItemControl Grid.Row="0" Margin="5"/>
+                        <ToolBar Grid.Column="0">
+                            <view:AEDClassItemControl 
+                                Grid.Row="0" Margin="5" />
                         </ToolBar>
                         <ToolBar Grid.Column="1">
-                            <view:AEDClassItemControl Grid.Row="0" Margin="5"/>
+                            <view:AEDClassItemControl Grid.Row="0" Margin="5" ClassName="{x:Static model:Names.test}"/>
                         </ToolBar>
 
                     </Grid>

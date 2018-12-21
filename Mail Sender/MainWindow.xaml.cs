@@ -26,5 +26,10 @@ namespace Mail_Sender
             InitializeComponent();
            
         }
+
+        private void AEDClassItemControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

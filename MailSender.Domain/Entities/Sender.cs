@@ -12,15 +12,10 @@ namespace MailSender.Domain.Entities
         /// <summary>
         /// Название класса
         /// </summary>
-        public string ClassName
-        {
-            get => Constants.Constants.ClassNames.SenderClassName;
-        }
-
-        /// <summary>
-        /// Email отправителя
-        /// </summary>
-        public string Email { get; set; }
+        //public static string ClassName
+        //{
+        //    get => Constants.Constants.ClassNames.SenderClassName;
+        //}
 
         /// <summary>
         /// Пароль

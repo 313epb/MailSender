@@ -7,7 +7,7 @@ namespace MailSender.Domain.Entities
     /// </summary>
     public class SMTP:NamedEntity
     {
-        public string ClassName
+        public static string ClassName
         {
             get => Constants.Constants.ClassNames.SMTPClassName;
         }

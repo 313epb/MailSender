@@ -7,6 +7,11 @@ using MailSender.Domain.Entities;
 
 namespace Mail_Sender.Model
 {
+    public static class Names
+    {
+        public static string test = "Testststts";
+    }
+
     class DBInitialize
     {
 
@@ -18,7 +23,7 @@ namespace Mail_Sender.Model
                 Content = "Hello World!",
                 Created = DateTime.Now,
                 IsHTML = false,
-                Name = "Первое письмо"
+                Topic = "Первое письмо"
             },
             new Mail
             {
@@ -26,7 +31,7 @@ namespace Mail_Sender.Model
                 Content = "Hello World!",
                 Created = DateTime.Now,
                 IsHTML = true,
-                Name = "Второе письмо"
+                Topic = "Второе письмо"
             },
             new Mail
             {
@@ -34,7 +39,7 @@ namespace Mail_Sender.Model
                 Content = "Hello World!",
                 Created = DateTime.Now,
                 IsHTML = true,
-                Name = "Третье письмо"
+                Topic = "Третье письмо"
             },
             new Mail
             {
@@ -42,7 +47,7 @@ namespace Mail_Sender.Model
                 Content = "Hello World!",
                 Created = DateTime.Now,
                 IsHTML = false,
-                Name = "Четвертое письмо"
+                Topic = "Четвертое письмо"
             },
             new Mail
             {
@@ -50,7 +55,7 @@ namespace Mail_Sender.Model
                 Content = "Hello World!",
                 Created = DateTime.Now,
                 IsHTML = true,
-                Name = "Пятое письмо"
+                Topic = "Пятое письмо"
             }
         };
 
@@ -65,19 +70,19 @@ namespace Mail_Sender.Model
             new Sender()
             {
                 Id = 0,
-                Name = "dsderugin@gmail.com",
+                Email = "dsderugin@gmail.com",
                 Password = "89224027506313epb"
             },
             new Sender()
             {
                 Id = 0,
-                Name = "rusoptsales@gmail.com",
+                Email = "rusoptsales@gmail.com",
                 Password = "89224027506"
             },
             new Sender()
             {
                 Id = 0,
-                Name = "nnderygina@gmail.com",
+                Email = "nnderygina@gmail.com",
                 Password = "89224027506"
             }
         };

@@ -23,6 +23,6 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public SMTP SMTP { get; set; }
 
-        public string ClassName { get => Constants.Constants.ClassNames.SendedClassName; }
+        public static string ClassName { get => Constants.Constants.ClassNames.SendedClassName; }
     }
 }
