@@ -29,8 +29,7 @@
                       Grid.Column="0" Grid.Row="1"
                       Margin="5"
                       Height="30" Width="270" 
-                      VerticalAlignment="Bottom" 
-                      SelectedValuePath="{Binding ItemsList[0].Value}" DisplayMemberPath="{Binding ItemsList[0].Id}"/>
+                      VerticalAlignment="Bottom" />
         <Button x:Name="btnAdd"
                     Grid.Column="1" Grid.Row="1"
                     ToolTip="Добавить" 

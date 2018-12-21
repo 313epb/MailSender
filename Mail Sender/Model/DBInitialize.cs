@@ -8,10 +8,6 @@ using MailSender.Domain.Entities.Base.Interface;
 
 namespace Mail_Sender.Model
 {
-    public static class Names
-    {
-        public static string test = "Testststts";
-    }
 
     class DBInitialize
     {

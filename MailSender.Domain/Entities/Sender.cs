@@ -16,5 +16,10 @@ namespace MailSender.Domain.Entities
         {
             get => Constants.ClassNamesConstants.SenderClassName;
         }
+
+        public override string ToString()
+        {
+            return Key;
+        }
     }
 }

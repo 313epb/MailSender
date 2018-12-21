@@ -48,7 +48,7 @@ namespace Mail_Sender.View
 
         public static readonly DependencyProperty ItemListProperty =
             DependencyProperty.Register("ItemsList", typeof(List<IPair>),
-                typeof(AEDClassItemControl), new PropertyMetadata(""));
+                typeof(AEDClassItemControl), new PropertyMetadata(default(List<IPair>)));
 
         public AEDClassItemControl()
         {
