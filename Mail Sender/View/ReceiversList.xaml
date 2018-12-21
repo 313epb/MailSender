@@ -33,8 +33,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="55"/>
+                <ColumnDefinition Width="55"/>
+                <ColumnDefinition Width="55"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="ID:" Grid.Column="0" VerticalAlignment="Center" Margin="5"/>
             <TextBox x:Name="IdTextBox" 
@@ -52,10 +53,10 @@
                  Grid.Column="6" TextWrapping="Wrap" 
                  Width="225" Margin="5"
                  Text="{Binding SelectedItem.ReceiverName, ElementName=dgReceivers}"/>
-            <Button x:Name="btnAdd" Grid.Column="7" Height="31" Margin="20 0 20 0" >
+            <Button x:Name="btnAdd" Grid.Column="7" Height="31" Margin="10 0 10 0" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="30"/>
                     </Grid.ColumnDefinitions>
                     <Viewbox Grid.Column="0"  VerticalAlignment="Center" Margin="2 2 2 2">
                         <Path Width="20" Height="20"
@@ -66,10 +67,24 @@
                     
                 </Grid>
             </Button>
-            <Button x:Name="btnDelete" Grid.Column="8" Height="31" Margin="20 0 20 0" >
+            <Button x:Name="btnEdit" Grid.Column="8" Height="31" Margin="10 0 10 0" >
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Grid.Column="0"  VerticalAlignment="Center" Margin="2 2 2 2">
+                        <Path Width="20" Height="20"
+                              Stretch="Fill"
+                              Data="{StaticResource editStyle0}" 
+                              Stroke="#FFFD9804"/>
+                    </Viewbox>
+
+                </Grid>
+            </Button>
+            <Button x:Name="btnDelete" Grid.Column="9" Height="31" Margin="10 0 10 0" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
                     </Grid.ColumnDefinitions>
                     <Viewbox Grid.Column="0"  VerticalAlignment="Center" Margin="2 2 2 2">
                         <Path Width="20" Height="20"
