@@ -170,6 +170,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\DBInitialize.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AEDClassItemControl.xaml.cs">
@@ -245,7 +246,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MailSender.Domain\MailSender.Domain.csproj">
+      <Project>{e05cddc8-6d4f-465e-84d5-bfa65c3a1bb1}</Project>
+      <Name>MailSender.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Styles\MainWindowIcon.png" />
   </ItemGroup>

@@ -8,6 +8,10 @@ namespace MailSender.Domain.Entities
     public class SMTP:NamedEntity
     {
         /// <summary>
+        /// Название класса
+        /// </summary>
+        public readonly string ClassTitle = Constants.Constants.SMTPClassName;
+        /// <summary>
         /// Имя порта
         /// </summary>
         public int PortName { get; set; }
