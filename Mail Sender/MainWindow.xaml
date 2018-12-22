@@ -44,7 +44,9 @@
                                 ClassName="{x:Static entities:SMTP.ClassName}"
                                 ItemsList="{x:Static viewModel:MainViewModel.SMTPs}"/>
                     </Grid>
-                    <view:ReceiversList x:Name="ReceiversList" Grid.Row="1"/>
+                    <view:ReceiversList x:Name="ReceiversList" 
+                                        Grid.Row="1"
+                                        ClassName="{x:Static entities:Receiver.ClassName}"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"

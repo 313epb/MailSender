@@ -7,7 +7,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:command="http://www.galasoft.ch/mvvmlight"
              xmlns:viewModel="clr-namespace:Mail_Sender.ViewModel"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             x:Name="RecList"
              DataContext="{Binding Main,Source={StaticResource Locator}}"
              Height="450" Width="850">
     <Grid>
@@ -47,7 +48,12 @@
                      VerticalAlignment="Top">
             </TextBox>
             <DockPanel Grid.Column="2" >
-                <Button x:Name="btnAdd" HorizontalAlignment="Left" Height="31" Margin="125 0 10 0" >
+                <Button x:Name="btnAdd" 
+                        HorizontalAlignment="Left" 
+                        Height="31" 
+                        Margin="125 0 10 0" 
+                        Command="{Binding AddPairCommand}"
+                        CommandParameter="{Binding ClassName, ElementName=RecList}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
@@ -61,7 +67,11 @@
 
                     </Grid>
                 </Button>
-                <Button x:Name="btnEdit" HorizontalAlignment="Left" Height="31" Margin="10 0 10 0" >
+                <Button x:Name="btnEdit" 
+                        HorizontalAlignment="Left" 
+                        Height="31" Margin="10 0 10 0" 
+                        Command="{Binding EditPairCommand}"
+                        CommandParameter="{Binding SelectedItem, ElementName=dgReceivers}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
@@ -75,7 +85,12 @@
 
                     </Grid>
                 </Button>
-                <Button x:Name="btnDelete" HorizontalAlignment="Left" Height="31" Margin="10 0 10 0" >
+                <Button x:Name="btnDelete" 
+                        HorizontalAlignment="Left" 
+                        Height="31" 
+                        Margin="10 0 10 0" 
+                        Command="{Binding DeletePairCommand}"
+                        CommandParameter="{Binding SelectedItem, ElementName=dgReceivers}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>

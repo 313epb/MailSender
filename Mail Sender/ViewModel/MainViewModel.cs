@@ -203,8 +203,10 @@ namespace Mail_Sender.ViewModel
         private void AddPairItem(string className)
         {
             IPair _item;
+
             AEPairItemWindow AEWindow = new AEPairItemWindow();
             AEWindow.Title = "Добавить";
+
             if (className == ClassNamesConstants.SMTPClassName)
             {
                 _item = new SMTP();
@@ -225,21 +227,23 @@ namespace Mail_Sender.ViewModel
                 _item.Id = Receivers.Max(s => s.Id) + 1;
                 AEWindow.Item = _item;
             }
+
             AEWindow.ShowDialog();
-                if (className == ClassNamesConstants.SMTPClassName)
-                {
-                    SMTPs.Add(AEWindow.Item);
-                }
 
-                if (className == ClassNamesConstants.SenderClassName)
-                {
-                    Senders.Add(AEWindow.Item);
-                }
+            if (className == ClassNamesConstants.SMTPClassName)
+            {
+                SMTPs.Add(AEWindow.Item);
+            }
 
-                if (className == ClassNamesConstants.ReceiverClassName)
-                {
-                    Receivers.Add(AEWindow.Item);
-                }
+            if (className == ClassNamesConstants.SenderClassName)
+            {
+                Senders.Add(AEWindow.Item);
+            }
+
+            if (className == ClassNamesConstants.ReceiverClassName)
+            {
+                Receivers.Add(AEWindow.Item);
+            }
         }
     }
 }
