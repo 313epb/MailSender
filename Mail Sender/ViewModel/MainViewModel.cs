@@ -1,22 +1,23 @@
 using GalaSoft.MvvmLight;
 using MailSender.Domain.Entities;
-using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
 using Mail_Sender.View;
-using MailSender.Domain.Entities.Base;
+using System.Windows.Data;
 
 namespace Mail_Sender.ViewModel
 {
 
     public class MainViewModel : ViewModelBase
     {
-        private static List<Mail> _mails = new List<Mail>
+
+        private ObservableCollection<Mail> _mails = new ObservableCollection<Mail>
         {
             new Mail
             {
@@ -60,13 +61,15 @@ namespace Mail_Sender.ViewModel
             }
         };
 
-        public static List<Mail> Mails
+        public ObservableCollection<Mail> Mails
         {
             get => _mails;
             set => _mails = value;
         }
 
-        private static ObservableCollection<IPair> _senders = new ObservableCollection<IPair>
+        #region Senders
+
+        private ObservableCollection<IPair> _senders = new ObservableCollection<IPair>
         {
             new Sender()
             {
@@ -88,13 +91,20 @@ namespace Mail_Sender.ViewModel
             }
         };
 
-        public static ObservableCollection<IPair> Senders
+        public ObservableCollection<IPair> Senders
         {
             get => _senders;
-            set => _senders = value;
+            set
+            {
+                _senders = value;
+                
+            }
         }
 
-        private static ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
+        #endregion
+
+
+        private  ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
         {
             new SMTP
             {
@@ -116,11 +126,13 @@ namespace Mail_Sender.ViewModel
             }
         };
 
-        public static ObservableCollection<IPair> SMTPs
+        public ObservableCollection<IPair> SMTPs
         {
             get => _smtps;
             set => _smtps = value;
         }
+
+        #region Receivers
 
         private static ObservableCollection<IPair> _receivers = new ObservableCollection<IPair>
         {
@@ -156,19 +168,51 @@ namespace Mail_Sender.ViewModel
             }
         };
 
-        public static ObservableCollection<IPair> Receivers
+        public ObservableCollection<IPair> Receivers
         {
             get => _receivers;
-            set => _receivers = value;
+            set
+            {
+                _receivers = value;
+                _receiversViewSource = new CollectionViewSource { Source = value };
+                _receiversViewSource.Filter += OnSendersCollectionViewSourceFilter;
+                RaisePropertyChanged(nameof(ReceiversView));
+            }
         }
+
+        private string _filterName;
+
+        public string FilterName
+        {
+            get => _filterName;
+            set
+            {
+                if (!Set(ref _filterName, value)) return;
+                _receiversViewSource.Filter+= new FilterEventHandler(OnSendersCollectionViewSourceFilter);
+                ReceiversView.Refresh();
+            }
+        }
+
+        private CollectionViewSource _receiversViewSource = new CollectionViewSource(){Source = _receivers};
+
+        public ICollectionView ReceiversView => _receiversViewSource?.View;
+
+        private void OnSendersCollectionViewSourceFilter(object sender, FilterEventArgs e)
+        {
+            if (!(e.Item is Receiver re) || string.IsNullOrWhiteSpace(_filterName)) return;
+            if (!re.ReceiverName.Contains(_filterName))
+                e.Accepted = false;
+        }
+
+        #endregion
+
+
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
         public RelayCommand<string> AddPairCommand{ get; set; }
 
         public RelayCommand<IPair> EditPairCommand { get; set; }
-
-        public static Receiver rec=new Receiver();
 
         public MainViewModel()
         {

@@ -38,11 +38,11 @@
                             <view:AEDClassItemControl Grid.Column="0"
                                 Grid.Row="0" Margin="2"  
                                 ClassName="{x:Static entities:Sender.ClassName}" 
-                                ItemsList="{x:Static viewModel:MainViewModel.Senders}"/>
+                                ItemsList="{Binding Senders}"/>
                             <view:AEDClassItemControl Grid.Column="1"
                                 Grid.Row="0" Margin="2" 
                                 ClassName="{x:Static entities:SMTP.ClassName}"
-                                ItemsList="{x:Static viewModel:MainViewModel.SMTPs}"/>
+                                ItemsList="{Binding SMTPs}"/>
                     </Grid>
                     <view:ReceiversList x:Name="ReceiversList" 
                                         Grid.Row="1"
