@@ -192,10 +192,6 @@ namespace Mail_Sender.ViewModel
                 AEWindow.Title = "–едактировать";
                 AEWindow.Item = item;
                 AEWindow.ShowDialog();
-                if (AEWindow.Item.Key != "" || AEWindow.Item.Value != "")
-                {
-                    MessageBox.Show("Ќи одно из полей не должно быть пустым, мы ничего не изменили.");
-                }
             }
             else
             {
@@ -229,14 +225,7 @@ namespace Mail_Sender.ViewModel
                 _item.Id = Receivers.Max(s => s.Id) + 1;
                 AEWindow.Item = _item;
             }
-
             AEWindow.ShowDialog();
-            if (AEWindow.Item.Key != "" && AEWindow.Item.Value != "")
-            {
-                MessageBox.Show("“.к. одно или оба значени€ были пустыми, мы ничего не добавили.");
-            }
-            else
-            {
                 if (className == ClassNamesConstants.SMTPClassName)
                 {
                     SMTPs.Add(AEWindow.Item);
@@ -251,7 +240,6 @@ namespace Mail_Sender.ViewModel
                 {
                     Receivers.Add(AEWindow.Item);
                 }
-            }
         }
     }
 }
