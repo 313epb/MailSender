@@ -16,6 +16,7 @@ namespace Mail_Sender.ViewModel
 
     public class MainViewModel : ViewModelBase
     {
+        #region Mails
 
         private ObservableCollection<Mail> _mails = new ObservableCollection<Mail>
         {
@@ -67,6 +68,11 @@ namespace Mail_Sender.ViewModel
             set => _mails = value;
         }
 
+        private readonly string _mailClassName = MailSender.Domain.Constants.ClassNamesConstants.MailClassName;
+        public string MailsClassName => _mailClassName;
+
+        #endregion
+
         #region Senders
 
         private ObservableCollection<IPair> _senders = new ObservableCollection<IPair>
@@ -101,10 +107,14 @@ namespace Mail_Sender.ViewModel
             }
         }
 
+        private readonly string _senderClassName = MailSender.Domain.Constants.ClassNamesConstants.SenderClassName;
+        public string SenderClassName => _senderClassName;
+
         #endregion
 
+        #region SMTPs
 
-        private  ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
+        private ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
         {
             new SMTP
             {
@@ -131,6 +141,12 @@ namespace Mail_Sender.ViewModel
             get => _smtps;
             set => _smtps = value;
         }
+
+        private readonly string _SMTPSClassName = MailSender.Domain.Constants.ClassNamesConstants.SMTPClassName;
+        public string SMTPClassName => _SMTPSClassName;
+
+
+        #endregion
 
         #region Receivers
 
@@ -174,9 +190,6 @@ namespace Mail_Sender.ViewModel
             set
             {
                 _receivers = value;
-                _receiversViewSource = new CollectionViewSource { Source = value };
-                _receiversViewSource.Filter += OnSendersCollectionViewSourceFilter;
-                RaisePropertyChanged(nameof(ReceiversView));
             }
         }
 
@@ -188,7 +201,6 @@ namespace Mail_Sender.ViewModel
             set
             {
                 if (!Set(ref _filterName, value)) return;
-                _receiversViewSource.Filter+= new FilterEventHandler(OnSendersCollectionViewSourceFilter);
                 ReceiversView.Refresh();
             }
         }
@@ -204,8 +216,10 @@ namespace Mail_Sender.ViewModel
                 e.Accepted = false;
         }
 
-        #endregion
+        private readonly string _receiverClassName = MailSender.Domain.Constants.ClassNamesConstants.ReceiverClassName;
+        public string ReceiverClassName => _receiverClassName;
 
+        #endregion
 
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
@@ -216,9 +230,11 @@ namespace Mail_Sender.ViewModel
 
         public MainViewModel()
         {
-            DeletePairCommand= new RelayCommand<IPair>(DeleteIPairItem);
+            
+            DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
             AddPairCommand= new RelayCommand<string>(AddPairItem);
             EditPairCommand= new RelayCommand<IPair>(EditPairItem);
+            _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
         }
 
         private void DeleteIPairItem(IPair item)

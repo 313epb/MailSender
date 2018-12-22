@@ -37,16 +37,16 @@
                         </Grid.ColumnDefinitions>
                             <view:AEDClassItemControl Grid.Column="0"
                                 Grid.Row="0" Margin="2"  
-                                ClassName="{x:Static entities:Sender.ClassName}" 
+                                ClassName="{Binding SenderClassName}" 
                                 ItemsList="{Binding Senders}"/>
                             <view:AEDClassItemControl Grid.Column="1"
                                 Grid.Row="0" Margin="2" 
-                                ClassName="{x:Static entities:SMTP.ClassName}"
+                                ClassName="{Binding SMTPClassName}"
                                 ItemsList="{Binding SMTPs}"/>
                     </Grid>
                     <view:ReceiversList x:Name="ReceiversList" 
                                         Grid.Row="1"
-                                        ClassName="{x:Static entities:Receiver.ClassName}"/>
+                                        ClassName="{Binding ReceiverClassName}"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"
