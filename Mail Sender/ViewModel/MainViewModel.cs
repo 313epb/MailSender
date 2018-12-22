@@ -3,11 +3,10 @@ using MailSender.Domain.Entities;
 using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
-using CommonServiceLocator;
 using GalaSoft.MvvmLight.Command;
 using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
+using Mail_Sender.View;
 
 namespace Mail_Sender.ViewModel
 {
@@ -162,11 +161,15 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
+        public RelayCommand<IPair> AddPairCommand{ get; }
+        
+
         public static Receiver rec=new Receiver();
 
         public MainViewModel()
         {
             DeletePairCommand= new RelayCommand<IPair>(DeleteIPairItem);
+            AddPairCommand= new RelayCommand<IPair>(AddPairItem);
         }
 
         private void DeleteIPairItem(IPair item)
@@ -174,8 +177,13 @@ namespace Mail_Sender.ViewModel
             if (item.ClassName == ClassNamesConstants.SMTPClassName){SMTPs.Remove(item);}
             if (item.ClassName == ClassNamesConstants.SenderClassName){Senders.Remove(item);}
             if (item.ClassName == ClassNamesConstants.ReceiverClassName){Receivers.Remove(item);}
+        }
 
-
+        private void AddPairItem(IPair item)
+        {
+            AEPairItemWindow AEWindow = new AEPairItemWindow();
+            AEWindow.Title = "Добавить";
+            AEWindow.Show();
         }
     }
 }

@@ -175,8 +175,8 @@
     <Compile Include="View\AEDClassItemControl.xaml.cs">
       <DependentUpon>AEDClassItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AddEditPairWindow.xaml.cs">
-      <DependentUpon>AddEditPairWindow.xaml</DependentUpon>
+    <Compile Include="View\AEPairItemWindow.xaml.cs">
+      <DependentUpon>AEPairItemWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ReceiversList.xaml.cs">
       <DependentUpon>ReceiversList.xaml</DependentUpon>
@@ -209,7 +209,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AddEditPairWindow.xaml">
+    <Page Include="View\AEPairItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

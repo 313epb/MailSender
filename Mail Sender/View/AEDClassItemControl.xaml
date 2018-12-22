@@ -37,11 +37,14 @@
                   DisplayMemberPath="Key"
                   SelectedValuePath="Id"/>
         <Button x:Name="btnAdd"
-                    Grid.Column="1" Grid.Row="1"
-                    ToolTip="Добавить" 
-                    Height="27" Width="25"
-                    Margin="5"
-                    VerticalAlignment="Bottom" >
+                DataContext="{Binding Main, Source={StaticResource Locator}}"
+                Command="{Binding AddPairCommand}"
+                CommandParameter="{Binding Text, ElementName=tbClassName}"
+                Grid.Column="1" Grid.Row="1"
+                ToolTip="Добавить" 
+                Height="27" Width="25"
+                Margin="5"
+                VerticalAlignment="Bottom" >
             <Viewbox>
                 <Path Stretch="Fill" 
                           Data="{StaticResource page_addStyle0}" 
@@ -61,14 +64,14 @@
             </Viewbox>
         </Button>
         <Button x:Name="btnDelete" 
-                    Grid.Column="3" Grid.Row="1"
-                    ToolTip="Удалить" 
-                    Height="27" Width="25"
-                    DataContext="{Binding Main, Source={StaticResource Locator}}"
-                    Command="{Binding DeletePairCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=cbSelect}"
-                    VerticalAlignment="Bottom" 
-                    Margin="5">
+                Grid.Column="3" Grid.Row="1"
+                ToolTip="Удалить" 
+                Height="27" Width="25"
+                DataContext="{Binding Main, Source={StaticResource Locator}}"
+                Command="{Binding DeletePairCommand}"
+                CommandParameter="{Binding SelectedItem, ElementName=cbSelect}"
+                VerticalAlignment="Bottom" 
+                Margin="5">
             <Viewbox>
                 <Path Stretch="Fill" 
                           Data="{StaticResource closeStyle0}" 

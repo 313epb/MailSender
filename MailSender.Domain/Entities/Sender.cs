@@ -7,7 +7,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс отправителя
     /// </summary>
-    public class Sender:NamedEntity,IPair
+    public class Sender: NamedEntity,IPair
     {
         /// <summary>
         /// Название класса
@@ -20,11 +20,11 @@ namespace MailSender.Domain.Entities
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public string Key { get=>Email; set=>Email=value; }
-        public string KeyName { get=>Constants.ClassNamesConstants.SenderKeyName; }
+        public  string Key { get=>Email; set=>Email=value; }
+        public  string KeyName { get=>Constants.ClassNamesConstants.SenderKeyName; }
 
-        public string Value { get=>Password; set=>Password=value; }
-        public string ValueName { get=>Constants.ClassNamesConstants.SenderValueName; }
+        public  string Value { get=>Password; set=>Password=value; }
+        public  string ValueName { get=>Constants.ClassNamesConstants.SenderValueName; }
         string INamedEntity.ClassName => ClassName;
     }
 }

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Mail_Sender.View
 {
     /// <summary>
-    /// Interaction logic for AEReceiverWindow.xaml
+    /// Interaction logic for AEPairItemWindow.xaml
     /// </summary>
-    public partial class AEReceiverWindow : Window
+    public partial class AEPairItemWindow : Window
     {
-        public AEReceiverWindow()
+        public AEPairItemWindow()
         {
             InitializeComponent();
         }
