@@ -99,12 +99,11 @@
                   IsReadOnly="False"   
                   SelectionMode="Single"
                   AutoGenerateColumns="False" 
-                  CanUserAddRows="False"
-                  SelectionChanged="DgReceivers_OnSelectionChanged">
+                  CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn x:Name="dgcBoxColumn" Header="В рассылку" Width="75" IsReadOnly="False"/>
-                <DataGridTextColumn Header="Почта" Binding="{Binding Email}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Имя" Binding="{Binding ReceiverName}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Почта" Binding="{Binding Key}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Value}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="btnloadallemails" Content="Отобразить данные"

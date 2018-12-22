@@ -18,5 +18,6 @@ namespace MailSender.Domain.Entities
 
         public string Value { get=>ReceiverName; set=>ReceiverName=value; }
         public string ValueName { get=>Constants.ClassNamesConstants.ReceiverValueName; }
+        string INamedEntity.ClassName => ClassName;
     }
 }

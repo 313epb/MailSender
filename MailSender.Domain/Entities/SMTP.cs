@@ -21,5 +21,6 @@ namespace MailSender.Domain.Entities
 
         public string Value { get=>Port; set=>Port=value; }
         public string ValueName { get=>Constants.ClassNamesConstants.SMTPValueName; }
+        string INamedEntity.ClassName => ClassName;
     }
 }

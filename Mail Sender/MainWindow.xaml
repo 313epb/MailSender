@@ -13,7 +13,8 @@
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
-        MinWidth="875" MinHeight="680">
+        MinWidth="875" MinHeight="680"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid Background="#FF4E4E4C">
         <UniformGrid Columns="4" Margin="5,0">
             <FrameworkElement x:Name="c1"/>
@@ -22,7 +23,8 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
             <TabItem x:Name="tabSenders" Header="Формирование рассылки"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+                     Width="{Binding ElementName=c1, Path=ActualWidth}"
+                     Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="80"/> 
@@ -46,7 +48,8 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+                     Width="{Binding ElementName=c1, Path=ActualWidth}"
+                     Margin="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -119,7 +122,8 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabHistory" Header="История"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+                     Width="{Binding ElementName=c1, Path=ActualWidth}"
+                     Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="33"/>

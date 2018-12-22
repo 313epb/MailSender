@@ -3,7 +3,11 @@ using MailSender.Domain.Entities;
 using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
+using CommonServiceLocator;
+using GalaSoft.MvvmLight.Command;
 using MailSender.Domain.Entities.Base.Interface;
+using MailSender.Domain.Constants;
 
 namespace Mail_Sender.ViewModel
 {
@@ -116,7 +120,7 @@ namespace Mail_Sender.ViewModel
             set => _smtps = value;
         }
 
-        private static ObservableCollection<Receiver> _receivers = new ObservableCollection<Receiver>
+        private static ObservableCollection<IPair> _receivers = new ObservableCollection<IPair>
         {
             new Receiver
             {
@@ -150,24 +154,28 @@ namespace Mail_Sender.ViewModel
             }
         };
 
-        public static ObservableCollection<Receiver> Receivers
+        public static ObservableCollection<IPair> Receivers
         {
             get => _receivers;
             set => _receivers = value;
         }
 
+        public RelayCommand<IPair> DeletePairCommand{get; set; }
+
         public static Receiver rec=new Receiver();
 
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+            DeletePairCommand= new RelayCommand<IPair>(DeleteIPairItem);
+        }
+
+        private void DeleteIPairItem(IPair item)
+        {
+            if (item.ClassName == ClassNamesConstants.SMTPClassName){SMTPs.Remove(item);}
+            if (item.ClassName == ClassNamesConstants.SenderClassName){Senders.Remove(item);}
+            if (item.ClassName == ClassNamesConstants.ReceiverClassName){Receivers.Remove(item);}
+
+
         }
     }
 }

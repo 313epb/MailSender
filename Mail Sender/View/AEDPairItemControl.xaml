@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Mail_Sender.View.AEDClassItemControl"
+﻿<UserControl x:Class="Mail_Sender.View.AEDPairItemControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,35 +6,32 @@
              xmlns:local="clr-namespace:Mail_Sender.View"
              mc:Ignorable="d" 
              x:Name="parent"
-             d:DesignHeight="80" d:DesignWidth="410"
-             >
-<ToolBar >
-    <Grid x:Name="MainGrid" >
+             d:DesignHeight="80" d:DesignWidth="390"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+<ToolBar>
+    <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBlock DataContext="{Binding ElementName=parent}" 
-                   x:Name="tbClassName"
+        <TextBlock x:Name="tbClassName"
                    Text="{Binding ClassName}"
-                   Grid.Row="0" Grid.Column="0" 
-                   Width="Auto" 
-                   Margin="10 0 0 0"/>
-        <ComboBox DataContext="{Binding ElementName=parent}"
-                  x:Name="cbSelect" 
+               Grid.Row="0" Grid.Column="0" 
+               Width="Auto" 
+               Margin="10 0 0 0"/>
+        <ComboBox x:Name="cbSelect" 
                   ItemsSource="{Binding ItemsList}"
-                  Grid.Column="0" Grid.Row="1"
-                  Margin="5"
-                  Height="30" Width="270" 
-                  VerticalAlignment="Bottom" 
-                  DisplayMemberPath="Key"
+                      Grid.Column="0" Grid.Row="1"
+                      Margin="5"
+                      Height="30" Width="270" 
+                      VerticalAlignment="Bottom" 
+                      DisplayMemberPath="Key"
                   SelectedValuePath="Id"/>
         <Button x:Name="btnAdd"
                     Grid.Column="1" Grid.Row="1"
@@ -64,9 +61,6 @@
                     Grid.Column="3" Grid.Row="1"
                     ToolTip="Удалить" 
                     Height="27" Width="25"
-                    DataContext="{Binding Main, Source={StaticResource Locator}}"
-                    Command="{Binding DeletePairCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=cbSelect}"
                     VerticalAlignment="Bottom" 
                     Margin="5">
             <Viewbox>

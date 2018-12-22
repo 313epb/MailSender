@@ -25,5 +25,6 @@ namespace MailSender.Domain.Entities
 
         public string Value { get=>Password; set=>Password=value; }
         public string ValueName { get=>Constants.ClassNamesConstants.SenderValueName; }
+        string INamedEntity.ClassName => ClassName;
     }
 }
