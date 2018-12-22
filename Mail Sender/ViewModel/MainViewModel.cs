@@ -3,10 +3,13 @@ using MailSender.Domain.Entities;
 using System.Collections.Generic;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 using GalaSoft.MvvmLight.Command;
 using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
 using Mail_Sender.View;
+using MailSender.Domain.Entities.Base;
 
 namespace Mail_Sender.ViewModel
 {
@@ -161,15 +164,17 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
-        public RelayCommand<IPair> AddPairCommand{ get; }
-        
+        public RelayCommand<string> AddPairCommand{ get; set; }
+
+        public RelayCommand<IPair> EditPairCommand { get; set; }
 
         public static Receiver rec=new Receiver();
 
         public MainViewModel()
         {
             DeletePairCommand= new RelayCommand<IPair>(DeleteIPairItem);
-            AddPairCommand= new RelayCommand<IPair>(AddPairItem);
+            AddPairCommand= new RelayCommand<string>(AddPairItem);
+            EditPairCommand= new RelayCommand<IPair>(EditPairItem);
         }
 
         private void DeleteIPairItem(IPair item)
@@ -179,11 +184,74 @@ namespace Mail_Sender.ViewModel
             if (item.ClassName == ClassNamesConstants.ReceiverClassName){Receivers.Remove(item);}
         }
 
-        private void AddPairItem(IPair item)
+        private void EditPairItem(IPair item)
         {
+            if (item!=null)
+            {
+                AEPairItemWindow AEWindow = new AEPairItemWindow();
+                AEWindow.Title = "Редактировать";
+                AEWindow.Item = item;
+                AEWindow.ShowDialog();
+                if (AEWindow.Item.Key != "" || AEWindow.Item.Value != "")
+                {
+                    MessageBox.Show("Ни одно из полей не должно быть пустым, мы ничего не изменили.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите значение для редактирования");
+            }
+
+        }
+
+        private void AddPairItem(string className)
+        {
+            IPair _item;
             AEPairItemWindow AEWindow = new AEPairItemWindow();
             AEWindow.Title = "Добавить";
-            AEWindow.Show();
+            if (className == ClassNamesConstants.SMTPClassName)
+            {
+                _item = new SMTP();
+                _item.Id = SMTPs.Max(s => s.Id) + 1;
+                AEWindow.Item = _item;
+            }
+
+            if (className == ClassNamesConstants.SenderClassName)
+            {
+                _item = new Sender();
+                _item.Id = Senders.Max(s => s.Id) + 1;
+                AEWindow.Item = _item;
+            }
+
+            if (className == ClassNamesConstants.ReceiverClassName)
+            {
+                _item = new Receiver();
+                _item.Id = Receivers.Max(s => s.Id) + 1;
+                AEWindow.Item = _item;
+            }
+
+            AEWindow.ShowDialog();
+            if (AEWindow.Item.Key != "" && AEWindow.Item.Value != "")
+            {
+                MessageBox.Show("Т.к. одно или оба значения были пустыми, мы ничего не добавили.");
+            }
+            else
+            {
+                if (className == ClassNamesConstants.SMTPClassName)
+                {
+                    SMTPs.Add(AEWindow.Item);
+                }
+
+                if (className == ClassNamesConstants.SenderClassName)
+                {
+                    Senders.Add(AEWindow.Item);
+                }
+
+                if (className == ClassNamesConstants.ReceiverClassName)
+                {
+                    Receivers.Add(AEWindow.Item);
+                }
+            }
         }
     }
 }

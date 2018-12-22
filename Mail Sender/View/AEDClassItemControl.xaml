@@ -52,15 +52,18 @@
             </Viewbox>
         </Button>
         <Button x:Name="btnEdit"
-                    Grid.Column="2" Grid.Row="1"
-                    ToolTip="Редактировать"
-                    Height="27" Width="25" 
-                    VerticalAlignment="Bottom" 
-                    Margin="5"  >
+                Grid.Column="2" Grid.Row="1"
+                ToolTip="Редактировать"
+                Height="27" Width="25" 
+                VerticalAlignment="Bottom" 
+                DataContext="{Binding Main, Source={StaticResource Locator}}"
+                Command="{Binding EditPairCommand}"
+                CommandParameter="{Binding SelectedItem, ElementName=cbSelect}"
+                Margin="5"  >
             <Viewbox>
                 <Path Stretch="Fill" 
-                          Data="{StaticResource editStyle0}" 
-                          Stroke="#FFFD9804"/>
+                      Data="{StaticResource editStyle0}" 
+                      Stroke="#FFFD9804"/>
             </Viewbox>
         </Button>
         <Button x:Name="btnDelete" 
