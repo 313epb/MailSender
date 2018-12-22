@@ -17,6 +17,9 @@ namespace MailSender.Domain.Entities
         public string Port { get; set; }
 
         public string Key { get=>SMTPName; set=>SMTPName=value; }
+        public string KeyName { get=>Constants.ClassNamesConstants.SMTPKeyName; }
+
         public string Value { get=>Port; set=>Port=value; }
+        public string ValueName { get=>Constants.ClassNamesConstants.SMTPValueName; }
     }
 }

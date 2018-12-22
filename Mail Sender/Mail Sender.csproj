@@ -175,6 +175,9 @@
     <Compile Include="View\AEDClassItemControl.xaml.cs">
       <DependentUpon>AEDClassItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\AddEditPairWindow.xaml.cs">
+      <DependentUpon>AddEditPairWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ReceiversList.xaml.cs">
       <DependentUpon>ReceiversList.xaml</DependentUpon>
     </Compile>
@@ -203,6 +206,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\AEDClassItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddEditPairWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
