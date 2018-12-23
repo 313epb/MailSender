@@ -23,16 +23,6 @@ namespace Mail_Sender.View
     /// </summary>
     public partial class AEDClassItemControl : UserControl
     {
-        public IPair SelectedIPair
-        {
-            get { return (IPair)GetValue(SelectedIPairProperty); }
-            set { SetValue(SelectedIPairProperty, value); }
-        }
-
-        public static readonly DependencyProperty SelectedIPairProperty =
-            DependencyProperty.Register("SelectedIPair", typeof(IPair),
-                typeof(AEDClassItemControl), new PropertyMetadata(default(IPair)));
-
         /// <summary>
         /// Имя класса для отображения
         /// </summary>
@@ -57,8 +47,6 @@ namespace Mail_Sender.View
             set { SetValue(ItemListProperty, value); }
         }
 
-        
-
         public static readonly DependencyProperty ItemListProperty =
             DependencyProperty.Register("ItemsList", typeof(ObservableCollection<IPair>),
                 typeof(AEDClassItemControl), new PropertyMetadata(default(ObservableCollection<IPair>)));
@@ -67,11 +55,6 @@ namespace Mail_Sender.View
         {
             InitializeComponent();
             MainGrid.DataContext = this;
-        }
-
-        private void CbSelect_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SelectedIPair = (IPair)cbSelect.SelectedItem;
         }
     }
 }

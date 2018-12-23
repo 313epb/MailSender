@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:Mail_Sender.View"
              mc:Ignorable="d" 
              x:Name="parent"
-             d:DesignHeight="65" d:DesignWidth="390"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <Grid x:Name="MainGrid">
+             d:DesignHeight="80" d:DesignWidth="410"
+             >
+<ToolBar >
+    <Grid x:Name="MainGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="40"/>
@@ -19,24 +20,31 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="tbClassName"
+        <TextBlock DataContext="{Binding ElementName=parent}" 
+                   x:Name="tbClassName"
                    Text="{Binding ClassName}"
-               Grid.Row="0" Grid.Column="0" 
-               Width="Auto" 
-               Margin="10 0 0 0"/>
-        <ComboBox x:Name="cbSelect" 
+                   Grid.Row="0" Grid.Column="0" 
+                   Width="Auto" 
+                   Margin="10 0 0 0"/>
+        <ComboBox DataContext="{Binding ElementName=parent}"
+                  x:Name="cbSelect" 
                   ItemsSource="{Binding ItemsList}"
-                      Grid.Column="0" Grid.Row="1"
-                      Margin="5"
-                      Height="30" Width="270" 
-                      VerticalAlignment="Bottom" 
-                      SelectedValuePath="{Binding ItemsList[0].Value}" DisplayMemberPath="{Binding ItemsList[0].Id}"/>
+                  Grid.Column="0" Grid.Row="1"
+                  SelectionChanged="CbSelect_OnSelectionChanged"
+                  Margin="5"
+                  Height="30" Width="270" 
+                  VerticalAlignment="Bottom" 
+                  DisplayMemberPath="Key"
+                  SelectedValuePath="Id"/>
         <Button x:Name="btnAdd"
-                    Grid.Column="1" Grid.Row="1"
-                    ToolTip="Добавить" 
-                    Height="27" Width="25"
-                    Margin="5"
-                    VerticalAlignment="Bottom" >
+                DataContext="{Binding Main, Source={StaticResource Locator}}"
+                Command="{Binding AddPairCommand}"
+                CommandParameter="{Binding Text, ElementName=tbClassName}"
+                Grid.Column="1" Grid.Row="1"
+                ToolTip="Добавить" 
+                Height="27" Width="25"
+                Margin="5"
+                VerticalAlignment="Bottom" >
             <Viewbox>
                 <Path Stretch="Fill" 
                           Data="{StaticResource page_addStyle0}" 
@@ -44,23 +52,29 @@
             </Viewbox>
         </Button>
         <Button x:Name="btnEdit"
-                    Grid.Column="2" Grid.Row="1"
-                    ToolTip="Редактировать"
-                    Height="27" Width="25" 
-                    VerticalAlignment="Bottom" 
-                    Margin="5"  >
+                Grid.Column="2" Grid.Row="1"
+                ToolTip="Редактировать"
+                Height="27" Width="25" 
+                VerticalAlignment="Bottom" 
+                DataContext="{Binding Main, Source={StaticResource Locator}}"
+                Command="{Binding EditPairCommand}"
+                CommandParameter="{Binding SelectedItem, ElementName=cbSelect}"
+                Margin="5"  >
             <Viewbox>
                 <Path Stretch="Fill" 
-                          Data="{StaticResource editStyle0}" 
-                          Stroke="#FFFD9804"/>
+                      Data="{StaticResource editStyle0}" 
+                      Stroke="#FFFD9804"/>
             </Viewbox>
         </Button>
         <Button x:Name="btnDelete" 
-                    Grid.Column="3" Grid.Row="1"
-                    ToolTip="Удалить" 
-                    Height="27" Width="25"
-                    VerticalAlignment="Bottom" 
-                    Margin="5">
+                Grid.Column="3" Grid.Row="1"
+                ToolTip="Удалить" 
+                Height="27" Width="25"
+                DataContext="{Binding Main, Source={StaticResource Locator}}"
+                Command="{Binding DeletePairCommand}"
+                CommandParameter="{Binding SelectedItem, ElementName=cbSelect}"
+                VerticalAlignment="Bottom" 
+                Margin="5">
             <Viewbox>
                 <Path Stretch="Fill" 
                           Data="{StaticResource closeStyle0}" 
@@ -68,4 +82,5 @@
             </Viewbox>
         </Button>
     </Grid>
+</ToolBar>
 </UserControl>

@@ -3,17 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Mail_Sender"
         xmlns:view="clr-namespace:Mail_Sender.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:model="clr-namespace:Mail_Sender.Model"
-        xmlns:domain="assembly=MailSender.Domain..NETStandard,Version=v2.0"
-        xmlns:entities="clr-namespace:MailSender.Domain.Entities;assembly=MailSender.Domain"
-        xmlns:constants="clr-namespace:MailSender.Domain.Constants;assembly=MailSender.Domain"
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
-        MinWidth="875" MinHeight="680">
+        MinWidth="875" MinHeight="680"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
     <Grid Background="#FF4E4E4C">
         <UniformGrid Columns="4" Margin="5,0">
             <FrameworkElement x:Name="c1"/>
@@ -22,38 +18,43 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
             <TabItem x:Name="tabSenders" Header="Формирование рассылки"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+                     Width="{Binding ElementName=c1, Path=ActualWidth}"
+                     Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition Height="55"/>
-                        <RowDefinition Height="450"/>
+                        <RowDefinition Height="80"/> 
+                        <RowDefinition Height="505"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <ToolBar Grid.Column="0">
                             <view:AEDClassItemControl 
-                                Grid.Row="0" Margin="5"  
-                                ClassName="{x:Static entities:Sender.ClassName}" 
-                                ItemsList="{x:Static model:DBInitialize.Senders}"/>
-                        </ToolBar>
-                        <ToolBar Grid.Column="1">
+                                x:Name="aedSenders"
+                                Grid.Column="0"
+                                Grid.Row="0" Margin="2"  
+                                ClassName="{Binding SenderClassName}" 
+                                ItemsList="{Binding Senders}"
+                                SelectedIPair="{Binding SelectedSender, Mode=TwoWay}"
+                                />
                             <view:AEDClassItemControl 
-                                Grid.Row="0" Margin="5" 
-                                ClassName="{x:Static entities:SMTP.ClassName}"
-                                ItemsList="{x:Static model:DBInitialize.Senders}"/>
-                        </ToolBar>
-
+                                x:Name="aedSMTPS"
+                                Grid.Column="1"
+                                Grid.Row="0" Margin="2" 
+                                ClassName="{Binding SMTPClassName}"
+                                ItemsList="{Binding SMTPs}"
+                                SelectedIPair="{Binding SelectdSMTP, Mode=TwoWay}"
+                                />
                     </Grid>
-                    <view:AEReceivers Grid.Row="1"/>
-                    <view:ReceiversList Grid.Row="2"/>
+                    <view:ReceiversList x:Name="ReceiversList" 
+                                        Grid.Row="1"
+                                        ClassName="{Binding ReceiverClassName}"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+                     Width="{Binding ElementName=c1, Path=ActualWidth}"
+                     Margin="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -63,20 +64,21 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="190"/>
                             <RowDefinition Height="33"/>
-                            <RowDefinition Height="33"/>
+                            <RowDefinition Height="40"/>
                             <RowDefinition Height="33"/>
                             <RowDefinition Height="33"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Calendar Grid.Row="0" Margin="10 0 10 0" VerticalAlignment="Center"></Calendar>
                         <TextBlock Text="Введите время:" Grid.Row="1" 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
-                        <TextBox Grid.Row="2" Margin="10 3 10 3"/>
+                        <TextBox Text="{Binding SelectedTime}" Grid.Row="2" Margin="10 3 10 3" />
                         <Button Grid.Row="3" Margin="10 3 10 3"
-                                Content="Запланировать отправку"/>
+                                Content="Запланировать отправку"
+                                Command="{Binding SendLaterCommand}"/>
                         <Button Grid.Row="4" Margin="10 3 10 3"
-                                Content="Отправить сейчас"/>
+                                Content="Отправить сейчас"
+                                Command="{Binding SendNowCommand}"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -95,13 +97,14 @@
                                 Grid.Row="0"
                                 Content="Загрузить письмо"
                                 VerticalAlignment="Center"
-                                Margin="510 3 10 3"/>
+                                Margin="510 3 10 3"
+                                Command="{Binding LoadMailCommand}"/>
                         <TextBlock Grid.Row="1"
                                    Margin="125 3 3 3"
                                    VerticalAlignment="Center"
                                    Text="Тема письма:"/>
                         <TextBox x:Name="tbTopic"
-                                 
+                                 Text="{Binding SelectedMail.Topic}"
                                  Grid.Row="1"
                                  Width="225"/>
                         <CheckBox x:Name="cbIsHTML" 
@@ -109,16 +112,19 @@
                                   Width="65"
                                   VerticalAlignment="Center" 
                                   Content="HTML"
+                                  IsChecked="{Binding SelectedMail.IsHTML}"
                                   Margin="325 3 10 3"/>
                         <Button x:Name="btnSaveMail" 
                                 Width="125" Height="27"
                                 Grid.Row="1"
                                 Content="Сохранить письмо"
                                 VerticalAlignment="Center"
-                                Margin="510 3 10 3"/>
-                        <RichTextBox x:Name="rtbContent" 
+                                Margin="510 3 10 3"
+                                Command="{Binding SaveMailCommand}"/>
+                        <xctk:RichTextBox x:Name="rtbContent" 
                                      Grid.Row="2"
                                      HorizontalAlignment="Stretch"
+                                     Text="{Binding SelectedMail.Content}"
                                      VerticalAlignment="Stretch"
                                      Height="Auto"
                                      Margin="5 5 10 5"/>
@@ -126,7 +132,8 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabHistory" Header="История"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}">
+                     Width="{Binding ElementName=c1, Path=ActualWidth}"
+                     Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="33"/>
@@ -139,9 +146,12 @@
                                VerticalAlignment="Center"
                                FontSize="20"
                                Margin="3"/> 
-                    <ComboBox Grid.Row="0"
+                    <ComboBox x:Name="cbHistory" 
+                              Grid.Row="0"
                               Width="450"
-                              Margin="275 3 0 3"/>
+                              Margin="275 3 0 3"
+                              ItemsSource="{Binding History}"
+                              DisplayMemberPath="Name"/>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -150,28 +160,41 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Дата и время"
+                        <TextBlock Text="{Binding SelectedItem.Created ,ElementName=cbHistory}"
                                    Grid.Column="0"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="Тема письма"
+                        <TextBlock Text="{Binding SelectedItem.Name ,ElementName=cbHistory}"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Text="HTML"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
-                        <TextBlock Text="Отправитель"
+                        <CheckBox x:Name="cbHIsHTML" 
+                                  Grid.Column="2"
+                                  Width="65"
+                                  VerticalAlignment="Center" 
+                                  Content="HTML" 
+                                  IsManipulationEnabled="False"
+                                  IsChecked="{Binding SelectedItem.Mail.IsHTML, ElementName=cbHistory, Mode=OneWay}"/>
+                        <TextBlock Text="{Binding SelectedItem.Sender.Email, ElementName=cbHistory}"
                                    Grid.Column="3"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="SMTP"
+                        <TextBlock Text="{Binding SelectedItem.SMTP.SMTPName,ElementName=cbHistory}"
                                    Grid.Column="4"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
                     </Grid>
-                    <DataGrid Grid.Row="2" Margin="3"/>
-                    <RichTextBox Grid.Row="3" Height="Auto" Margin="3"/>
+                    <DataGrid Grid.Row="2" Margin="3" 
+                              ItemsSource="{Binding SelectedItem.Receievers, ElementName=cbHistory}" 
+                              AutoGenerateColumns="False" 
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Почта" Binding="{Binding Key}"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Value}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <xctk:RichTextBox Grid.Row="3" Height="Auto" Margin="3" IsReadOnly="False" 
+                                      Text="{Binding SelectedItem.Mail.Content,ElementName=cbHistory, Mode=TwoWay}"/>
                 </Grid>
             </TabItem>
         </TabControl>

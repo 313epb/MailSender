@@ -170,14 +170,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\DBInitialize.cs" />
+    <Compile Include="Model\SendingMails.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AEDClassItemControl.xaml.cs">
       <DependentUpon>AEDClassItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AEReceivers.xaml.cs">
-      <DependentUpon>AEReceivers.xaml</DependentUpon>
+    <Compile Include="View\AEPairItemWindow.xaml.cs">
+      <DependentUpon>AEPairItemWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoadMailsWindow.xaml.cs">
+      <DependentUpon>LoadMailsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ReceiversList.xaml.cs">
       <DependentUpon>ReceiversList.xaml</DependentUpon>
@@ -210,7 +214,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AEReceivers.xaml">
+    <Page Include="View\AEPairItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoadMailsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -255,6 +263,7 @@
   <ItemGroup>
     <Resource Include="Styles\MainWindowIcon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

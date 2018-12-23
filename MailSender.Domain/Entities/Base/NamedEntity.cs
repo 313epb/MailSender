@@ -2,8 +2,8 @@
 
 namespace MailSender.Domain.Entities.Base
 {
-    public class NamedEntity:BaseEntity,INamedEntity
+    public class NamedEntity:BaseEntity
     {
-        public string ClassName { get; }
+        public string ClassName;
     }
 }

@@ -22,7 +22,12 @@ namespace MailSender.Domain.Entities
         /// SMTP сервер отправитель
         /// </summary>
         public SMTP SMTP { get; set; }
+        
+        /// <summary>
+        /// Отправленное письмо
+        /// </summary>
+        public Mail Mail { get; set; }
 
-        public static string ClassName { get => Constants.ClassNamesConstants.SendedClassName; }
+        public string Name => Mail.Topic +" "+ Sender.Email + " "+ Created;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
 
