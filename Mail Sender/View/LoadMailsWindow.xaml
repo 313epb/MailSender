@@ -19,9 +19,30 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <StackPanel x:Name="spTopicPanel" Grid.Row="0"/>
-            <Button Grid.Row="1" Height="33" Width="Auto" Margin="10 3 10 3" Click="ButtonBase_OnClick">
+            <Button Grid.Row="1" 
+                    x:Name="delButton"
+                    Height="33" Width="Auto" 
+                    Margin="10 3 10 3" 
+                    DataContext="{Binding Main, Source={StaticResource Locator}}"
+                    Command="{Binding DeleteMailCommand}"
+                    Click="DelButton_OnClick">
+                <DockPanel>
+                    <Viewbox   VerticalAlignment="Center" 
+                               HorizontalAlignment="Left"
+                               Margin="2 2 2 2" 
+                               Width="27" Height="27">
+                        <Path Width="20" Height="20"
+                              Stretch="Fill"
+                              Data="{StaticResource closeStyle0}" 
+                              Stroke="#FFFD9804"/>
+                    </Viewbox>
+                    <TextBlock Text="Удалить" VerticalAlignment="Center" Margin="10 0 10 0" />
+                </DockPanel>
+            </Button>
+            <Button Grid.Row="2" Height="33" Width="Auto" Margin="10 3 10 3" Click="ButtonBase_OnClick">
                 <DockPanel>
                     <Viewbox   VerticalAlignment="Center" 
                                HorizontalAlignment="Left"

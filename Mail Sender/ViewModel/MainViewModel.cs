@@ -324,6 +324,8 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand SendLaterCommand { get; set; }
 
+        public RelayCommand<Mail> DeleteMailCommand { get; set; }
+
         public MainViewModel()
         {
             
@@ -334,12 +336,12 @@ namespace Mail_Sender.ViewModel
             SaveMailCommand= new RelayCommand(SaveMail);
             SendNowCommand= new RelayCommand(SendNow);
             SendLaterCommand= new RelayCommand(SendLater);
+            DeleteMailCommand= new RelayCommand<Mail>(DeleteMail);
 
             _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
         }
 
         
-
         private void SaveMail()
         {
             Mail temp;
@@ -465,5 +467,11 @@ namespace Mail_Sender.ViewModel
                 if (receiver.IsMailing) sn.Receievers.Add(receiver);
             }
         }
+
+        private void DeleteMail(Mail mail)
+        {
+            Mails.Remove(mail);
+        }
+
     }
 }
