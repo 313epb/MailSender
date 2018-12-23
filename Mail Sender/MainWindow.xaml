@@ -138,9 +138,12 @@
                                VerticalAlignment="Center"
                                FontSize="20"
                                Margin="3"/> 
-                    <ComboBox Grid.Row="0"
+                    <ComboBox x:Name="cbHistory" 
+                              Grid.Row="0"
                               Width="450"
-                              Margin="275 3 0 3"/>
+                              Margin="275 3 0 3"
+                              ItemsSource="{Binding History}"
+                              DisplayMemberPath="Name"/>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -149,27 +152,39 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="Дата и время"
+                        <TextBlock Text="{Binding SelectedItem.Created ,ElementName=cbHistory}"
                                    Grid.Column="0"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="Тема письма"
+                        <TextBlock Text="{Binding SelectedItem.Name ,ElementName=cbHistory}"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Text="HTML"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
-                        <TextBlock Text="Отправитель"
+                        <CheckBox x:Name="cbHIsHTML" 
+                                  Grid.Column="2"
+                                  Width="65"
+                                  VerticalAlignment="Center" 
+                                  Content="HTML" 
+                                  IsManipulationEnabled="False"
+                                  IsChecked="{Binding SelectedItem.Mail.IsHTML, ElementName=cbHistory, Mode=OneWay}"/>
+                        <TextBlock Text="{Binding SelectedItem.Sender.Email, ElementName=cbHistory}"
                                    Grid.Column="3"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="SMTP"
+                        <TextBlock Text="{Binding SelectedItem.SMTP.SMTPName,ElementName=cbHistory}"
                                    Grid.Column="4"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
                     </Grid>
-                    <DataGrid Grid.Row="2" Margin="3"/>
+                    <DataGrid Grid.Row="2" Margin="3" 
+                              ItemsSource="{Binding SelectedItem.Receievers, ElementName=cbHistory}" 
+                              AutoGenerateColumns="False" 
+                              IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Почта" Binding="{Binding Key}"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Value}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                     <RichTextBox Grid.Row="3" Height="Auto" Margin="3"/>
                 </Grid>
             </TabItem>

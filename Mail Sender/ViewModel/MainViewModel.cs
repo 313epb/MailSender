@@ -1,6 +1,7 @@
 using GalaSoft.MvvmLight;
 using MailSender.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -221,6 +222,68 @@ namespace Mail_Sender.ViewModel
 
         #endregion
 
+        #region History
+        
+        private ObservableCollection<Sended> _history= new ObservableCollection<Sended>
+        {
+            new Sended
+            {
+                Created = DateTime.Now,
+                Receievers = new List<Receiver>
+                {
+                    new Receiver
+                    {
+                        Email = "dsderugin@gmail.com",
+                        ReceiverName = "Alesha",
+                    },
+                    new Receiver
+                    {
+                        Email = "dsugin@gmail.com",
+                        ReceiverName = "Alesha1",
+                    },new Receiver
+                    {
+                        Email = "dsderu@gmail.com",
+                        ReceiverName = "Alesha2",
+                    },
+                },
+                SMTP = new SMTP{SMTPName = "ya.ru", Port = "453"},
+                Sender = new Sender{Email = "dsderugin@gmail.com",Password = "76147"},
+                Mail = new Mail{Topic = "1e letter",Content = "asfqiouwyqw",Created = DateTime.Now,IsHTML = false},
+            },
+
+            new Sended
+            {
+                Created = DateTime.Now,
+                Receievers = new List<Receiver>
+                {
+                    new Receiver
+                    {
+                        Email = "dsderugin@gmail.com",
+                        ReceiverName = "Alisa",
+                    },
+                    new Receiver
+                    {
+                        Email = "dsugin@gmail.com",
+                        ReceiverName = "Alha1",
+                    },new Receiver
+                    {
+                        Email = "dsderu@gmail.com",
+                        ReceiverName = "Aleks",
+                    },
+                },
+                SMTP = new SMTP{SMTPName = "net.ru", Port = "453"},
+                Sender = new Sender{Email = "dsderin@gmail.com",Password = "76147"},
+                Mail = new Mail{Topic = "2e letter",Content = "aSubejctw",Created = DateTime.Now,IsHTML = true},
+            },
+        };
+        
+        public ObservableCollection<Sended> History
+        {
+            get => _history;
+            set => _history = value;
+        }
+
+        #endregion
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
