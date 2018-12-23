@@ -95,7 +95,7 @@
                                    VerticalAlignment="Center"
                                    Text="Тема письма:"/>
                         <TextBox x:Name="tbTopic"
-                                 
+                                 Text="{Binding SelectedMail.Topic}"
                                  Grid.Row="1"
                                  Width="225"/>
                         <CheckBox x:Name="cbIsHTML" 
@@ -103,6 +103,7 @@
                                   Width="65"
                                   VerticalAlignment="Center" 
                                   Content="HTML"
+                                  IsChecked="{Binding SelectedMail.IsHTML}"
                                   Margin="325 3 10 3"/>
                         <Button x:Name="btnSaveMail" 
                                 Width="125" Height="27"
@@ -113,6 +114,7 @@
                         <xctk:RichTextBox x:Name="rtbContent" 
                                      Grid.Row="2"
                                      HorizontalAlignment="Stretch"
+                                     Text="{Binding SelectedMail.Content}"
                                      VerticalAlignment="Stretch"
                                      Height="Auto"
                                      Margin="5 5 10 5"/>

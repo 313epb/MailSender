@@ -19,6 +19,17 @@ namespace Mail_Sender.ViewModel
     {
         #region Mails
 
+        private Mail _selectedMail;
+
+        public Mail SelectedMail
+        {
+            get => _selectedMail;
+            set
+            {
+                _selectedMail = value;
+            }
+        }
+
         private ObservableCollection<Mail> _mails = new ObservableCollection<Mail>
         {
             new Mail
@@ -384,6 +395,7 @@ namespace Mail_Sender.ViewModel
         {
             LoadMailsWindow lmw= new LoadMailsWindow(Mails);
             lmw.ShowDialog();
+            SelectedMail = lmw.Selected;
         }
     }
 }
