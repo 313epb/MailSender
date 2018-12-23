@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,13 +15,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using MailSender.Domain.Entities;
+using Mail_Sender.Annotations;
 
 namespace Mail_Sender.View
 {
     /// <summary>
     /// Interaction logic for LoadMailsWindow.xaml
     /// </summary>
-    public partial class LoadMailsWindow : Window
+    public partial class LoadMailsWindow : Window,INotifyPropertyChanged
     {
         private Mail _selected;
 
@@ -29,7 +32,7 @@ namespace Mail_Sender.View
             set
             {
                 _selected = value;
-
+                OnPropertyChanged("Selected");
             }
         }
 
@@ -56,7 +59,20 @@ namespace Mail_Sender.View
         private void RbChecked_Handler(object sender, RoutedEventArgs e)
         {
             RadioButton pressed = (RadioButton)sender;
-            Selected = _mails.FirstOrDefault(m => m.Content == pressed.Content);
+            Selected = _mails.FirstOrDefault(m => m.Topic == pressed.Content);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
