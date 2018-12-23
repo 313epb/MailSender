@@ -21,5 +21,15 @@ namespace MailSender.Domain.Entities
 
         public  string Value { get=>Port; set=>Port=value; }
         public  string ValueName { get=>Constants.ClassNamesConstants.SMTPValueName; }
+
+        public static SMTP ConvertFromIPair(IPair item)
+        {
+            return new SMTP
+            {
+                Id = item.Id,
+                SMTPName = item.Key,
+                Port = item.Value
+            };
+        }
     }
 }

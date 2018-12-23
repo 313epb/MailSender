@@ -25,5 +25,15 @@ namespace MailSender.Domain.Entities
 
         public  string Value { get=>Password; set=>Password=value; }
         public  string ValueName { get=>Constants.ClassNamesConstants.SenderValueName; }
+
+        public static Sender ConvertFromIPair(IPair item)
+        {
+            return new Sender
+            {
+                Id = item.Id,
+                Email = item.Key,
+                Password = item.Value
+            };
+        }
     }
 }

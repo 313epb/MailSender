@@ -23,6 +23,16 @@ namespace Mail_Sender.View
     /// </summary>
     public partial class AEDClassItemControl : UserControl
     {
+        public IPair SelectedIPair
+        {
+            get { return (IPair)GetValue(SelectedIPairProperty); }
+            set { SetValue(SelectedIPairProperty, value); }
+        }
+
+        public static readonly DependencyProperty SelectedIPairProperty =
+            DependencyProperty.Register("SelectedIPair", typeof(IPair),
+                typeof(AEDClassItemControl), new PropertyMetadata(default(IPair)));
+
         /// <summary>
         /// Имя класса для отображения
         /// </summary>

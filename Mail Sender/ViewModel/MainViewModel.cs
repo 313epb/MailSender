@@ -88,6 +88,8 @@ namespace Mail_Sender.ViewModel
 
         #region Senders
 
+        public IPair SelectedSender { get; set; }
+
         private ObservableCollection<IPair> _senders = new ObservableCollection<IPair>
         {
             new Sender()
@@ -126,6 +128,8 @@ namespace Mail_Sender.ViewModel
         #endregion
 
         #region SMTPs
+
+        public IPair SelectdSMTP { get; set; }
 
         private ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
         {
@@ -314,6 +318,8 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand SaveMailCommand { get; set; }
 
+        public RelayCommand SendNowCommand { get; set; }
+
         public MainViewModel()
         {
             
@@ -322,8 +328,12 @@ namespace Mail_Sender.ViewModel
             EditPairCommand= new RelayCommand<IPair>(EditPairItem);
             LoadMailCommand= new RelayCommand(LoadMail);
             SaveMailCommand= new RelayCommand(SaveMail);
+            SendNowCommand= new RelayCommand(SendNow);
+
             _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
         }
+
+        
 
         private void SaveMail()
         {
@@ -410,6 +420,18 @@ namespace Mail_Sender.ViewModel
             LoadMailsWindow lmw= new LoadMailsWindow(Mails);
             lmw.ShowDialog();
             SelectedMail = lmw.Selected;
+        }
+
+        private void SendNow()
+        {
+            Sended sn = new Sended
+            {
+                Mail = SelectedMail,
+                Created = DateTime.Now,
+                Id = History.Max(s => s.Id) + 1,
+                Sender = Sender.
+
+            };
         }
     }
 }
