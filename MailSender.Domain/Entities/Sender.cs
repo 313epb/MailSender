@@ -12,7 +12,7 @@ namespace MailSender.Domain.Entities
         /// <summary>
         /// Название класса
         /// </summary>
-        public static string ClassName
+        public string ClassName
         {
             get => Constants.ClassNamesConstants.SenderClassName;
         }
@@ -25,6 +25,5 @@ namespace MailSender.Domain.Entities
 
         public  string Value { get=>Password; set=>Password=value; }
         public  string ValueName { get=>Constants.ClassNamesConstants.SenderValueName; }
-        string INamedEntity.ClassName => ClassName;
     }
 }

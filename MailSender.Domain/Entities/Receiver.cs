@@ -11,13 +11,12 @@ namespace MailSender.Domain.Entities
         public string Email { get; set; }
         public string ReceiverName { get; set; }
 
-        public static string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }
+        public string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }
 
-        public  string Key { get=>Email; set=>Email=value; }
-        public  string KeyName { get=>Constants.ClassNamesConstants.ReceiverKeyName;}
+        public string Key { get=>Email; set=>Email=value; }
+        public string KeyName { get=>Constants.ClassNamesConstants.ReceiverKeyName;}
 
-        public  string Value { get=>ReceiverName; set=>ReceiverName=value; }
-        public  string ValueName { get=>Constants.ClassNamesConstants.ReceiverValueName; }
-        string INamedEntity.ClassName => ClassName;
+        public string Value { get=>ReceiverName; set=>ReceiverName=value; }
+        public string ValueName { get=>Constants.ClassNamesConstants.ReceiverValueName; }
     }
 }

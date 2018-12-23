@@ -24,9 +24,9 @@
 
             public static string SMTPClassName = "SMTP Сервер";
 
-            public static string SMTPKeyName = "Email";
+            public static string SMTPKeyName = "Имя SMTP";
 
-            public static string SMTPValueName = "Email";
+            public static string SMTPValueName = "Порт";
 
         #endregion
 
