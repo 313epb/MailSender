@@ -74,7 +74,8 @@
                                VerticalAlignment="Center"/>
                         <TextBox Text="{Binding SelectedTime}" Grid.Row="2" Margin="10 3 10 3" />
                         <Button Grid.Row="3" Margin="10 3 10 3"
-                                Content="Запланировать отправку"/>
+                                Content="Запланировать отправку"
+                                Command="{Binding SendLaterCommand}"/>
                         <Button Grid.Row="4" Margin="10 3 10 3"
                                 Content="Отправить сейчас"
                                 Command="{Binding SendNowCommand}"/>

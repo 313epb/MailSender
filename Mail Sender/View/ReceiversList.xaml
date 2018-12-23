@@ -116,7 +116,7 @@
                   AutoGenerateColumns="False" 
                   CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn x:Name="dgcBoxColumn" Header="В рассылку" Width="75" IsReadOnly="False"/>
+                <DataGridCheckBoxColumn x:Name="dgcBoxColumn" Header="В рассылку" Width="75" IsReadOnly="False" Binding="{Binding IsMailing}"/>
                 <DataGridTextColumn Header="Почта" Binding="{Binding Key}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Value}" IsReadOnly="True"/>
             </DataGrid.Columns>

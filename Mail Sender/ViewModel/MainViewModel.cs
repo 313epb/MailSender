@@ -173,7 +173,8 @@ namespace Mail_Sender.ViewModel
             {
                 Id = 0,
                 Email = "dsderugin@gmail.com",
-                ReceiverName = "ִלטענטי"
+                ReceiverName = "ִלטענטי",
+                IsMailing = true
             },
             new Receiver
             {
@@ -320,6 +321,8 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand SendNowCommand { get; set; }
 
+        public RelayCommand SendLaterCommand { get; set; }
+
         public MainViewModel()
         {
             
@@ -329,6 +332,7 @@ namespace Mail_Sender.ViewModel
             LoadMailCommand= new RelayCommand(LoadMail);
             SaveMailCommand= new RelayCommand(SaveMail);
             SendNowCommand= new RelayCommand(SendNow);
+            SendLaterCommand= new RelayCommand(SendLater);
 
             _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
         }
@@ -431,7 +435,31 @@ namespace Mail_Sender.ViewModel
                 Id = History.Max(s => s.Id) + 1,
                 Sender = Sender.ConvertFromIPair(SelectedSender),
                 SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
+                Receievers = new List<Receiver>()
             };
+
+            foreach (Receiver receiver in Receivers)
+            {
+                if (receiver.IsMailing) sn.Receievers.Add(receiver); 
+            }
+        }
+
+        private void SendLater()
+        {
+            Sended sn = new Sended
+            {
+                Mail = SelectedMail,
+                Created = SelectedTime,
+                Id = History.Max(s => s.Id) + 1,
+                Sender = Sender.ConvertFromIPair(SelectedSender),
+                SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
+                Receievers = new List<Receiver>()
+            };
+
+            foreach (Receiver receiver in Receivers)
+            {
+                if (receiver.IsMailing) sn.Receievers.Add(receiver);
+            }
         }
     }
 }
