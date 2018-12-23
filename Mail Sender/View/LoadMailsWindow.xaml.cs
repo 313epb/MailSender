@@ -94,6 +94,7 @@ namespace Mail_Sender.View
                 }
             }
 
+            Selected = null;
         }
 
         private void WalkLogicalTree(List<RadioButton> radioButtons, object parent)
