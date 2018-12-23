@@ -36,6 +36,6 @@
                 </DockPanel>
             </Button>
         </Grid>
-        <xctk:RichTextBox x:Name="fdcvContent" Grid.Column="1" Height="Auto" Width="Auto" Text="{Binding Selected.Content}"/>
+        <xctk:RichTextBox x:Name="fdcvContent" Grid.Column="1" Height="Auto" Width="Auto" Text="{Binding Selected.Content}" IsReadOnly="True"/>
     </Grid>
 </Window>
