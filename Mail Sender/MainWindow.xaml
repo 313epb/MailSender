@@ -114,7 +114,7 @@
                                 Content="Сохранить письмо"
                                 VerticalAlignment="Center"
                                 Margin="510 3 10 3"/>
-                        <RichTextBox x:Name="rtbContent" 
+                        <xctk:RichTextBox x:Name="rtbContent" 
                                      Grid.Row="2"
                                      HorizontalAlignment="Stretch"
                                      VerticalAlignment="Stretch"
@@ -185,13 +185,8 @@
                             <DataGridTextColumn Header="Имя" Binding="{Binding Value}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <RichTextBox Grid.Row="3" Height="Auto" Margin="3" IsReadOnly="False">
-                        <FlowDocument PageHeight="180">
-                            <Paragraph>
-                                <Run Text="{Binding SelectedItem.Mail.Content,ElementName=cbHistory, Mode=TwoWay}"/>
-                            </Paragraph>
-                        </FlowDocument>
-                    </RichTextBox>
+                    <xctk:RichTextBox Grid.Row="3" Height="Auto" Margin="3" IsReadOnly="False" 
+                                      Text="{Binding SelectedItem.Mail.Content,ElementName=cbHistory, Mode=TwoWay}"/>
                 </Grid>
             </TabItem>
         </TabControl>
