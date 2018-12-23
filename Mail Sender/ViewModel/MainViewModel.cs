@@ -295,13 +295,14 @@ namespace Mail_Sender.ViewModel
             set => _history = value;
         }
 
+        private DateTime _selectedTime = DateTime.Now;
+        public DateTime SelectedTime
+        {
+            get => _selectedTime; set => _selectedTime = value;
+        }
+
         #endregion
 
-        private string _test = "test";
-        public string Test
-        {
-            get => _test; set => _test = value;
-        }
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
