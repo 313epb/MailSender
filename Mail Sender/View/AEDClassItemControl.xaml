@@ -30,6 +30,7 @@
                   x:Name="cbSelect" 
                   ItemsSource="{Binding ItemsList}"
                   Grid.Column="0" Grid.Row="1"
+                  SelectionChanged="CbSelect_OnSelectionChanged"
                   Margin="5"
                   Height="30" Width="270" 
                   VerticalAlignment="Bottom" 

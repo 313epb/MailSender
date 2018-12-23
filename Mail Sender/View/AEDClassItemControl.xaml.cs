@@ -68,5 +68,10 @@ namespace Mail_Sender.View
             InitializeComponent();
             MainGrid.DataContext = this;
         }
+
+        private void CbSelect_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedIPair = (IPair)cbSelect.SelectedItem;
+        }
     }
 }

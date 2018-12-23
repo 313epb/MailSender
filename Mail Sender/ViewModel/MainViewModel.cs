@@ -429,8 +429,8 @@ namespace Mail_Sender.ViewModel
                 Mail = SelectedMail,
                 Created = DateTime.Now,
                 Id = History.Max(s => s.Id) + 1,
-                Sender = Sender.
-
+                Sender = Sender.ConvertFromIPair(SelectedSender),
+                SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
             };
         }
     }

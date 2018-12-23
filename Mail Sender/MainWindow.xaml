@@ -36,14 +36,16 @@
                                 Grid.Row="0" Margin="2"  
                                 ClassName="{Binding SenderClassName}" 
                                 ItemsList="{Binding Senders}"
-                                SelectedIPair="{Binding SelectedSender}"/>
+                                SelectedIPair="{Binding SelectedSender, Mode=TwoWay}"
+                                />
                             <view:AEDClassItemControl 
                                 x:Name="aedSMTPS"
                                 Grid.Column="1"
                                 Grid.Row="0" Margin="2" 
                                 ClassName="{Binding SMTPClassName}"
                                 ItemsList="{Binding SMTPs}"
-                                SelectedIPair="{Binding SelectdSMTP}"/>
+                                SelectedIPair="{Binding SelectdSMTP, Mode=TwoWay}"
+                                />
                     </Grid>
                     <view:ReceiversList x:Name="ReceiversList" 
                                         Grid.Row="1"
