@@ -19,7 +19,7 @@ namespace Mail_Sender.ViewModel
     {
         #region Mails
 
-        private Mail _selectedMail;
+        private Mail _selectedMail= new Mail();
 
         public Mail SelectedMail
         {
@@ -27,6 +27,7 @@ namespace Mail_Sender.ViewModel
             set
             {
                 _selectedMail = value;
+                RaisePropertyChanged(nameof(SelectedMail));
             }
         }
 
@@ -310,6 +311,8 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand LoadMailCommand { get; set; }
 
+        public RelayCommand SaveMailCommand { get; set; }
+
         public MainViewModel()
         {
             
@@ -317,10 +320,20 @@ namespace Mail_Sender.ViewModel
             AddPairCommand= new RelayCommand<string>(AddPairItem);
             EditPairCommand= new RelayCommand<IPair>(EditPairItem);
             LoadMailCommand= new RelayCommand(LoadMail);
+            SaveMailCommand= new RelayCommand(SaveMail);
             _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
         }
 
-        
+        private void SaveMail()
+        {
+            Mail temp;
+            if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null) temp = SelectedMail;
+            else
+            {
+                SelectedMail.Id = Mails.Max(m => m.Id)+1;
+                Mails.Add(SelectedMail);
+            }
+        }
 
         private void DeleteIPairItem(IPair item)
         {

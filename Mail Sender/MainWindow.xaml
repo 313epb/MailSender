@@ -110,7 +110,8 @@
                                 Grid.Row="1"
                                 Content="Сохранить письмо"
                                 VerticalAlignment="Center"
-                                Margin="510 3 10 3"/>
+                                Margin="510 3 10 3"
+                                Command="{Binding SaveMailCommand}"/>
                         <xctk:RichTextBox x:Name="rtbContent" 
                                      Grid.Row="2"
                                      HorizontalAlignment="Stretch"

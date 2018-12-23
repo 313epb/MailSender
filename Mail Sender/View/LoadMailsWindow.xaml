@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="LoadMailsWindow" Height="450" Width="875"
+        Title="Сохраненнные письма" Height="450" Width="875"
         MinWidth="875" MinHeight="450"
         DataContext="{Binding ElementName=LoadWindow}">
         
