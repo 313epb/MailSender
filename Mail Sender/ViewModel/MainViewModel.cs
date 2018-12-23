@@ -285,6 +285,12 @@ namespace Mail_Sender.ViewModel
 
         #endregion
 
+        private string _test = "test";
+        public string Test
+        {
+            get => _test; set => _test = value;
+        }
+
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
         public RelayCommand<string> AddPairCommand{ get; set; }

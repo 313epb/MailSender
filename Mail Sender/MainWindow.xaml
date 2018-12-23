@@ -185,7 +185,13 @@
                             <DataGridTextColumn Header="Имя" Binding="{Binding Value}"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <RichTextBox Grid.Row="3" Height="Auto" Margin="3"/>
+                    <RichTextBox Grid.Row="3" Height="Auto" Margin="3" IsReadOnly="False">
+                        <FlowDocument PageHeight="180">
+                            <Paragraph>
+                                <Run Text="{Binding SelectedItem.Mail.Content,ElementName=cbHistory, Mode=TwoWay}"/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
                 </Grid>
             </TabItem>
         </TabControl>

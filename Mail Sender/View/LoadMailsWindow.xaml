@@ -1,0 +1,19 @@
+﻿<Window x:Class="Mail_Sender.View.LoadMailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Mail_Sender.View"
+        mc:Ignorable="d"
+        Title="LoadMailsWindow" Height="450" Width="875"
+        MinWidth="875" MinHeight="450">
+        
+    <Grid Background="#FF4E4E4C">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel x:Name="spTopicPanel" Grid.Column="0"/>
+        <FlowDocumentScrollViewer x:Name="fdcvContent" Grid.Column="1" Height="Auto" Width="Auto"/>
+    </Grid>
+</Window>

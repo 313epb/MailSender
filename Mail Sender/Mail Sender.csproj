@@ -179,6 +179,9 @@
     <Compile Include="View\AEPairItemWindow.xaml.cs">
       <DependentUpon>AEPairItemWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\LoadMailsWindow.xaml.cs">
+      <DependentUpon>LoadMailsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ReceiversList.xaml.cs">
       <DependentUpon>ReceiversList.xaml</DependentUpon>
     </Compile>
@@ -211,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AEPairItemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoadMailsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
