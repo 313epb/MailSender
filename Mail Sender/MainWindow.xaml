@@ -88,7 +88,8 @@
                                 Grid.Row="0"
                                 Content="Загрузить письмо"
                                 VerticalAlignment="Center"
-                                Margin="510 3 10 3"/>
+                                Margin="510 3 10 3"
+                                Command="{Binding LoadMailCommand}"/>
                         <TextBlock Grid.Row="1"
                                    Margin="125 3 3 3"
                                    VerticalAlignment="Center"

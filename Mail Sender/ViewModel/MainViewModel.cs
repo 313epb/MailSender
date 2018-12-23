@@ -297,14 +297,19 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand<IPair> EditPairCommand { get; set; }
 
+        public RelayCommand LoadMailCommand { get; set; }
+
         public MainViewModel()
         {
             
             DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
             AddPairCommand= new RelayCommand<string>(AddPairItem);
             EditPairCommand= new RelayCommand<IPair>(EditPairItem);
+            LoadMailCommand= new RelayCommand(LoadMail);
             _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
         }
+
+        
 
         private void DeleteIPairItem(IPair item)
         {
@@ -373,6 +378,12 @@ namespace Mail_Sender.ViewModel
             {
                 Receivers.Add(AEWindow.Item);
             }
+        }
+
+        private void LoadMail()
+        {
+            LoadMailsWindow lmw= new LoadMailsWindow(Mails);
+            lmw.ShowDialog();
         }
     }
 }
