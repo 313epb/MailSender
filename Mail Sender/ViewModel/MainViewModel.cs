@@ -11,6 +11,7 @@ using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
 using Mail_Sender.View;
 using System.Windows.Data;
+using Mail_Sender.Model;
 
 namespace Mail_Sender.ViewModel
 {
@@ -96,7 +97,7 @@ namespace Mail_Sender.ViewModel
             {
                 Id = 0,
                 Key = "dsderugin@gmail.com",
-                Value = "892asdasdas"
+                Value = "89224027506313epb"
             },
             new Sender()
             {
@@ -442,6 +443,9 @@ namespace Mail_Sender.ViewModel
             {
                 if (receiver.IsMailing) sn.Receievers.Add(receiver); 
             }
+
+            SendingMails.Send(sn);
+            History.Add(sn);
         }
 
         private void SendLater()
