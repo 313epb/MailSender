@@ -255,15 +255,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Styles\MainWindowIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\MailSender.Domain\MailSender.Domain.csproj">
-      <Project>{e05cddc8-6d4f-465e-84d5-bfa65c3a1bb1}</Project>
+      <Project>{f22f33ec-6f1c-413b-8f83-dfe4ac72cc2f}</Project>
       <Name>MailSender.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Styles\MainWindowIcon.png" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

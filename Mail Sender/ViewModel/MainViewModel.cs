@@ -309,6 +309,7 @@ namespace Mail_Sender.ViewModel
 
         #endregion
 
+        #region Commands
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
@@ -326,21 +327,28 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand<Mail> DeleteMailCommand { get; set; }
 
+        #endregion
+
+
         public MainViewModel()
         {
-            
+            #region CommandsIni
+
             DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
             AddPairCommand= new RelayCommand<string>(AddPairItem);
             EditPairCommand= new RelayCommand<IPair>(EditPairItem);
+
             LoadMailCommand= new RelayCommand(LoadMail);
             SaveMailCommand= new RelayCommand(SaveMail);
-            SendNowCommand= new RelayCommand(SendNow);
-            SendLaterCommand= new RelayCommand(SendLater);
             DeleteMailCommand= new RelayCommand<Mail>(DeleteMail);
 
+            SendNowCommand = new RelayCommand(SendNow);
+            SendLaterCommand= new RelayCommand(SendLater);
+
+            #endregion
+            
             _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
         }
-
         
         private void SaveMail()
         {
