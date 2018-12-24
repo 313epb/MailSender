@@ -185,9 +185,10 @@
                                    HorizontalAlignment="Center"/>
                     </Grid>
                     <DataGrid Grid.Row="2" Margin="3" 
-                              ItemsSource="{Binding SelectedItem.Receievers, ElementName=cbHistory}" 
+                               
                               AutoGenerateColumns="False" 
                               IsReadOnly="True">
+                        <!--ItemsSource="{Binding SelectedItem.Receievers, ElementName=cbHistory}"-->
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Почта" Binding="{Binding Key}"/>
                             <DataGridTextColumn Header="Имя" Binding="{Binding Value}"/>

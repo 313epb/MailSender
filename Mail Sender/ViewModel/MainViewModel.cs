@@ -247,23 +247,23 @@ namespace Mail_Sender.ViewModel
             new Sended
             {
                 Created = DateTime.Now,
-                Receievers = new ObservableCollection<Receiver>
-                {
-                    new Receiver
-                    {
-                        Email = "dsderugin@gmail.com",
-                        ReceiverName = "Alesha",
-                    },
-                    new Receiver
-                    {
-                        Email = "dsugin@gmail.com",
-                        ReceiverName = "Alesha1",
-                    },new Receiver
-                    {
-                        Email = "dsderu@gmail.com",
-                        ReceiverName = "Alesha2",
-                    },
-                },
+                //Receievers = new ObservableCollection<Receiver>
+                //{
+                //    new Receiver
+                //    {
+                //        Email = "dsderugin@gmail.com",
+                //        ReceiverName = "Alesha",
+                //    },
+                //    new Receiver
+                //    {
+                //        Email = "dsugin@gmail.com",
+                //        ReceiverName = "Alesha1",
+                //    },new Receiver
+                //    {
+                //        Email = "dsderu@gmail.com",
+                //        ReceiverName = "Alesha2",
+                //    },
+                //},
                 SMTP = new SMTP{SMTPName = "ya.ru", Port = "453"},
                 Sender = new Sender{Email = "dsderugin@gmail.com",Password = "76147"},
                 Mail = new Mail{Topic = "1e letter",Content = "asfqiouwyqw",Created = DateTime.Now,IsHTML = false},
@@ -272,23 +272,23 @@ namespace Mail_Sender.ViewModel
             new Sended
             {
                 Created = DateTime.Now,
-                Receievers = new ObservableCollection<Receiver>()
-                {
-                    new Receiver
-                    {
-                        Email = "dsderugin@gmail.com",
-                        ReceiverName = "Alisa",
-                    },
-                    new Receiver
-                    {
-                        Email = "dsugin@gmail.com",
-                        ReceiverName = "Alha1",
-                    },new Receiver
-                    {
-                        Email = "dsderu@gmail.com",
-                        ReceiverName = "Aleks",
-                    },
-                },
+                //Receievers = new ObservableCollection<Receiver>()
+                //{
+                //    new Receiver
+                //    {
+                //        Email = "dsderugin@gmail.com",
+                //        ReceiverName = "Alisa",
+                //    },
+                //    new Receiver
+                //    {
+                //        Email = "dsugin@gmail.com",
+                //        ReceiverName = "Alha1",
+                //    },new Receiver
+                //    {
+                //        Email = "dsderu@gmail.com",
+                //        ReceiverName = "Aleks",
+                //    },
+                //},
                 SMTP = new SMTP{SMTPName = "net.ru", Port = "453"},
                 Sender = new Sender{Email = "dsderin@gmail.com",Password = "76147"},
                 Mail = new Mail{Topic = "2e letter",Content = "aSubejctw",Created = DateTime.Now,IsHTML = true},
@@ -446,13 +446,13 @@ namespace Mail_Sender.ViewModel
                 Id = History.Max(s => s.Id) + 1,
                 Sender = Sender.ConvertFromIPair(SelectedSender),
                 SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
-                Receievers = new ObservableCollection<Receiver>()
+                //Receievers = new ObservableCollection<Receiver>()
             };
 
-            foreach (Receiver receiver in Receivers)
-            {
-                if (receiver.IsMailing) sn.Receievers.Add(receiver); 
-            }
+            //foreach (Receiver receiver in Receivers)
+            //{
+            //    if (receiver.IsMailing) sn.Receievers.Add(receiver); 
+            //}
 
             SendingMails.Send(sn);
             History.Add(sn);
@@ -467,13 +467,13 @@ namespace Mail_Sender.ViewModel
                 Id = History.Max(s => s.Id) + 1,
                 Sender = Sender.ConvertFromIPair(SelectedSender),
                 SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
-                Receievers = new ObservableCollection<Receiver>()
+                //Receievers = new ObservableCollection<Receiver>()
             };
 
-            foreach (Receiver receiver in Receivers)
-            {
-                if (receiver.IsMailing) sn.Receievers.Add(receiver);
-            }
+            //foreach (Receiver receiver in Receivers)
+            //{
+            //    if (receiver.IsMailing) sn.Receievers.Add(receiver);
+            //}
         }
 
         private void DeleteMail(Mail mail)
