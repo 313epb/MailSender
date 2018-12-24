@@ -247,7 +247,7 @@ namespace Mail_Sender.ViewModel
             new Sended
             {
                 Created = DateTime.Now,
-                Receievers = new List<Receiver>
+                Receievers = new ObservableCollection<Receiver>
                 {
                     new Receiver
                     {
@@ -272,7 +272,7 @@ namespace Mail_Sender.ViewModel
             new Sended
             {
                 Created = DateTime.Now,
-                Receievers = new List<Receiver>
+                Receievers = new ObservableCollection<Receiver>()
                 {
                     new Receiver
                     {
@@ -446,7 +446,7 @@ namespace Mail_Sender.ViewModel
                 Id = History.Max(s => s.Id) + 1,
                 Sender = Sender.ConvertFromIPair(SelectedSender),
                 SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
-                Receievers = new List<Receiver>()
+                Receievers = new ObservableCollection<Receiver>()
             };
 
             foreach (Receiver receiver in Receivers)
@@ -467,7 +467,7 @@ namespace Mail_Sender.ViewModel
                 Id = History.Max(s => s.Id) + 1,
                 Sender = Sender.ConvertFromIPair(SelectedSender),
                 SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
-                Receievers = new List<Receiver>()
+                Receievers = new ObservableCollection<Receiver>()
             };
 
             foreach (Receiver receiver in Receivers)
