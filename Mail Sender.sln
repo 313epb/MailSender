@@ -5,9 +5,7 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mail Sender", "Mail Sender\Mail Sender.csproj", "{47F3953B-9D9C-4832-A4E4-60B5D54F4228}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailSender.DAL", "MailSender.DAL\MailSender.DAL.csproj", "{8137D441-E13F-4995-8FBA-1D0E4B9EF3E6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailSender.Domain", "MailSender.Domain\MailSender.Domain.csproj", "{F22F33EC-6F1C-413B-8F83-DFE4AC72CC2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MailSender.Domain", "MailSender.Domain\MailSender.Domain.csproj", "{F22F33EC-6F1C-413B-8F83-DFE4AC72CC2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{47F3953B-9D9C-4832-A4E4-60B5D54F4228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47F3953B-9D9C-4832-A4E4-60B5D54F4228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47F3953B-9D9C-4832-A4E4-60B5D54F4228}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8137D441-E13F-4995-8FBA-1D0E4B9EF3E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8137D441-E13F-4995-8FBA-1D0E4B9EF3E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8137D441-E13F-4995-8FBA-1D0E4B9EF3E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8137D441-E13F-4995-8FBA-1D0E4B9EF3E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F22F33EC-6F1C-413B-8F83-DFE4AC72CC2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F22F33EC-6F1C-413B-8F83-DFE4AC72CC2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F22F33EC-6F1C-413B-8F83-DFE4AC72CC2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
