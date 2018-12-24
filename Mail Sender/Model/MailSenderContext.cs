@@ -1,27 +1,26 @@
-﻿using System.Data.Entity;
-using MailSender.Domain.Entities;
+﻿using MailSender.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using DbContext = System.Data.Entity.DbContext;
 
 namespace Mail_Sender.Model
 {
     class MailSenderContext:DbContext
     {
+        protected void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SendedReceiver>()
+                .HasKey(t => new { t.ReceiverId, t.SendedId });
 
+            modelBuilder.Entity<SendedReceiver>()
+                .HasOne(sc => sc.Receiver)
+                .WithMany(s => s.SendedReceivers)
+                .HasForeignKey(sc => sc.ReceiverId);
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<SendedReceiver>()
-        //        .HasKey(t => new {t.ReceiverId, t.SendedId});
-
-        //    modelBuilder.Entity<SendedReceiver>()
-        //        .HasOne(sc => sc.Receiver)
-        //        .WithMany(s => s.SendedReceivers)
-        //        .HasForeignKey(sc => sc.ReceiverId);
-
-        //    modelBuilder.Entity<SendedReceiver>()
-        //        .HasOne(sc => sc.Sended)
-        //        .WithMany(c => c.SendedReceivers)
-        //        .HasForeignKey(sc => sc.SendedId);
-        //}
+            modelBuilder.Entity<SendedReceiver>()
+                .HasOne(sc => sc.Sended)
+                .WithMany(c => c.SendedReceivers)
+                .HasForeignKey(sc => sc.SendedId);
+        }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
@@ -35,12 +34,12 @@ namespace Mail_Sender.Model
         //    Database.EnsureCreated();
         //}
 
-
-        public DbSet<Mail> Mails { get; set; }
-        public DbSet<Receiver> Receivers { get; set; }
-        public DbSet<Sended> Sendeds { get; set; }
-        public DbSet<Sender> Senders { get; set; }
-        public DbSet<SMTP> SMTPs { get; set; }
+        public System.Data.Entity.DbSet<SendedReceiver> SendedReceivers { get; set; }
+        public System.Data.Entity.DbSet<Mail> Mails { get; set; }
+        public System.Data.Entity.DbSet<Receiver> Receivers { get; set; }
+        public System.Data.Entity.DbSet<Sended> Sendeds { get; set; }
+        public System.Data.Entity.DbSet<Sender> Senders { get; set; }
+        public System.Data.Entity.DbSet<SMTP> SMTPs { get; set; }
 
     }
 }
