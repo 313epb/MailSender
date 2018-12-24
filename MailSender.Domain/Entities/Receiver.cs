@@ -8,7 +8,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс получателя
     /// </summary>
-    public class Receiver: NamedEntity, IPair 
+    public class Receiver: PairEntity
     {
         public string Email { get; set; }
         public string ReceiverName { get; set; }

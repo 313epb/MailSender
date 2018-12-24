@@ -7,7 +7,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс отправителя
     /// </summary>
-    public class Sender: NamedEntity,IPair
+    public class Sender: PairEntity
     {
         /// <summary>
         /// Название класса

@@ -2,13 +2,11 @@
 
 namespace MailSender.Domain.Entities.Base
 {
-    public class PairEntity:IPair
+    public class PairEntity:NamedEntity,IPair
     {
         public string Key { get; set; }
         public string KeyName { get; }
         public string Value { get; set; }
         public string ValueName { get; }
-        public int Id { get; set; }
-        public string ClassName { get; }
     }
 }

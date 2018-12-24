@@ -6,7 +6,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс для SMTP серверов
     /// </summary>
-    public class SMTP: NamedEntity,IPair
+    public class SMTP: PairEntity
     {
         public string ClassName
         {
