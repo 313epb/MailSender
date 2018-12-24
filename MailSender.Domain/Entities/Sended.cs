@@ -15,6 +15,8 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public virtual ICollection<Receiver> Receievers{get;set;}
 
+        
+
         /// <summary>
         /// Почта, с которой отправлялось
         /// </summary>
