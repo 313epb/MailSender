@@ -1,4 +1,6 @@
-﻿using MailSender.Domain.Entities.Base;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
 
 namespace MailSender.Domain.Entities
@@ -10,6 +12,13 @@ namespace MailSender.Domain.Entities
     {
         public string Email { get; set; }
         public string ReceiverName { get; set; }
+
+        public ICollection<SendedReceiver> SendedReceivers { get; set; }
+
+        public Receiver()
+        {
+            SendedReceivers= new ObservableCollection<SendedReceiver>();
+        }
 
         public bool IsMailing { get; set; }
 

@@ -13,9 +13,12 @@ namespace MailSender.Domain.Entities
         /// <summary>
         /// Все получатели писем в этой рассылке
         /// </summary>
-        public virtual ICollection<Receiver> Receievers{get;set;}
+        public virtual ICollection<SendedReceiver> SendedReceivers { get;set;}
 
-        
+        public Sended()
+        {
+            SendedReceivers= new ObservableCollection<SendedReceiver>();
+        }
 
         /// <summary>
         /// Почта, с которой отправлялось
