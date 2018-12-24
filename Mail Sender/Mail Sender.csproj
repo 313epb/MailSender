@@ -101,6 +101,10 @@
     <Compile Include="Migrations\201812241656558_M1.Designer.cs">
       <DependentUpon>201812241656558_M1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812241717206_M2.cs" />
+    <Compile Include="Migrations\201812241717206_M2.Designer.cs">
+      <DependentUpon>201812241717206_M2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\MailSenderContext.cs" />
     <Compile Include="Model\SendingMails.cs" />
@@ -176,6 +180,9 @@
     </Compile>
     <EmbeddedResource Include="Migrations\201812241656558_M1.resx">
       <DependentUpon>201812241656558_M1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812241717206_M2.resx">
+      <DependentUpon>201812241717206_M2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

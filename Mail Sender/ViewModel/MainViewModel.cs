@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -386,6 +387,16 @@ namespace Mail_Sender.ViewModel
 
         private void AddPairItem(string className)
         {
+            MailSenderContext msContext= new MailSenderContext();
+            //msContext.Mails.Add(new Mail()
+            //{
+            //    Content = "asdasd",
+            //    Created = DateTime.Now,
+            //    IsHTML = true,
+            //    Topic = "asdasd"
+            //});
+            //msContext.SaveChanges();
+            
             IPair _item;
 
             AEPairItemWindow AEWindow = new AEPairItemWindow();

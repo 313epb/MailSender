@@ -22,7 +22,7 @@ namespace Mail_Sender.Model
                 .HasForeignKey(sc => sc.SendedId);
         }
 
-        //protected  void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //protected void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    optionsBuilder.UseSqlServer(
         //        @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\User\Documents\MailSenderBase.mdf;Integrated Security=True;Connect Timeout=30");
