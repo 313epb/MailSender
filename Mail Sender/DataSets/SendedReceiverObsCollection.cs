@@ -29,17 +29,9 @@ namespace Mail_Sender.DataSets
 
         public void AddSendedReceiver(SendedReceiver item) //*
         {
-            if ((_context.SendedReceivers.Where(x => x.SendedId == item.SendedId)
-                    .Where(x => x.ReceiverId == item.ReceiverId)).FirstOrDefault<SendedReceiver>() == null)
-            {
-                Add(item);
-                _context.SendedReceivers.Add(item);
-                _context.Entry(item).State = EntityState.Added;
-            } //&*&*&&*&&??????? manyTOmany
-            else
-            {
-                MessageBox.Show("SendedId==SendedId, ReceiverId==ReceiverID это очень странно. Ошибка?!");
-            }
+            Add(item);
+            _context.SendedReceivers.Add(item);
+            _context.Entry(item).State = EntityState.Added;
         }
 
         public void NotifySendedReceiverModified(SendedReceiver item) //*
