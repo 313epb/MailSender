@@ -11,6 +11,7 @@ namespace MailSender.Domain.Entities
         public Receiver Receiver { get; set; }
 
         public int SendedId { get; set; }
-        public Sended Sended { get; set; }
+        [ForeignKey("ReceiverId")]
+        public Sended  Sended { get; set; }
     }
 }
