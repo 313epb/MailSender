@@ -99,6 +99,10 @@
     </ApplicationDefinition>
     <Compile Include="DataSets\MailObsCollection.cs" />
     <Compile Include="DataSets\ReceiverObsCollection.cs" />
+    <Compile Include="DataSets\SendedObsCollection.cs" />
+    <Compile Include="DataSets\SendedReceiverObsCollection.cs" />
+    <Compile Include="DataSets\SenderObsCollection.cs" />
+    <Compile Include="DataSets\SMTPObsCollection.cs" />
     <Compile Include="Migrations\201812241656558_M1.cs" />
     <Compile Include="Migrations\201812241656558_M1.Designer.cs">
       <DependentUpon>201812241656558_M1.cs</DependentUpon>

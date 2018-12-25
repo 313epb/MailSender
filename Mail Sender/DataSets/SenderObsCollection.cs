@@ -4,19 +4,18 @@ using System.Linq;
 using System.Windows;
 using MailSender.Domain.Entities;
 using Mail_Sender.Model;
-
 namespace Mail_Sender.DataSets
 {
-    public class ReceiverObsCollection : ObservableCollection<Receiver>
+    class SenderObsCollection:ObservableCollection<Sender>
     {
         private MailSenderContext _context;
 
-        public ReceiverObsCollection()
+        public SenderObsCollection()
         {
             _context = MailSenderContext.Instance;
 
-            _context.Receivers.Load();
-            foreach (Receiver item in _context.Receivers)
+            _context.Senders.Load(); //*
+            foreach (Sender item in _context.Senders) //*
             {
                 Add(item);
             }
@@ -27,32 +26,32 @@ namespace Mail_Sender.DataSets
             _context.SaveChanges();
         }
 
-        public void AddReceiver(Receiver item)
+        public void AddSender(Sender item)
         {
-            if ((_context.Receivers.Where(x => x.Key == item.Key)).FirstOrDefault<Receiver>() == null)
+            if ((_context.Senders.Where(x => x.Key == item.Key)).FirstOrDefault<Sender>() == null)
             {
                 if (!string.IsNullOrEmpty(item.Email))
                 {
                     Add(item);
-                    _context.Receivers.Add(item);
+                    _context.Senders.Add(item);
                     _context.Entry(item).State = EntityState.Added;
                 }
                 else
                 {
-                    MessageBox.Show($"{item.KeyName} получателя не может быть пустым");
+                    MessageBox.Show($"{item.KeyName} отправителя не может быть пустым");
 
                 }
                 //throw ex
             }
             else
             {
-                MessageBox.Show($"Получатель с таким {item.KeyName} уже существует. {item.KeyName} должен быть уникальным");
+                MessageBox.Show($"Отправитель с таким {item.KeyName} уже существует. {item.KeyName} должен быть уникальным");
             }
         }
 
-        public void NotifyReceiverModified(Receiver item)
+        public void NotifySenderModified(Sender item)
         {
-            if ((_context.Receivers.Where(x => x.Key == item.Key)).FirstOrDefault<Receiver>() != null)
+            if ((_context.Senders.Where(x => x.Key == item.Key)).FirstOrDefault<Sender>() != null)
             {
                 _context.Entry(item).State = EntityState.Modified;
             }
@@ -63,11 +62,11 @@ namespace Mail_Sender.DataSets
         }
 
 
-        public void DeleteReceiver(Receiver item)
+        public void DeleteSender(Sender item)
         {
             Remove(item);
             _context.Entry(item).State = EntityState.Deleted;
-            _context.Receivers.Remove(item);
+            _context.Senders.Remove(item);
         }
     }
 }
