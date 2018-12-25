@@ -29,30 +29,30 @@ namespace Mail_Sender.DataSets
 
         public void AddSMTP(SMTP item)
         {
-            if ((_context.SMTP.Where(x => x.Key == item.Key)).FirstOrDefault<Sender>() == null)
+            if ((_context.SMTPs.Where(x => x.Key == item.Key)).FirstOrDefault<SMTP>() == null)
             {
-                if (!string.IsNullOrEmpty(item.Email))
+                if (!string.IsNullOrEmpty(item.Key))
                 {
                     Add(item);
-                    _context.Senders.Add(item);
+                    _context.SMTPs.Add(item);
                     _context.Entry(item).State = EntityState.Added;
                 }
                 else
                 {
-                    MessageBox.Show($"{item.KeyName} отправителя не может быть пустым");
+                    MessageBox.Show($"{item.KeyName} SMTP сервера не может быть пустым");
 
                 }
                 //throw ex
             }
             else
             {
-                MessageBox.Show($"Отправитель с таким {item.KeyName} уже существует. {item.KeyName} должен быть уникальным");
+                MessageBox.Show($"SMTP сервер с таким {item.KeyName} уже существует. {item.KeyName} должен быть уникальным");
             }
         }
 
-        public void NotifySenderModified(Sender item)
+        public void NotifySMTPModified(Sender item)
         {
-            if ((_context.Senders.Where(x => x.Key == item.Key)).FirstOrDefault<Sender>() != null)
+            if ((_context.SMTPs.Where(x => x.Key == item.Key)).FirstOrDefault<SMTP>() != null)
             {
                 _context.Entry(item).State = EntityState.Modified;
             }
@@ -63,11 +63,11 @@ namespace Mail_Sender.DataSets
         }
 
 
-        public void DeleteSender(Sender item)
+        public void DeleteSMTP(SMTP item)
         {
             Remove(item);
             _context.Entry(item).State = EntityState.Deleted;
-            _context.Senders.Remove(item);
+            _context.SMTPs.Remove(item);
         }
     }
 }

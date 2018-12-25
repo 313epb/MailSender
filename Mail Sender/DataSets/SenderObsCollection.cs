@@ -30,7 +30,7 @@ namespace Mail_Sender.DataSets
         {
             if ((_context.Senders.Where(x => x.Key == item.Key)).FirstOrDefault<Sender>() == null)
             {
-                if (!string.IsNullOrEmpty(item.Email))
+                if (!string.IsNullOrEmpty(item.Key))
                 {
                     Add(item);
                     _context.Senders.Add(item);
