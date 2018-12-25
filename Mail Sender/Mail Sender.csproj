@@ -97,6 +97,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataSets\MailObsCollection.cs" />
+    <Compile Include="DataSets\ReceiverObsCollection.cs" />
     <Compile Include="Migrations\201812241656558_M1.cs" />
     <Compile Include="Migrations\201812241656558_M1.Designer.cs">
       <DependentUpon>201812241656558_M1.cs</DependentUpon>

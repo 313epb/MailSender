@@ -33,49 +33,51 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private ObservableCollection<Mail> _mails = new ObservableCollection<Mail>
-        {
-            new Mail
-            {
-                Id = 0,
-                Content = "Hello World!",
-                Created = DateTime.Now,
-                IsHTML = false,
-                Topic = "Первое письмо"
-            },
-            new Mail
-            {
-                Id = 1,
-                Content = "Hello World!",
-                Created = DateTime.Now,
-                IsHTML = true,
-                Topic = "Второе письмо"
-            },
-            new Mail
-            {
-                Id = 2,
-                Content = "Hello World!",
-                Created = DateTime.Now,
-                IsHTML = true,
-                Topic = "Третье письмо"
-            },
-            new Mail
-            {
-                Id = 3,
-                Content = "Hello World!",
-                Created = DateTime.Now,
-                IsHTML = false,
-                Topic = "Четвертое письмо"
-            },
-            new Mail
-            {
-                Id = 4,
-                Content = "Hello World!",
-                Created = DateTime.Now,
-                IsHTML = true,
-                Topic = "Пятое письмо"
-            }
-        };
+        //private ObservableCollection<Mail> _mails = new ObservableCollection<Mail>
+        //{
+        //    new Mail
+        //    {
+        //        Id = 0,
+        //        Content = "Hello World!",
+        //        Created = DateTime.Now,
+        //        IsHTML = false,
+        //        Topic = "Первое письмо"
+        //    },
+        //    new Mail
+        //    {
+        //        Id = 1,
+        //        Content = "Hello World!",
+        //        Created = DateTime.Now,
+        //        IsHTML = true,
+        //        Topic = "Второе письмо"
+        //    },
+        //    new Mail
+        //    {
+        //        Id = 2,
+        //        Content = "Hello World!",
+        //        Created = DateTime.Now,
+        //        IsHTML = true,
+        //        Topic = "Третье письмо"
+        //    },
+        //    new Mail
+        //    {
+        //        Id = 3,
+        //        Content = "Hello World!",
+        //        Created = DateTime.Now,
+        //        IsHTML = false,
+        //        Topic = "Четвертое письмо"
+        //    },
+        //    new Mail
+        //    {
+        //        Id = 4,
+        //        Content = "Hello World!",
+        //        Created = DateTime.Now,
+        //        IsHTML = true,
+        //        Topic = "Пятое письмо"
+        //    }
+        //};
+
+        private ObservableCollection<Mail> _mails;
 
         public ObservableCollection<Mail> Mails
         {
@@ -330,27 +332,28 @@ namespace Mail_Sender.ViewModel
 
         #endregion
 
-
         public MainViewModel()
-        {
-            #region CommandsIni
+            {
+                #region CommandsIni
 
-            DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
-            AddPairCommand= new RelayCommand<string>(AddPairItem);
-            EditPairCommand= new RelayCommand<IPair>(EditPairItem);
+                DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
+                AddPairCommand= new RelayCommand<string>(AddPairItem);
+                EditPairCommand= new RelayCommand<IPair>(EditPairItem);
 
-            LoadMailCommand= new RelayCommand(LoadMail);
-            SaveMailCommand= new RelayCommand(SaveMail);
-            DeleteMailCommand= new RelayCommand<Mail>(DeleteMail);
+                LoadMailCommand= new RelayCommand(LoadMail);
+                SaveMailCommand= new RelayCommand(SaveMail);
+                DeleteMailCommand= new RelayCommand<Mail>(DeleteMail);
 
-            SendNowCommand = new RelayCommand(SendNow);
-            SendLaterCommand= new RelayCommand(SendLater);
+                SendNowCommand = new RelayCommand(SendNow);
+                SendLaterCommand= new RelayCommand(SendLater);
 
-            #endregion
-            
-            _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
-        }
-        
+                #endregion
+                
+                _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
+            }
+
+        #region Methods
+
         private void SaveMail()
         {
             Mail temp;
@@ -387,7 +390,7 @@ namespace Mail_Sender.ViewModel
 
         private void AddPairItem(string className)
         {
-            MailSenderContext msContext= new MailSenderContext();
+            //MailSenderContext msContext= new MailSenderContext();
             //msContext.Mails.Add(new Mail()
             //{
             //    Content = "asdasd",
@@ -396,7 +399,11 @@ namespace Mail_Sender.ViewModel
             //    Topic = "asdasd"
             //});
             //msContext.SaveChanges();
-            
+            //foreach (Mail mai in msContext.Mails.Select(m => m).Where(ma => ma.Topic == "asdasd"))
+            //{
+            //    msContext.Mails.Remove(mai);
+            //}
+
             IPair _item;
 
             AEPairItemWindow AEWindow = new AEPairItemWindow();
@@ -491,6 +498,11 @@ namespace Mail_Sender.ViewModel
         {
             Mails.Remove(mail);
         }
+
+        #endregion
+        
+        
+        
 
     }
 }

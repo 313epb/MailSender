@@ -41,5 +41,30 @@ namespace Mail_Sender.Model
         public System.Data.Entity.DbSet<Sender> Senders { get; set; }
         public System.Data.Entity.DbSet<SMTP> SMTPs { get; set; }
 
+        #region Singleton MailSenderContext
+
+        private static volatile MailSenderContext instance;
+        private static readonly object syncObj = new object();
+
+        public static MailSenderContext Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (syncObj)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new MailSenderContext();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
+        #endregion
+
     }
 }
