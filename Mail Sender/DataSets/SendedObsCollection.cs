@@ -29,14 +29,18 @@ namespace Mail_Sender.DataSets
         public void AddSended(Sended item)
         {
             Add(item);
-            _context.Sendeds.Add(item);
             _context.Entry(item).State = EntityState.Added;
             
             SendedReceiverObsCollection sro= new SendedReceiverObsCollection();
+            int sendedid = _context.Sendeds.FirstOrDefault(sr => sr.Name == item.Name).Id;
+
             foreach (SendedReceiver sritem in item.SendedReceivers)
             {
+                sritem.ReceiverId = _context.Receivers.FirstOrDefault(rc => rc.Key == sritem.Receiver.Key).Id;
+                sritem.SendedId = sendedid;
                 sro.Add(sritem);
             }
+
             sro.SaveContext();
         }
 

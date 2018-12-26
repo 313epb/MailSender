@@ -276,31 +276,7 @@ namespace Mail_Sender.ViewModel
 
         #region Methods
 
-        private void SaveMail()
-        {
-            Mail temp;
-
-            if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
-            {
-                temp.Topic = temp.Topic.ToString();
-                temp.Created=DateTime.Now;
-            }
-            else
-            {
-                SelectedMail.Created = DateTime.Now;
-                SelectedMail.Topic = SelectedMail.Topic.ToString();
-                Mails.AddMail(SelectedMail);
-            }
-
-            SelectedMail= new Mail
-            {
-                Topic = SelectedMail.Topic.ToString(),
-                Content = SelectedMail.Content,
-                Created = new DateTime(),
-                IsHTML = SelectedMail.IsHTML
-            };
-            
-        }
+        
 
         private void DeleteIPairItem(IPair item)
         {
@@ -369,6 +345,32 @@ namespace Mail_Sender.ViewModel
             }
         }
 
+        private void SaveMail()
+        {
+            Mail temp;
+
+            if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
+            {
+                temp.Topic = temp.Topic.ToString();
+                temp.Created = DateTime.Now;
+            }
+            else
+            {
+                SelectedMail.Topic = SelectedMail.Topic.ToString();
+                SelectedMail.Created = DateTime.Now;
+                Mails.AddMail(SelectedMail);
+            }
+
+            SelectedMail = new Mail
+            {
+                Topic = SelectedMail.Topic.ToString(),
+                Content = SelectedMail.Content,
+                Created = new DateTime(),
+                IsHTML = SelectedMail.IsHTML
+            };
+
+        }
+
         private void LoadMail()
         {
             LoadMailsWindow lmw= new LoadMailsWindow(Mails);
@@ -387,18 +389,33 @@ namespace Mail_Sender.ViewModel
             {
                 Mail = SelectedMail,
                 Created = DateTime.Now,
-                Id = History.Max(s => s.Id) + 1,
-                Sender = Sender.ConvertFromIPair(SelectedSender),
-                SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
-                //Receievers = new ObservableCollection<Receiver>()
+                Sender = new Sender
+                {
+                    Key = SelectedSender.Key,
+                    Value = SelectedSender.Value
+                },
+                SMTP = new SMTP
+                {
+                    Key = SelectdSMTP.Key,
+                    Value = SelectdSMTP.Value
+                },
+                SendedReceivers = new ObservableCollection<SendedReceiver>()
             };
 
-            //foreach (Receiver receiver in Receivers)
-            //{
-            //    if (receiver.IsMailing) sn.Receievers.Add(receiver); 
-            //}
+            foreach (Receiver receiver in Receivers)
+            {
+                if (receiver.IsMailing)
+                {
+                    SendedReceiver sr =new SendedReceiver
+                    {
+                        Receiver = receiver,
+                        Sended = sn
+                    };
+                    sn.SendedReceivers.Add(sr);
+                } 
+            }
 
-            SendingMails.Send(sn);
+            //SendingMails.Send(sn);
             History.Add(sn);
         }
 

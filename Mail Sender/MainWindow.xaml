@@ -152,6 +152,21 @@
                               Margin="275 3 0 3"
                               ItemsSource="{Binding History}"
                               DisplayMemberPath="Name"/>
+                    <Button x:Name="btnDelete" 
+                            Grid.Row="0"
+                            ToolTip="Удалить" 
+                            Height="27" Width="25"
+                            DataContext="{Binding Main, Source={StaticResource Locator}}"
+                            Command="{Binding DeleteSendedCommand}"
+                            CommandParameter="{Binding SelectedItem, ElementName=cbHistory}"
+                            VerticalAlignment="Bottom" 
+                            Margin="5">
+                        <Viewbox>
+                            <Path Stretch="Fill" 
+                                  Data="{StaticResource closeStyle0}" 
+                                  Stroke="#FFFD9804"/>
+                        </Viewbox>
+                    </Button>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -175,23 +190,22 @@
                                   Content="HTML" 
                                   IsManipulationEnabled="False"
                                   IsChecked="{Binding SelectedItem.Mail.IsHTML, ElementName=cbHistory, Mode=OneWay}"/>
-                        <TextBlock Text="{Binding SelectedItem.Sender.Email, ElementName=cbHistory}"
+                        <TextBlock Text="{Binding SelectedItem.Sender.Key, ElementName=cbHistory}"
                                    Grid.Column="3"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding SelectedItem.SMTP.SMTPName,ElementName=cbHistory}"
+                        <TextBlock Text="{Binding SelectedItem.SMTP.Key,ElementName=cbHistory}"
                                    Grid.Column="4"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
                     </Grid>
                     <DataGrid Grid.Row="2" Margin="3" 
-                               
+                              ItemsSource="{Binding SelectedItem.SendedReceivers, ElementName=cbHistory}"
                               AutoGenerateColumns="False" 
                               IsReadOnly="True">
-                        <!--ItemsSource="{Binding SelectedItem.Receievers, ElementName=cbHistory}"-->
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Почта" Binding="{Binding Key}"/>
-                            <DataGridTextColumn Header="Имя" Binding="{Binding Value}"/>
+                            <DataGridTextColumn Header="Почта" Binding="{Binding Receiver.Key}"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Receiver.Value}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <xctk:RichTextBox Grid.Row="3" Height="Auto" Margin="3" IsReadOnly="False" 
