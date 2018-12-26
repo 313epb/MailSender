@@ -12,6 +12,7 @@ using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
 using Mail_Sender.View;
 using System.Windows.Data;
+using Mail_Sender.DataSets;
 using Mail_Sender.Model;
 
 namespace Mail_Sender.ViewModel
@@ -77,9 +78,9 @@ namespace Mail_Sender.ViewModel
         //    }
         //};
 
-        private ObservableCollection<Mail> _mails;
+        private MailObsCollection _mails = new MailObsCollection();
 
-        public ObservableCollection<Mail> Mails
+        public MailObsCollection Mails
         {
             get => _mails;
             set => _mails = value;
@@ -94,29 +95,31 @@ namespace Mail_Sender.ViewModel
 
         public IPair SelectedSender { get; set; }
 
-        private ObservableCollection<IPair> _senders = new ObservableCollection<IPair>
-        {
-            new Sender()
-            {
-                Id = 0,
-                Key = "dsderugin@gmail.com",
-                Value = "89224027506313epb"
-            },
-            new Sender()
-            {
-                Id = 0,
-                Key = "rusoptsales@gmail.com",
-                Value = "8dasdasdf7506"
-            },
-            new Sender()
-            {
-                Id = 0,
-                Key = "nnderygina@gmail.com",
-                Value = "89sdfssgsg6"
-            }
-        };
+        //private ObservableCollection<IPair> _senders = new ObservableCollection<IPair>
+        //{
+        //    new Sender()
+        //    {
+        //        Id = 0,
+        //        Key = "dsderugin@gmail.com",
+        //        Value = "89224027506313epb"
+        //    },
+        //    new Sender()
+        //    {
+        //        Id = 0,
+        //        Key = "rusoptsales@gmail.com",
+        //        Value = "8dasdasdf7506"
+        //    },
+        //    new Sender()
+        //    {
+        //        Id = 0,
+        //        Key = "nnderygina@gmail.com",
+        //        Value = "89sdfssgsg6"
+        //    }
+        //};
 
-        public ObservableCollection<IPair> Senders
+        private IPairObsCollection _senders= new IPairObsCollection(ClassNamesConstants.SenderClassName);
+
+        public IPairObsCollection Senders
         {
             get => _senders;
             set

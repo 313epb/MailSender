@@ -7,7 +7,7 @@ using Mail_Sender.Model;
 
 namespace Mail_Sender.DataSets
 {
-    class MailObsCollection:ObservableCollection<Mail>
+    public class MailObsCollection:ObservableCollection<Mail>
     {
         private MailSenderContext _context;
 

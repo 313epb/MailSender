@@ -6,7 +6,7 @@ using MailSender.Domain.Entities;
 using Mail_Sender.Model;
 namespace Mail_Sender.DataSets
 {
-    class SenderObsCollection:ObservableCollection<Sender>
+    public class SenderObsCollection:ObservableCollection<Sender>
     {
         private MailSenderContext _context;
 
