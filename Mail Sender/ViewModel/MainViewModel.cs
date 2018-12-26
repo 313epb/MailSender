@@ -34,50 +34,6 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        //private ObservableCollection<Mail> _mails = new ObservableCollection<Mail>
-        //{
-        //    new Mail
-        //    {
-        //        Id = 0,
-        //        Content = "Hello World!",
-        //        Created = DateTime.Now,
-        //        IsHTML = false,
-        //        Topic = "Первое письмо"
-        //    },
-        //    new Mail
-        //    {
-        //        Id = 1,
-        //        Content = "Hello World!",
-        //        Created = DateTime.Now,
-        //        IsHTML = true,
-        //        Topic = "Второе письмо"
-        //    },
-        //    new Mail
-        //    {
-        //        Id = 2,
-        //        Content = "Hello World!",
-        //        Created = DateTime.Now,
-        //        IsHTML = true,
-        //        Topic = "Третье письмо"
-        //    },
-        //    new Mail
-        //    {
-        //        Id = 3,
-        //        Content = "Hello World!",
-        //        Created = DateTime.Now,
-        //        IsHTML = false,
-        //        Topic = "Четвертое письмо"
-        //    },
-        //    new Mail
-        //    {
-        //        Id = 4,
-        //        Content = "Hello World!",
-        //        Created = DateTime.Now,
-        //        IsHTML = true,
-        //        Topic = "Пятое письмо"
-        //    }
-        //};
-
         private MailObsCollection _mails = new MailObsCollection();
 
         public MailObsCollection Mails
@@ -94,28 +50,6 @@ namespace Mail_Sender.ViewModel
         #region Senders
 
         public IPair SelectedSender { get; set; }
-
-        //private ObservableCollection<IPair> _senders = new ObservableCollection<IPair>
-        //{
-        //    new Sender()
-        //    {
-        //        Id = 0,
-        //        Key = "dsderugin@gmail.com",
-        //        Value = "89224027506313epb"
-        //    },
-        //    new Sender()
-        //    {
-        //        Id = 0,
-        //        Key = "rusoptsales@gmail.com",
-        //        Value = "8dasdasdf7506"
-        //    },
-        //    new Sender()
-        //    {
-        //        Id = 0,
-        //        Key = "nnderygina@gmail.com",
-        //        Value = "89sdfssgsg6"
-        //    }
-        //};
 
         private IPairObsCollection _senders= new IPairObsCollection(ClassNamesConstants.SenderClassName);
 
@@ -137,28 +71,6 @@ namespace Mail_Sender.ViewModel
         #region SMTPs
 
         public IPair SelectdSMTP { get; set; }
-
-        //private ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
-        //{
-        //    new SMTP
-        //    {
-        //        Id = 0,
-        //        Key = "smtp.gmail.com",
-        //        Value = "587"
-        //    },
-        //    new SMTP
-        //    {
-        //        Id = 1,
-        //        Key = "smtp.yandex.ru",
-        //        Value = "465"
-        //    },
-        //    new SMTP
-        //    {
-        //        Id = 2,
-        //        Key = "smtp.mail.ru",
-        //        Value = "465"
-        //    }
-        //};
 
         private IPairObsCollection _smtps= new IPairObsCollection(ClassNamesConstants.SMTPClassName);
 
@@ -370,23 +282,19 @@ namespace Mail_Sender.ViewModel
             if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
             {
                 temp = SelectedMail;
-                Mails.SaveContext();
             }
             else
             {
-                //SelectedMail.Id = Mails.Max(m => m.Id)+1;
                 Mails.AddMail(SelectedMail);
-                Mails.SaveContext();
             }
             
         }
 
         private void DeleteIPairItem(IPair item)
         {
-            if (item.ClassName == ClassNamesConstants.SMTPClassName){SMTPs.DeleteIPair(item); SMTPs.SaveContext();}
-            if (item.ClassName == ClassNamesConstants.SenderClassName){Senders.DeleteIPair(item);Senders.SaveContext();}
-            if (item.ClassName == ClassNamesConstants.ReceiverClassName){Receivers.DeleteIPair(item);Receivers.SaveContext();}
-
+            if (item.GetType() == typeof(Sender)){Senders.DeleteIPair(item);}
+            if (item.GetType() == typeof(Receiver)){Receivers.DeleteIPair(item);}
+            if (item.GetType() == typeof(SMTP)) {SMTPs.DeleteIPair(item);}
         }
 
         private void EditPairItem(IPair item)
@@ -408,20 +316,6 @@ namespace Mail_Sender.ViewModel
 
         private void AddPairItem(string className)
         {
-            //MailSenderContext msContext= new MailSenderContext();
-            //msContext.Mails.Add(new Mail()
-            //{
-            //    Content = "asdasd",
-            //    Created = DateTime.Now,
-            //    IsHTML = true,
-            //    Topic = "asdasd"
-            //});
-            //msContext.SaveChanges();
-            //foreach (Mail mai in msContext.Mails.Select(m => m).Where(ma => ma.Topic == "asdasd"))
-            //{
-            //    msContext.Mails.Remove(mai);
-            //}
-
             IPair _item;
 
             AEPairItemWindow AEWindow = new AEPairItemWindow();
@@ -445,21 +339,20 @@ namespace Mail_Sender.ViewModel
 
             AEWindow.ShowDialog();
 
+            _item = AEWindow.Item;
+
             if (className == ClassNamesConstants.SMTPClassName)
             {
-                _item = SMTP.ConvertFromIPair(AEWindow.Item);
                 SMTPs.AddIPair(_item);
             }
 
             if (className == ClassNamesConstants.SenderClassName)
             {
-                _item = AEWindow.Item;
                 Senders.AddIPair(_item);
             }
 
             if (className == ClassNamesConstants.ReceiverClassName)
             {
-                _item = Receiver.ConvertFromIPair(AEWindow.Item);
                 Receivers.AddIPair(_item);
             }
         }

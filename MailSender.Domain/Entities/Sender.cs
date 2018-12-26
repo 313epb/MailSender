@@ -12,7 +12,7 @@ namespace MailSender.Domain.Entities
         /// <summary>
         /// Название класса
         /// </summary>
-        public  new string ClassName
+        public override string ClassName
         {
             get => Constants.ClassNamesConstants.SenderClassName;
         }

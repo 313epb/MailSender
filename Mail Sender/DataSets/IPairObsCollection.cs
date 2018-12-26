@@ -47,9 +47,10 @@ namespace Mail_Sender.DataSets
 
         }
 
-        public void SaveContext()
+        private void SaveContext()
         {
             _context.SaveChanges();
+            _context.Database.BeginTransaction().Commit();
         }
 
         public void AddIPair(IPair item)
@@ -61,10 +62,8 @@ namespace Mail_Sender.DataSets
                     if (!string.IsNullOrEmpty(item.Key))
                     {
                         Add(Sender.ConvertFromIPair(item));
-                        _context.Senders.Add(Sender.ConvertFromIPair(item));
                         _context.Entry(item).State = EntityState.Added;
-                        _context.SaveChanges();
-                        _context.Database.BeginTransaction().Commit();
+                        
                     }
                     else
                     {
@@ -78,14 +77,13 @@ namespace Mail_Sender.DataSets
                 }
             }
 
-            if (item.ClassName == ClassNamesConstants.ReceiverClassName)
+            if (item.GetType() == typeof(Receiver))
             {
                 if ((_context.Receivers.Where(x => x.Key == item.Key)).FirstOrDefault<Receiver>() == null)
                 {
                     if (!string.IsNullOrEmpty(item.Key))
                     {
                         Add(item);
-                        _context.Receivers.Add(Receiver.ConvertFromIPair(item));
                         _context.Entry(item).State = EntityState.Added;
                     }
                     else
@@ -100,14 +98,13 @@ namespace Mail_Sender.DataSets
                 }
             }
 
-            if (item.ClassName == ClassNamesConstants.SMTPClassName)
+            if (item.GetType() == typeof(SMTP))
             {
                 if ((_context.SMTPs.Where(x => x.Key == item.Key)).FirstOrDefault<SMTP>() == null)
                 {
                     if (!string.IsNullOrEmpty(item.Key))
                     {
                         Add(item);
-                        _context.SMTPs.Add(SMTP.ConvertFromIPair(item));
                         _context.Entry(item).State = EntityState.Added;
                     }
                     else
@@ -121,60 +118,17 @@ namespace Mail_Sender.DataSets
                     MessageBox.Show($"{item.KeyName} должен быть уникальным");
                 }
             }
-
-            _context.SaveChanges();
-        }
-
-        public void NotifyIPairModified(IPair item)
-        {
-            if (item.ClassName == ClassNamesConstants.SenderClassName)
-            {
-                if ((_context.Senders.Where(x => x.Key == item.Key)).FirstOrDefault<Sender>() != null)
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                }
-                else
-                {
-                    _context.Entry(item).State = EntityState.Added;
-                }
-            }
-
-            if (item.ClassName == ClassNamesConstants.ReceiverClassName)
-            {
-                if ((_context.Receivers.Where(x => x.Key == item.Key)).FirstOrDefault<Receiver>() != null)
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                }
-                else
-                {
-                    _context.Entry(item).State = EntityState.Added;
-                }
-            }
-
-            if (item.ClassName == ClassNamesConstants.SMTPClassName)
-            {
-                if ((_context.SMTPs.Where(x => x.Key == item.Key)).FirstOrDefault<SMTP>() != null)
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                }
-                else
-                {
-                    _context.Entry(item).State = EntityState.Added;
-                }
-            }
-
+            
+            SaveContext();
         }
 
         public void DeleteIPair(IPair item)
         {
             Remove(item);
+
             _context.Entry(item).State = EntityState.Deleted;
-
-            if (item.ClassName == ClassNamesConstants.SenderClassName) _context.Senders.Remove(Sender.ConvertFromIPair(item));
-
-            if (item.ClassName == ClassNamesConstants.ReceiverClassName) _context.Receivers.Remove(Receiver.ConvertFromIPair(item));
-
-            if (item.ClassName == ClassNamesConstants.SMTPClassName) _context.SMTPs.Remove(SMTP.ConvertFromIPair(item));
+            
+            SaveContext();
         }
     }
 }

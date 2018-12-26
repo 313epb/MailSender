@@ -8,7 +8,7 @@ namespace MailSender.Domain.Entities
     /// </summary>
     public class SMTP: PairEntity
     {
-        public string ClassName
+        public override string ClassName
         {
             get => Constants.ClassNamesConstants.SMTPClassName;
         }

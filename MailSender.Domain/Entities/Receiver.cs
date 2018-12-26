@@ -22,7 +22,7 @@ namespace MailSender.Domain.Entities
 
         public bool IsMailing { get; set; }
 
-        public string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }
+        public override string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }
 
         public override string Key { get=>Email; set=>Email=value; }
         public override string KeyName { get=>Constants.ClassNamesConstants.ReceiverKeyName;}

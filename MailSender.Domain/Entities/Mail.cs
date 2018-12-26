@@ -9,7 +9,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс для писем
     /// </summary>
-    public class Mail:NamedEntity,IDateTimeEntity
+    public class Mail:DateTimeEntity
     {
 
         /// <summary>
@@ -28,8 +28,6 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public string Topic { get; set; }
 
-        public static string ClassName { get => Constants.ClassNamesConstants.MailClassName; }
-
-        public DateTime Created { get; set; }
+        public override DateTime Created { get=>DateTime.Now; }
     }
 }

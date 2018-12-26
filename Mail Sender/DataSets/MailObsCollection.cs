@@ -21,9 +21,10 @@ namespace Mail_Sender.DataSets
             }
         }
 
-        public void SaveContext()
+        private void SaveContext()
         {
             _context.SaveChanges();
+            _context.Database.BeginTransaction().Commit();
         }
 
         public void AddMail(Mail mail)
@@ -33,7 +34,6 @@ namespace Mail_Sender.DataSets
                 if (!string.IsNullOrEmpty(mail.Topic))
                 {
                     Add(mail);
-                    _context.Mails.Add(mail);
                     _context.Entry(mail).State = EntityState.Added;
                 }
                 else
@@ -41,13 +41,13 @@ namespace Mail_Sender.DataSets
                     MessageBox.Show("Имя письма не может быть пустым");
 
                 }
-                //throw ex
             }
             else
             {
                 MessageBox.Show("Письмо с таким именем уже существует. Имя должно быть уникальным");
             }
 
+            SaveContext();
         }
 
         public void NotifyMailModified(Mail mail)
@@ -68,6 +68,8 @@ namespace Mail_Sender.DataSets
             Remove(mail);
             _context.Entry(mail).State = EntityState.Deleted;
             _context.Mails.Remove(mail);
+
+            SaveContext();
         }
     }
 }
