@@ -245,11 +245,13 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand SaveMailCommand { get; set; }
 
+        public RelayCommand<Mail> DeleteMailCommand { get; set; }
+
         public RelayCommand SendNowCommand { get; set; }
 
         public RelayCommand SendLaterCommand { get; set; }
 
-        public RelayCommand<Mail> DeleteMailCommand { get; set; }
+        public RelayCommand<Sended> DeleteSendedCommand { get; set; }
 
         #endregion
 
@@ -268,15 +270,19 @@ namespace Mail_Sender.ViewModel
                 SendNowCommand = new RelayCommand(SendNow);
                 SendLaterCommand= new RelayCommand(SendLater);
 
+                DeleteSendedCommand=new RelayCommand<Sended>(DeleteSended);
+
             #endregion
 
                 _receiversViewSource = new CollectionViewSource() {Source = _receivers};
                 _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
             }
 
+        
+
         #region Methods
 
-        
+
 
         private void DeleteIPairItem(IPair item)
         {
@@ -437,12 +443,15 @@ namespace Mail_Sender.ViewModel
             //}
         }
 
-        
+        private void DeleteSended(Sended obj)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
-        
-        
-        
+
+
+
 
     }
 }
