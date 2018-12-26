@@ -279,14 +279,26 @@ namespace Mail_Sender.ViewModel
         private void SaveMail()
         {
             Mail temp;
+
             if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
             {
-                temp = SelectedMail;
+                temp.Topic = temp.Topic.ToString();
+                temp.Created=DateTime.Now;
             }
             else
             {
+                SelectedMail.Created = DateTime.Now;
+                SelectedMail.Topic = SelectedMail.Topic.ToString();
                 Mails.AddMail(SelectedMail);
             }
+
+            SelectedMail= new Mail
+            {
+                Topic = SelectedMail.Topic.ToString(),
+                Content = SelectedMail.Content,
+                Created = new DateTime(),
+                IsHTML = SelectedMail.IsHTML
+            };
             
         }
 
@@ -364,6 +376,11 @@ namespace Mail_Sender.ViewModel
             SelectedMail = lmw.Selected;
         }
 
+        private void DeleteMail(Mail mail)
+        {
+            Mails.DeleteMail(mail);
+        }
+
         private void SendNow()
         {
             Sended sn = new Sended
@@ -403,10 +420,7 @@ namespace Mail_Sender.ViewModel
             //}
         }
 
-        private void DeleteMail(Mail mail)
-        {
-            Mails.DeleteMail(mail);
-        }
+        
 
         #endregion
         

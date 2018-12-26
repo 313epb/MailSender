@@ -17,10 +17,10 @@ namespace MailSender.Domain.Entities
 
         public virtual ICollection<SendedReceiver> SendedReceivers { get;set;}
 
-        public Sended()
-        {
-            SendedReceivers= new ObservableCollection<SendedReceiver>();
-        }
+        //public Sended()
+        //{
+        //    SendedReceivers= new ObservableCollection<SendedReceiver>();
+        //}
 
         /// <summary>
         /// Почта, с которой отправлялось
@@ -38,7 +38,5 @@ namespace MailSender.Domain.Entities
         public Mail Mail { get; set; }
 
         public string Name => Mail.Topic + " " + Sender.Email + " " + Created;
-
-        public 
     }
 }

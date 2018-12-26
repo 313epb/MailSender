@@ -28,6 +28,6 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public string Topic { get; set; }
 
-        public override DateTime Created { get=>DateTime.Now; }
+        public override DateTime Created { get; set; }
     }
 }
