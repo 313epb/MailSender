@@ -54,15 +54,17 @@ namespace Mail_Sender.DataSets
 
         public void AddIPair(IPair item)
         {
-            if (item.ClassName==ClassNamesConstants.SenderClassName)
+            if (item.GetType()==typeof(Sender))
             {
                 if ((_context.Senders.Where(x => x.Key == item.Key)).FirstOrDefault<Sender>() == null)
                 {
                     if (!string.IsNullOrEmpty(item.Key))
                     {
-                        Add(item);
+                        Add(Sender.ConvertFromIPair(item));
                         _context.Senders.Add(Sender.ConvertFromIPair(item));
                         _context.Entry(item).State = EntityState.Added;
+                        _context.SaveChanges();
+                        _context.Database.BeginTransaction().Commit();
                     }
                     else
                     {
@@ -119,6 +121,8 @@ namespace Mail_Sender.DataSets
                     MessageBox.Show($"{item.KeyName} должен быть уникальным");
                 }
             }
+
+            _context.SaveChanges();
         }
 
         public void NotifyIPairModified(IPair item)

@@ -12,7 +12,7 @@ namespace MailSender.Domain.Entities
         /// <summary>
         /// Название класса
         /// </summary>
-        public string ClassName
+        public  new string ClassName
         {
             get => Constants.ClassNamesConstants.SenderClassName;
         }
@@ -20,19 +20,19 @@ namespace MailSender.Domain.Entities
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public  string Key { get=>Email; set=>Email=value; }
-        public  string KeyName { get=>Constants.ClassNamesConstants.SenderKeyName; }
+        public override string Key { get; set; }
+        public override string KeyName { get=>Constants.ClassNamesConstants.SenderKeyName; }
 
-        public  string Value { get=>Password; set=>Password=value; }
-        public  string ValueName { get=>Constants.ClassNamesConstants.SenderValueName; }
+        public override string Value { get; set; }
+        public override string ValueName { get=>Constants.ClassNamesConstants.SenderValueName; }
 
         public static Sender ConvertFromIPair(IPair item)
         {
             return new Sender
             {
                 Id = item.Id,
-                Email = item.Key,
-                Password = item.Value
+                Key = item.Key,
+                Value = item.Value
             };
         }
     }

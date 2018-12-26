@@ -367,13 +367,18 @@ namespace Mail_Sender.ViewModel
         private void SaveMail()
         {
             Mail temp;
-            if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null) temp = SelectedMail;
+            if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
+            {
+                temp = SelectedMail;
+                Mails.SaveContext();
+            }
             else
             {
                 //SelectedMail.Id = Mails.Max(m => m.Id)+1;
-                Mails.Add(SelectedMail);
+                Mails.AddMail(SelectedMail);
                 Mails.SaveContext();
             }
+            
         }
 
         private void DeleteIPairItem(IPair item)
@@ -392,6 +397,7 @@ namespace Mail_Sender.ViewModel
                 AEWindow.Title = "Редактировать";
                 AEWindow.Item = item;
                 AEWindow.ShowDialog();
+                MailSenderContext.Instance.SaveChanges();
             }
             else
             {
@@ -423,22 +429,17 @@ namespace Mail_Sender.ViewModel
 
             if (className == ClassNamesConstants.SMTPClassName)
             {
-                //_item = new SMTP();
-                //_item.Id = SMTPs.Max(s => s.Id) + 1;
                 AEWindow.Item = new SMTP();
             }
 
             if (className == ClassNamesConstants.SenderClassName)
             {
-                //_item = new Sender();
-                //_item.Id = Senders.Max(s => s.Id) + 1;
+
                 AEWindow.Item = new Sender();
             }
 
             if (className == ClassNamesConstants.ReceiverClassName)
             {
-                //_item = new Receiver();
-                //_item.Id = Receivers.Max(s => s.Id) + 1;
                 AEWindow.Item = new Receiver();
             }
 
@@ -446,17 +447,20 @@ namespace Mail_Sender.ViewModel
 
             if (className == ClassNamesConstants.SMTPClassName)
             {
-                SMTPs.Add(AEWindow.Item);
+                _item = SMTP.ConvertFromIPair(AEWindow.Item);
+                SMTPs.AddIPair(_item);
             }
 
             if (className == ClassNamesConstants.SenderClassName)
             {
-                Senders.Add(AEWindow.Item);
+                _item = AEWindow.Item;
+                Senders.AddIPair(_item);
             }
 
             if (className == ClassNamesConstants.ReceiverClassName)
             {
-                Receivers.Add(AEWindow.Item);
+                _item = Receiver.ConvertFromIPair(AEWindow.Item);
+                Receivers.AddIPair(_item);
             }
         }
 
@@ -508,7 +512,7 @@ namespace Mail_Sender.ViewModel
 
         private void DeleteMail(Mail mail)
         {
-            Mails.Remove(mail);
+            Mails.DeleteMail(mail);
         }
 
         #endregion
