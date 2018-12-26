@@ -138,29 +138,31 @@ namespace Mail_Sender.ViewModel
 
         public IPair SelectdSMTP { get; set; }
 
-        private ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
-        {
-            new SMTP
-            {
-                Id = 0,
-                Key = "smtp.gmail.com",
-                Value = "587"
-            },
-            new SMTP
-            {
-                Id = 1,
-                Key = "smtp.yandex.ru",
-                Value = "465"
-            },
-            new SMTP
-            {
-                Id = 2,
-                Key = "smtp.mail.ru",
-                Value = "465"
-            }
-        };
+        //private ObservableCollection<IPair> _smtps = new ObservableCollection<IPair>
+        //{
+        //    new SMTP
+        //    {
+        //        Id = 0,
+        //        Key = "smtp.gmail.com",
+        //        Value = "587"
+        //    },
+        //    new SMTP
+        //    {
+        //        Id = 1,
+        //        Key = "smtp.yandex.ru",
+        //        Value = "465"
+        //    },
+        //    new SMTP
+        //    {
+        //        Id = 2,
+        //        Key = "smtp.mail.ru",
+        //        Value = "465"
+        //    }
+        //};
 
-        public ObservableCollection<IPair> SMTPs
+        private IPairObsCollection _smtps= new IPairObsCollection(ClassNamesConstants.SMTPClassName);
+
+        public IPairObsCollection SMTPs
         {
             get => _smtps;
             set => _smtps = value;
@@ -174,42 +176,44 @@ namespace Mail_Sender.ViewModel
 
         #region Receivers
 
-        private static ObservableCollection<IPair> _receivers = new ObservableCollection<IPair>
-        {
-            new Receiver
-            {
-                Id = 0,
-                Email = "dsderugin@gmail.com",
-                ReceiverName = "ִלטענטי",
-                IsMailing = true
-            },
-            new Receiver
-            {
-                Id = 1,
-                Email = "rusoptsales@gmail.com",
-                ReceiverName = "ִלטענטי"
-            },
-            new Receiver
-            {
-                Id = 2,
-                Email = "uchihasaskekun@gmail.com",
-                ReceiverName = "ִלטענטי"
-            },
-            new Receiver
-            {
-                Id = 3,
-                Email = "dsderyugin@gmail.com",
-                ReceiverName = "ִלטענטי"
-            },
-            new Receiver
-            {
-                Id = 4,
-                Email = "deruginds@gmail.com",
-                ReceiverName = "ִלטענטי"
-            }
-        };
+        //private static ObservableCollection<IPair> _receivers = new ObservableCollection<IPair>
+        //{
+        //    new Receiver
+        //    {
+        //        Id = 0,
+        //        Email = "dsderugin@gmail.com",
+        //        ReceiverName = "ִלטענטי",
+        //        IsMailing = true
+        //    },
+        //    new Receiver
+        //    {
+        //        Id = 1,
+        //        Email = "rusoptsales@gmail.com",
+        //        ReceiverName = "ִלטענטי"
+        //    },
+        //    new Receiver
+        //    {
+        //        Id = 2,
+        //        Email = "uchihasaskekun@gmail.com",
+        //        ReceiverName = "ִלטענטי"
+        //    },
+        //    new Receiver
+        //    {
+        //        Id = 3,
+        //        Email = "dsderyugin@gmail.com",
+        //        ReceiverName = "ִלטענטי"
+        //    },
+        //    new Receiver
+        //    {
+        //        Id = 4,
+        //        Email = "deruginds@gmail.com",
+        //        ReceiverName = "ִלטענטי"
+        //    }
+        //};
 
-        public ObservableCollection<IPair> Receivers
+        private IPairObsCollection _receivers= new IPairObsCollection(ClassNamesConstants.ReceiverClassName);
+
+        public IPairObsCollection Receivers
         {
             get => _receivers;
             set
@@ -230,7 +234,7 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private CollectionViewSource _receiversViewSource = new CollectionViewSource(){Source = _receivers};
+        private CollectionViewSource _receiversViewSource;
 
         public ICollectionView ReceiversView => _receiversViewSource?.View;
 
@@ -248,60 +252,62 @@ namespace Mail_Sender.ViewModel
 
         #region History
         
-        private ObservableCollection<Sended> _history= new ObservableCollection<Sended>
-        {
-            new Sended
-            {
-                Created = DateTime.Now,
-                //Receievers = new ObservableCollection<Receiver>
-                //{
-                //    new Receiver
-                //    {
-                //        Email = "dsderugin@gmail.com",
-                //        ReceiverName = "Alesha",
-                //    },
-                //    new Receiver
-                //    {
-                //        Email = "dsugin@gmail.com",
-                //        ReceiverName = "Alesha1",
-                //    },new Receiver
-                //    {
-                //        Email = "dsderu@gmail.com",
-                //        ReceiverName = "Alesha2",
-                //    },
-                //},
-                SMTP = new SMTP{SMTPName = "ya.ru", Port = "453"},
-                Sender = new Sender{Email = "dsderugin@gmail.com",Password = "76147"},
-                Mail = new Mail{Topic = "1e letter",Content = "asfqiouwyqw",Created = DateTime.Now,IsHTML = false},
-            },
+        //private ObservableCollection<Sended> _history= new ObservableCollection<Sended>
+        //{
+        //    new Sended
+        //    {
+        //        Created = DateTime.Now,
+        //        //Receievers = new ObservableCollection<Receiver>
+        //        //{
+        //        //    new Receiver
+        //        //    {
+        //        //        Email = "dsderugin@gmail.com",
+        //        //        ReceiverName = "Alesha",
+        //        //    },
+        //        //    new Receiver
+        //        //    {
+        //        //        Email = "dsugin@gmail.com",
+        //        //        ReceiverName = "Alesha1",
+        //        //    },new Receiver
+        //        //    {
+        //        //        Email = "dsderu@gmail.com",
+        //        //        ReceiverName = "Alesha2",
+        //        //    },
+        //        //},
+        //        SMTP = new SMTP{SMTPName = "ya.ru", Port = "453"},
+        //        Sender = new Sender{Email = "dsderugin@gmail.com",Password = "76147"},
+        //        Mail = new Mail{Topic = "1e letter",Content = "asfqiouwyqw",Created = DateTime.Now,IsHTML = false},
+        //    },
 
-            new Sended
-            {
-                Created = DateTime.Now,
-                //Receievers = new ObservableCollection<Receiver>()
-                //{
-                //    new Receiver
-                //    {
-                //        Email = "dsderugin@gmail.com",
-                //        ReceiverName = "Alisa",
-                //    },
-                //    new Receiver
-                //    {
-                //        Email = "dsugin@gmail.com",
-                //        ReceiverName = "Alha1",
-                //    },new Receiver
-                //    {
-                //        Email = "dsderu@gmail.com",
-                //        ReceiverName = "Aleks",
-                //    },
-                //},
-                SMTP = new SMTP{SMTPName = "net.ru", Port = "453"},
-                Sender = new Sender{Email = "dsderin@gmail.com",Password = "76147"},
-                Mail = new Mail{Topic = "2e letter",Content = "aSubejctw",Created = DateTime.Now,IsHTML = true},
-            },
-        };
+        //    new Sended
+        //    {
+        //        Created = DateTime.Now,
+        //        //Receievers = new ObservableCollection<Receiver>()
+        //        //{
+        //        //    new Receiver
+        //        //    {
+        //        //        Email = "dsderugin@gmail.com",
+        //        //        ReceiverName = "Alisa",
+        //        //    },
+        //        //    new Receiver
+        //        //    {
+        //        //        Email = "dsugin@gmail.com",
+        //        //        ReceiverName = "Alha1",
+        //        //    },new Receiver
+        //        //    {
+        //        //        Email = "dsderu@gmail.com",
+        //        //        ReceiverName = "Aleks",
+        //        //    },
+        //        //},
+        //        SMTP = new SMTP{SMTPName = "net.ru", Port = "453"},
+        //        Sender = new Sender{Email = "dsderin@gmail.com",Password = "76147"},
+        //        Mail = new Mail{Topic = "2e letter",Content = "aSubejctw",Created = DateTime.Now,IsHTML = true},
+        //    },
+        //};
         
-        public ObservableCollection<Sended> History
+            private SendedObsCollection _history= new SendedObsCollection();
+
+        public SendedObsCollection History
         {
             get => _history;
             set => _history = value;
@@ -350,8 +356,9 @@ namespace Mail_Sender.ViewModel
                 SendNowCommand = new RelayCommand(SendNow);
                 SendLaterCommand= new RelayCommand(SendLater);
 
-                #endregion
-                
+            #endregion
+
+                _receiversViewSource = new CollectionViewSource() {Source = _receivers};
                 _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
             }
 
@@ -363,16 +370,18 @@ namespace Mail_Sender.ViewModel
             if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null) temp = SelectedMail;
             else
             {
-                SelectedMail.Id = Mails.Max(m => m.Id)+1;
+                //SelectedMail.Id = Mails.Max(m => m.Id)+1;
                 Mails.Add(SelectedMail);
+                Mails.SaveContext();
             }
         }
 
         private void DeleteIPairItem(IPair item)
         {
-            if (item.ClassName == ClassNamesConstants.SMTPClassName){SMTPs.Remove(item);}
-            if (item.ClassName == ClassNamesConstants.SenderClassName){Senders.Remove(item);}
-            if (item.ClassName == ClassNamesConstants.ReceiverClassName){Receivers.Remove(item);}
+            if (item.ClassName == ClassNamesConstants.SMTPClassName){SMTPs.DeleteIPair(item); SMTPs.SaveContext();}
+            if (item.ClassName == ClassNamesConstants.SenderClassName){Senders.DeleteIPair(item);Senders.SaveContext();}
+            if (item.ClassName == ClassNamesConstants.ReceiverClassName){Receivers.DeleteIPair(item);Receivers.SaveContext();}
+
         }
 
         private void EditPairItem(IPair item)
@@ -414,23 +423,23 @@ namespace Mail_Sender.ViewModel
 
             if (className == ClassNamesConstants.SMTPClassName)
             {
-                _item = new SMTP();
-                _item.Id = SMTPs.Max(s => s.Id) + 1;
-                AEWindow.Item = _item;
+                //_item = new SMTP();
+                //_item.Id = SMTPs.Max(s => s.Id) + 1;
+                AEWindow.Item = new SMTP();
             }
 
             if (className == ClassNamesConstants.SenderClassName)
             {
-                _item = new Sender();
-                _item.Id = Senders.Max(s => s.Id) + 1;
-                AEWindow.Item = _item;
+                //_item = new Sender();
+                //_item.Id = Senders.Max(s => s.Id) + 1;
+                AEWindow.Item = new Sender();
             }
 
             if (className == ClassNamesConstants.ReceiverClassName)
             {
-                _item = new Receiver();
-                _item.Id = Receivers.Max(s => s.Id) + 1;
-                AEWindow.Item = _item;
+                //_item = new Receiver();
+                //_item.Id = Receivers.Max(s => s.Id) + 1;
+                AEWindow.Item = new Receiver();
             }
 
             AEWindow.ShowDialog();
