@@ -422,7 +422,7 @@ namespace Mail_Sender.ViewModel
             }
 
             //SendingMails.Send(sn);
-            History.Add(sn);
+            History.AddSended(sn);
         }
 
         private void SendLater()
@@ -443,9 +443,9 @@ namespace Mail_Sender.ViewModel
             //}
         }
 
-        private void DeleteSended(Sended obj)
+        private void DeleteSended(Sended item)
         {
-            throw new NotImplementedException();
+            History.DeleteSended(item);
         }
 
         #endregion

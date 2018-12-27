@@ -61,7 +61,6 @@ namespace Mail_Sender.DataSets
                 {
                     if (!string.IsNullOrEmpty(item.Key))
                     {
-                        Add(Sender.ConvertFromIPair(item));
                         _context.Entry(item).State = EntityState.Added;
                         
                     }

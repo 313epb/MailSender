@@ -24,24 +24,28 @@ namespace Mail_Sender.DataSets
         public void SaveContext()
         {
             _context.SaveChanges();
+            _context.Database.BeginTransaction().Commit();
         }
 
         public void AddSended(Sended item)
         {
             Add(item);
-            _context.Entry(item).State = EntityState.Added;
-            
+            //_context.Entry(item).State = EntityState.Added;
+
+
+            item.Id=_context.Sendeds.Add(item).Id;  //все делаем в один запрос - добавляем и получаем назад Id
+
             SendedReceiverObsCollection sro= new SendedReceiverObsCollection();
-            int sendedid = _context.Sendeds.FirstOrDefault(sr => sr.Name == item.Name).Id;
 
             foreach (SendedReceiver sritem in item.SendedReceivers)
             {
                 sritem.ReceiverId = _context.Receivers.FirstOrDefault(rc => rc.Key == sritem.Receiver.Key).Id;
-                sritem.SendedId = sendedid;
+                sritem.SendedId = item.Id;
                 sro.Add(sritem);
             }
 
             sro.SaveContext();
+            SaveContext();
         }
 
         public void NotifySendedModified(Sended item)
@@ -57,18 +61,20 @@ namespace Mail_Sender.DataSets
         }
 
 
-        public void DeleteSender(Sended item)
+        public void DeleteSended(Sended item)
         {
-            Remove(item);
+            
 
             SendedReceiverObsCollection sro = new SendedReceiverObsCollection();
             foreach (SendedReceiver sritem in item.SendedReceivers)
             {
-                sro.Remove(sritem);
+                sro.DeleteSendedReceiver(sritem);
             }
 
+            Remove(item);
+
             _context.Entry(item).State = EntityState.Deleted;
-            _context.Sendeds.Remove(item);
+            SaveContext();
         }
     }
 }
