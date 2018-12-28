@@ -113,6 +113,13 @@
     <Compile Include="Model\MailSenderContext.cs" />
     <Compile Include="Model\SendingMails.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Validation\DateTimeValidation.cs" />
+    <Compile Include="Validation\EmailValidation.cs" />
+    <Compile Include="Validation\PortValidation.cs" />
+    <Compile Include="Validation\NameValidation.cs" />
+    <Compile Include="Validation\PasswordValidation.cs" />
+    <Compile Include="Validation\SMTPValidation.cs" />
+    <Compile Include="Validation\TopicValidation.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AEDClassItemControl.xaml.cs">

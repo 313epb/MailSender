@@ -20,12 +20,12 @@
         <TextBox x:Name="ValueTextBox" 
                  Grid.Column="1" TextWrapping="Wrap" 
                  Width="225" Margin="5"
-                 Text="{Binding Item.Key, Mode=TwoWay}"/>
+                 Text="{Binding Item.Key, Mode=TwoWay,NotifyOnValidationError=true,ValidatesOnDataErrors=True}"/>
         <TextBlock Text="{Binding Item.ValueName}" Grid.Column="2" VerticalAlignment="Center" Margin="5"/>
         <TextBox x:Name="NameTextBox" 
                  Grid.Column="3" TextWrapping="Wrap" 
                  Width="225" Margin="5"
-                 Text="{Binding Item.Value, Mode=TwoWay}"/>
+                 Text="{Binding Item.Value, Mode=TwoWay,NotifyOnValidationError=true,ValidatesOnDataErrors=True}"/>
         <Button Grid.Column="4" Height="33" Width="Auto" Margin="10 3 10 3" Click="ButtonBase_OnClick">
             <DockPanel>
                 <Viewbox   VerticalAlignment="Center" 

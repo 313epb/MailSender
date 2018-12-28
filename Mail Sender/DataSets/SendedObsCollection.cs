@@ -30,8 +30,6 @@ namespace Mail_Sender.DataSets
         public void AddSended(Sended item)
         {
             Add(item);
-            //_context.Entry(item).State = EntityState.Added;
-
 
             item.Id=_context.Sendeds.Add(item).Id;  //все делаем в один запрос - добавляем и получаем назад Id
 
@@ -63,17 +61,9 @@ namespace Mail_Sender.DataSets
 
         public void DeleteSended(Sended item)
         {
-            
-
-            SendedReceiverObsCollection sro = new SendedReceiverObsCollection();
-            foreach (SendedReceiver sritem in item.SendedReceivers)
-            {
-                sro.DeleteSendedReceiver(sritem);
-            }
-
             Remove(item);
+            _context.Sendeds.Remove(item);
 
-            _context.Entry(item).State = EntityState.Deleted;
             SaveContext();
         }
     }

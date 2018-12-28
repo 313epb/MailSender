@@ -1,4 +1,7 @@
-﻿using MailSender.Domain.Entities.Base;
+﻿using System;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
+using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
 
 namespace MailSender.Domain.Entities
@@ -7,7 +10,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс отправителя
     /// </summary>
-    public class Sender: PairEntity
+    public class Sender: PairEntity,IDataErrorInfo
     {
         /// <summary>
         /// Название класса
@@ -34,6 +37,30 @@ namespace MailSender.Domain.Entities
                 Key = item.Key,
                 Value = item.Value
             };
+        }
+
+        public string Error { get => ""; }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == Key)
+                {
+                    Regex reg = new Regex("^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$");
+                    if (!reg.IsMatch(Convert.ToString(Key)))
+                    {
+                        return "Введите корректный почтовый адрес";
+                    }
+                }
+
+                if (columnName == Value)
+                {
+                    if (Value.Length < 6) return "Пароль не может быть короче 6 символов";
+                }
+
+                return "";
+            }
         }
     }
 }
