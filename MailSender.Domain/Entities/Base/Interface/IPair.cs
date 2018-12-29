@@ -6,6 +6,5 @@
         string KeyName { get; }
         string Value { get; set; }
         string ValueName { get; }
-        int Id { get; set; }
     }
 }

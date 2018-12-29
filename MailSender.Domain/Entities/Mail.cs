@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
@@ -9,7 +10,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс для писем
     /// </summary>
-    public class Mail:NamedEntity,IDateTimeEntity
+    public class Mail:DateTimeEntity,IDataErrorInfo
     {
 
         /// <summary>
@@ -28,8 +29,18 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public string Topic { get; set; }
 
-        public static string ClassName { get => Constants.ClassNamesConstants.MailClassName; }
+        public override DateTime Created { get; set; }
+        public string Error { get=>""; }
 
-        public DateTime Created { get; set; }
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == "Topic")
+                    if (Topic.Length == 0)
+                        return "Тема не должна быть пустой";
+                return "";
+            }
+        }
     }
 }

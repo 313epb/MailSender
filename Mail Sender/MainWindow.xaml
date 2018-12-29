@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:Mail_Sender.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:validation="clr-namespace:Mail_Sender.Validation"
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
@@ -72,7 +73,19 @@
                         <TextBlock Text="Введите время:" Grid.Row="1" 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
-                        <TextBox Text="{Binding SelectedTime}" Grid.Row="2" Margin="10 3 10 3" />
+                        <TextBox  Grid.Row="2" Margin="10 3 10 3" >
+                            <TextBox.Text>
+                                <Binding Path="SelectedTime" Mode="TwoWay" 
+                                         ValidatesOnExceptions="True"
+                                         ValidatesOnDataErrors="True" 
+                                         NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <validation:DateTimeValidation/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                       
                         <Button Grid.Row="3" Margin="10 3 10 3"
                                 Content="Запланировать отправку"
                                 Command="{Binding SendLaterCommand}"/>
@@ -104,7 +117,7 @@
                                    VerticalAlignment="Center"
                                    Text="Тема письма:"/>
                         <TextBox x:Name="tbTopic"
-                                 Text="{Binding SelectedMail.Topic}"
+                                 Text="{Binding SelectedMail.Topic,NotifyOnValidationError=true,ValidatesOnDataErrors=True}"
                                  Grid.Row="1"
                                  Width="225"/>
                         <CheckBox x:Name="cbIsHTML" 
@@ -136,7 +149,7 @@
                      Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="33"/>
+                        <RowDefinition Height="35"/>
                         <RowDefinition Height="33"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
@@ -152,6 +165,22 @@
                               Margin="275 3 0 3"
                               ItemsSource="{Binding History}"
                               DisplayMemberPath="Name"/>
+                    <Button x:Name="btnDelete" 
+                            Grid.Row="0"
+                            ToolTip="Удалить" 
+                            Height="27" Width="25"
+                            DataContext="{Binding Main, Source={StaticResource Locator}}"
+                            Command="{Binding DeleteSendedCommand}"
+                            CommandParameter="{Binding SelectedItem, ElementName=cbHistory}"
+                            VerticalAlignment="Bottom" 
+                            HorizontalAlignment="Right"
+                            Margin="5">
+                        <Viewbox>
+                            <Path Stretch="Fill" 
+                                  Data="{StaticResource closeStyle0}" 
+                                  Stroke="#FFFD9804"/>
+                        </Viewbox>
+                    </Button>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -175,22 +204,22 @@
                                   Content="HTML" 
                                   IsManipulationEnabled="False"
                                   IsChecked="{Binding SelectedItem.Mail.IsHTML, ElementName=cbHistory, Mode=OneWay}"/>
-                        <TextBlock Text="{Binding SelectedItem.Sender.Email, ElementName=cbHistory}"
+                        <TextBlock Text="{Binding SelectedItem.Sender.Key, ElementName=cbHistory}"
                                    Grid.Column="3"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding SelectedItem.SMTP.SMTPName,ElementName=cbHistory}"
+                        <TextBlock Text="{Binding SelectedItem.SMTP.Key,ElementName=cbHistory}"
                                    Grid.Column="4"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
                     </Grid>
                     <DataGrid Grid.Row="2" Margin="3" 
-                              ItemsSource="{Binding SelectedItem.Receievers, ElementName=cbHistory}" 
+                              ItemsSource="{Binding SelectedItem.SendedReceivers, ElementName=cbHistory}"
                               AutoGenerateColumns="False" 
                               IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Почта" Binding="{Binding Key}"/>
-                            <DataGridTextColumn Header="Имя" Binding="{Binding Value}"/>
+                            <DataGridTextColumn Header="Почта" Binding="{Binding Receiver.Key}"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding Receiver.Value}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <xctk:RichTextBox Grid.Row="3" Height="Auto" Margin="3" IsReadOnly="False" 
