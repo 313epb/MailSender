@@ -11,9 +11,9 @@ namespace Mail_Sender.DataSets
     {
         private MailSenderContext _context;
 
-        public MailObsCollection()
+        public MailObsCollection(MailSenderContext context)
         {
-            _context = MailSenderContext.Instance;
+            _context = context;
             _context.Mails.Load();
             foreach (Mail contextMail in _context.Mails)
             {

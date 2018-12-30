@@ -14,9 +14,9 @@ namespace Mail_Sender.DataSets
 
         private MailSenderContext _context;
 
-        public IPairObsCollection(string className)
+        public IPairObsCollection(string className, MailSenderContext context)
         {
-            _context = MailSenderContext.Instance;
+            _context = context;
 
             if (className == ClassNamesConstants.SenderClassName)
             {
@@ -61,8 +61,8 @@ namespace Mail_Sender.DataSets
                 {
                     if (!string.IsNullOrEmpty(item.Key))
                     {
+                        Add(item);
                         _context.Entry(item).State = EntityState.Added;
-                        
                     }
                     else
                     {

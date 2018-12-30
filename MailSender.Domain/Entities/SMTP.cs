@@ -10,7 +10,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс для SMTP серверов
     /// </summary>
-    public class SMTP: PairEntity,IDataErrorInfo
+    public class SMTP: PairEntity//,IDataErrorInfo
     {
         public override string ClassName
         {
@@ -36,38 +36,38 @@ namespace MailSender.Domain.Entities
             };
         }
 
-        public string Error { get => ""; }
+        //public string Error { get => ""; }
 
-        public string this[string columnName]
-        {
-            get
-            {
-                if (columnName == Key)
-                {
-                    Regex reg = new Regex("^[a-zA-Z0-9.!£#$%&'^_`{}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
-                    if (!reg.IsMatch(Convert.ToString(Key)))
-                    {
-                        return "Введите корректный адрес SMTP";
-                    }
-                }
+        //public string this[string columnName]
+        //{
+        //    get
+        //    {
+        //        if (columnName == Key)
+        //        {
+        //            Regex reg = new Regex("^[a-zA-Z0-9.!£#$%&'^_`{}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+        //            if (!reg.IsMatch(Convert.ToString(Key)))
+        //            {
+        //                return "Введите корректный адрес SMTP";
+        //            }
+        //        }
 
-                if (columnName == Value)
-                {
-                    int port;
-                    try
-                    {
-                        port = Convert.ToInt32(Port);
-                    }
-                    catch (Exception e)
-                    {
-                        return  "Вводите только цифры";
-                    }
+        //        if (columnName == Value)
+        //        {
+        //            int port;
+        //            try
+        //            {
+        //                port = Convert.ToInt32(Port);
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                return  "Вводите только цифры";
+        //            }
 
-                    if ((port < 100) && (port > 999)) return "Введите корректное значение порта";
-                }
+        //            if ((port < 100) && (port > 999)) return "Введите корректное значение порта";
+        //        }
 
-                return "";
-            }
-        }
+        //        return "";
+        //    }
+        //}
     }
 }

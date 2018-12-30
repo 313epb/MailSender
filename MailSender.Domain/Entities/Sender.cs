@@ -10,7 +10,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс отправителя
     /// </summary>
-    public class Sender: PairEntity,IDataErrorInfo
+    public class Sender: PairEntity//,IDataErrorInfo
     {
         /// <summary>
         /// Название класса
@@ -39,28 +39,28 @@ namespace MailSender.Domain.Entities
             };
         }
 
-        public string Error { get => ""; }
+        //public string Error { get => ""; }
 
-        public string this[string columnName]
-        {
-            get
-            {
-                if (columnName == Key)
-                {
-                    Regex reg = new Regex("^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$");
-                    if (!reg.IsMatch(Convert.ToString(Key)))
-                    {
-                        return "Введите корректный почтовый адрес";
-                    }
-                }
+        //public string this[string columnName]
+        //{
+        //    get
+        //    {
+        //        if (columnName == Key)
+        //        {
+        //            Regex reg = new Regex("^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$");
+        //            if (!reg.IsMatch(Convert.ToString(Key)))
+        //            {
+        //                return "Введите корректный почтовый адрес";
+        //            }
+        //        }
 
-                if (columnName == Value)
-                {
-                    if (Value.Length < 6) return "Пароль не может быть короче 6 символов";
-                }
+        //        if (columnName == Value)
+        //        {
+        //            if (Value.Length < 6) return "Пароль не может быть короче 6 символов";
+        //        }
 
-                return "";
-            }
-        }
+        //        return "";
+        //    }
+        //}
     }
 }

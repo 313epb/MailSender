@@ -34,7 +34,7 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private MailObsCollection _mails = new MailObsCollection();
+        private MailObsCollection _mails = new MailObsCollection(DataContext);
 
         public MailObsCollection Mails
         {
@@ -51,7 +51,7 @@ namespace Mail_Sender.ViewModel
 
         public IPair SelectedSender { get; set; }
 
-        private IPairObsCollection _senders= new IPairObsCollection(ClassNamesConstants.SenderClassName);
+        private IPairObsCollection _senders= new IPairObsCollection(ClassNamesConstants.SenderClassName,DataContext);
 
         public IPairObsCollection Senders
         {
@@ -72,7 +72,7 @@ namespace Mail_Sender.ViewModel
 
         public IPair SelectdSMTP { get; set; }
 
-        private IPairObsCollection _smtps= new IPairObsCollection(ClassNamesConstants.SMTPClassName);
+        private IPairObsCollection _smtps= new IPairObsCollection(ClassNamesConstants.SMTPClassName,DataContext);
 
         public IPairObsCollection SMTPs
         {
@@ -88,42 +88,7 @@ namespace Mail_Sender.ViewModel
 
         #region Receivers
 
-        //private static ObservableCollection<IPair> _receivers = new ObservableCollection<IPair>
-        //{
-        //    new Receiver
-        //    {
-        //        Id = 0,
-        //        Email = "dsderugin@gmail.com",
-        //        ReceiverName = "ִלטענטי",
-        //        IsMailing = true
-        //    },
-        //    new Receiver
-        //    {
-        //        Id = 1,
-        //        Email = "rusoptsales@gmail.com",
-        //        ReceiverName = "ִלטענטי"
-        //    },
-        //    new Receiver
-        //    {
-        //        Id = 2,
-        //        Email = "uchihasaskekun@gmail.com",
-        //        ReceiverName = "ִלטענטי"
-        //    },
-        //    new Receiver
-        //    {
-        //        Id = 3,
-        //        Email = "dsderyugin@gmail.com",
-        //        ReceiverName = "ִלטענטי"
-        //    },
-        //    new Receiver
-        //    {
-        //        Id = 4,
-        //        Email = "deruginds@gmail.com",
-        //        ReceiverName = "ִלטענטי"
-        //    }
-        //};
-
-        private IPairObsCollection _receivers= new IPairObsCollection(ClassNamesConstants.ReceiverClassName);
+        private IPairObsCollection _receivers= new IPairObsCollection(ClassNamesConstants.ReceiverClassName, DataContext);
 
         public IPairObsCollection Receivers
         {
@@ -164,60 +129,7 @@ namespace Mail_Sender.ViewModel
 
         #region History
         
-        //private ObservableCollection<Sended> _history= new ObservableCollection<Sended>
-        //{
-        //    new Sended
-        //    {
-        //        Created = DateTime.Now,
-        //        //Receievers = new ObservableCollection<Receiver>
-        //        //{
-        //        //    new Receiver
-        //        //    {
-        //        //        Email = "dsderugin@gmail.com",
-        //        //        ReceiverName = "Alesha",
-        //        //    },
-        //        //    new Receiver
-        //        //    {
-        //        //        Email = "dsugin@gmail.com",
-        //        //        ReceiverName = "Alesha1",
-        //        //    },new Receiver
-        //        //    {
-        //        //        Email = "dsderu@gmail.com",
-        //        //        ReceiverName = "Alesha2",
-        //        //    },
-        //        //},
-        //        SMTP = new SMTP{SMTPName = "ya.ru", Port = "453"},
-        //        Sender = new Sender{Email = "dsderugin@gmail.com",Password = "76147"},
-        //        Mail = new Mail{Topic = "1e letter",Content = "asfqiouwyqw",Created = DateTime.Now,IsHTML = false},
-        //    },
-
-        //    new Sended
-        //    {
-        //        Created = DateTime.Now,
-        //        //Receievers = new ObservableCollection<Receiver>()
-        //        //{
-        //        //    new Receiver
-        //        //    {
-        //        //        Email = "dsderugin@gmail.com",
-        //        //        ReceiverName = "Alisa",
-        //        //    },
-        //        //    new Receiver
-        //        //    {
-        //        //        Email = "dsugin@gmail.com",
-        //        //        ReceiverName = "Alha1",
-        //        //    },new Receiver
-        //        //    {
-        //        //        Email = "dsderu@gmail.com",
-        //        //        ReceiverName = "Aleks",
-        //        //    },
-        //        //},
-        //        SMTP = new SMTP{SMTPName = "net.ru", Port = "453"},
-        //        Sender = new Sender{Email = "dsderin@gmail.com",Password = "76147"},
-        //        Mail = new Mail{Topic = "2e letter",Content = "aSubejctw",Created = DateTime.Now,IsHTML = true},
-        //    },
-        //};
-        
-            private SendedObsCollection _history= new SendedObsCollection();
+            private SendedObsCollection _history= new SendedObsCollection(DataContext);
 
         public SendedObsCollection History
         {
@@ -255,6 +167,8 @@ namespace Mail_Sender.ViewModel
 
         #endregion
 
+        public static MailSenderContext DataContext = MailSenderContext.Instance;
+
         public MainViewModel()
             {
                 #region CommandsIni
@@ -278,11 +192,7 @@ namespace Mail_Sender.ViewModel
                 _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
             }
 
-        
-
         #region Methods
-
-
 
         private void DeleteIPairItem(IPair item)
         {

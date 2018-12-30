@@ -12,7 +12,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс получателя
     /// </summary>
-    public class Receiver: PairEntity,IDataErrorInfo
+    public class Receiver: PairEntity//,IDataErrorInfo
     {
         public string Email { get; set; }
         public string ReceiverName { get; set; }
@@ -45,28 +45,28 @@ namespace MailSender.Domain.Entities
         }
 
 
-        public string Error { get=>""; }
+        //public string Error { get=>""; }
 
-        public string this[string columnName]
-        {
-            get
-            {
-                if (columnName == Key)
-                {
-                    Regex reg = new Regex("^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$");
-                    if (!reg.IsMatch(Convert.ToString(Key)))
-                    {
-                        return "Введите корректный почтовый адрес";
-                    }
-                }
+        //public string this[string columnName]
+        //{
+        //    get
+        //    {
+        //        if (columnName == Key)
+        //        {
+        //            Regex reg = new Regex("^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$");
+        //            if (!reg.IsMatch(Convert.ToString(Key)))
+        //            {
+        //                return "Введите корректный почтовый адрес";
+        //            }
+        //        }
 
-                if (columnName == Value)
-                {
-                    if (Value.Length < 2) return "Имя не может быть короче 2х символов";
-                }
+        //        if (columnName == Value)
+        //        {
+        //            if (Value.Length < 2) return "Имя не может быть короче 2х символов";
+        //        }
 
-                return "";
-            }
-        }
+        //        return "";
+        //    }
+        //}
     }
 }

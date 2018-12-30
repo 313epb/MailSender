@@ -10,9 +10,9 @@ namespace Mail_Sender.DataSets
     {
         private MailSenderContext _context;
 
-        public SendedObsCollection()
+        public SendedObsCollection(MailSenderContext context)
         {
-            _context = MailSenderContext.Instance;
+            _context = context;
 
             _context.Sendeds.Load(); //*
             foreach (Sended item in _context.Sendeds) //*
@@ -33,7 +33,7 @@ namespace Mail_Sender.DataSets
 
             item.Id=_context.Sendeds.Add(item).Id;  //все делаем в один запрос - добавляем и получаем назад Id
 
-            SendedReceiverObsCollection sro= new SendedReceiverObsCollection();
+            SendedReceiverObsCollection sro= new SendedReceiverObsCollection(_context);
 
             foreach (SendedReceiver sritem in item.SendedReceivers)
             {
