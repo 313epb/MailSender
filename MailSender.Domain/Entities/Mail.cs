@@ -10,7 +10,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс для писем
     /// </summary>
-    public class Mail:DateTimeEntity//,IDataErrorInfo
+    public class Mail:DateTimeEntity
     {
 
         /// <summary>
@@ -30,17 +30,5 @@ namespace MailSender.Domain.Entities
         public string Topic { get; set; }
 
         public override DateTime Created { get; set; }
-        //public string Error { get=>""; }
-
-        //public string this[string columnName]
-        //{
-        //    get
-        //    {
-        //        if (columnName == "Topic")
-        //            if (Topic.Length == 0)
-        //                return "Тема не должна быть пустой";
-        //        return "";
-        //    }
-        //}
     }
 }

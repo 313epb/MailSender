@@ -120,6 +120,8 @@
     <Compile Include="Validation\PasswordValidation.cs" />
     <Compile Include="Validation\SMTPValidation.cs" />
     <Compile Include="Validation\TopicValidation.cs" />
+    <Compile Include="Validation\ValidationClass.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AEDClassItemControl.xaml.cs">
