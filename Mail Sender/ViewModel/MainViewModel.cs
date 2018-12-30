@@ -301,38 +301,58 @@ namespace Mail_Sender.ViewModel
 
         private void SendNow()
         {
-            Sended sn = new Sended
+            if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)))
             {
-                Mail = SelectedMail,
-                Created = DateTime.Now,
-                Sender = new Sender
-                {
-                    Key = SelectedSender.Key,
-                    Value = SelectedSender.Value
-                },
-                SMTP = new SMTP
-                {
-                    Key = SelectdSMTP.Key,
-                    Value = SelectdSMTP.Value
-                },
-                SendedReceivers = new ObservableCollection<SendedReceiver>()
-            };
-
-            foreach (Receiver receiver in Receivers)
-            {
-                if (receiver.IsMailing)
-                {
-                    SendedReceiver sr =new SendedReceiver
-                    {
-                        Receiver = receiver,
-                        Sended = sn
-                    };
-                    sn.SendedReceivers.Add(sr);
-                } 
+                MessageBox.Show("Топик или письмо путсые");
             }
 
-            //SendingMails.Send(sn);
-            History.AddSended(sn);
+            else
+            {
+                if (SelectedSender == null)
+                {
+                    MessageBox.Show("Вы не выбрали отправителя");}
+                else
+                {
+                    if (SelectdSMTP == null)
+                    {
+                        MessageBox.Show("Вы не выбрали SMTP сервер");
+                    }
+                    else
+                    {
+                        Sended sn = new Sended
+                        {
+                            Mail = SelectedMail,
+                            Created = DateTime.Now,
+                            Sender = (Sender) SelectedSender,
+                            SMTP = (SMTP) SelectdSMTP,
+                            SendedReceivers = new ObservableCollection<SendedReceiver>()
+                        };
+
+                        foreach (Receiver receiver in Receivers)
+                        {
+                            if (receiver.IsMailing)
+                            {
+                                SendedReceiver sr = new SendedReceiver
+                                {
+                                    Receiver = receiver,
+                                    Sended = sn
+                                };
+                                sn.SendedReceivers.Add(sr);
+                            }
+                        }
+
+                        if (sn.SendedReceivers.Count == 0)
+                        {
+                            MessageBox.Show("Вы не выбрали получателей");
+                        }
+                        else
+                        {
+                            SendingMails.Send(sn);
+                            History.AddSended(sn);
+                        }
+                    }
+                }
+            }
         }
 
         private void SendLater()
