@@ -37,6 +37,6 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public Mail Mail { get; set; }
 
-        public string Name => Mail.Topic + " " + Sender.Email + " " + Created;
+        public string Name => Mail.Topic + " " + Sender.Key + " " + Created;
     }
 }
