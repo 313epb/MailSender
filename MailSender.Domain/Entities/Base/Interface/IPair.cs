@@ -1,6 +1,8 @@
-﻿namespace MailSender.Domain.Entities.Base.Interface
+﻿using System.ComponentModel;
+
+namespace MailSender.Domain.Entities.Base.Interface
 {
-    public interface IPair : INamedEntity
+    public interface IPair : INamedEntity, IDataErrorInfo
     {
         string Key { get; set; }
         string KeyName { get; }

@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace Mail_Sender.View
 {
@@ -19,6 +10,8 @@ namespace Mail_Sender.View
     /// </summary>
     public partial class MyMessageBoxWindow : Window
     {
+        internal List<string> LastErrorList { get; set; }= new List<string>();
+
         public MyMessageBoxWindow(List<string> errList)
         {
             InitializeComponent();
@@ -26,8 +19,10 @@ namespace Mail_Sender.View
             {
                 errorPanel.Children.Add(new TextBox
                 {
-                    Text = err
+                    Text = err,
+                    TextWrapping = TextWrapping.Wrap
                 });
+                LastErrorList.Add(err);
             }
         }
 

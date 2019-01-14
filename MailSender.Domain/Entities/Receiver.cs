@@ -28,10 +28,10 @@ namespace MailSender.Domain.Entities
 
         public override string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }
 
-        public override string Key { get=>Email; set=>Email=value; }
+        public override string Key { get; set; }
         public override string KeyName { get=>Constants.ClassNamesConstants.ReceiverKeyName;}
         
-        public override string Value { get=>ReceiverName; set=>ReceiverName=value; }
+        public override string Value { get; set; }
         public override string ValueName { get=>Constants.ClassNamesConstants.ReceiverValueName; }
 
         public static Receiver ConvertFromIPair(IPair item)

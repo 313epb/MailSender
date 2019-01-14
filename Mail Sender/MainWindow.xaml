@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:Mail_Sender.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:validation="clr-namespace:Mail_Sender.Validation"
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
@@ -79,9 +78,7 @@
                                          ValidatesOnExceptions="True"
                                          ValidatesOnDataErrors="True" 
                                          NotifyOnValidationError="True">
-                                    <Binding.ValidationRules>
-                                        <validation:DateTimeValidation/>
-                                    </Binding.ValidationRules>
+                                    
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>

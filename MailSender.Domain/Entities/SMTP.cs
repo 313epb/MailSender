@@ -20,6 +20,7 @@ namespace MailSender.Domain.Entities
         public  string SMTPName { get; set; }
         public  string Port { get; set; }
 
+
         public override string Key { get; set; }
         public override string KeyName { get=>Constants.ClassNamesConstants.SMTPKeyName; }
 
@@ -36,5 +37,37 @@ namespace MailSender.Domain.Entities
             };
         }
 
+        public override string Error { get; }
+
+        public virtual string this[string columnName] 
+{
+            get
+            {
+                string error = String.Empty;
+                switch (columnName)
+                {
+                    case "Key":
+                        Regex reg = new Regex("^[a-zA-Z0-9.!£#$%&'^_`{}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+                        if ((Key==null)||(!reg.IsMatch(Key))) error+="Введите корректный непустой адресс SMTP.";
+                        break;
+                    case "Value":
+                        if (!string.IsNullOrEmpty(Value))
+                        {
+                            int port;
+                            bool res;
+                            res = Int32.TryParse(Value, out port);
+                            if (!res) error = "Можно вводить только числа.";
+                            else if (port < 100 || port > 999)
+                                error = "Корректный порт находится в диапазоне от 100 до 1000.";
+                        }
+                        else
+                        {
+                            error = "Номер порта должен быть определён.";
+                        }
+                        break;
+                }
+                return error;
+            }
+        }
     }
 }

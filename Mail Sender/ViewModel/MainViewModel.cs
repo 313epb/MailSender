@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -118,7 +117,7 @@ namespace Mail_Sender.ViewModel
         private void OnSendersCollectionViewSourceFilter(object sender, FilterEventArgs e)
         {
             if (!(e.Item is Receiver re) || string.IsNullOrWhiteSpace(_filterName)) return;
-            if (!re.ReceiverName.Contains(_filterName))
+            if (!re.Value.Contains(_filterName))
                 e.Accepted = false;
         }
 
@@ -196,9 +195,30 @@ namespace Mail_Sender.ViewModel
 
         private void DeleteIPairItem(IPair item)
         {
-            if (item.GetType() == typeof(Sender)){Senders.DeleteIPair(item);}
-            if (item.GetType() == typeof(Receiver)){Receivers.DeleteIPair(item);}
-            if (item.GetType() == typeof(SMTP)) {SMTPs.DeleteIPair(item);}
+            List<string> errList= new List<string>();
+
+            if (item != null)
+            {
+                if (item.GetType() == typeof(Sender))
+                {
+                    Senders.DeleteIPair(item);
+                }
+
+                if (item.GetType() == typeof(Receiver))
+                {
+                    Receivers.DeleteIPair(item);
+                }
+
+                if (item.GetType() == typeof(SMTP))
+                {
+                    SMTPs.DeleteIPair(item);
+                }
+            }
+            else
+            {
+                errList.Add("Не выбран объект для удаления");
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+            }
         }
 
         private void EditPairItem(IPair item)
