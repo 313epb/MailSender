@@ -11,6 +11,7 @@ using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
 using Mail_Sender.View;
 using System.Windows.Data;
+using MailSender.Domain.Entities.Base;
 using Mail_Sender.DataSets;
 using Mail_Sender.Model;
 
@@ -218,6 +219,7 @@ namespace Mail_Sender.ViewModel
             {
                 errList.Add("Не выбран объект для удаления");
                 MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                window.ShowDialog();
             }
         }
 
@@ -225,11 +227,35 @@ namespace Mail_Sender.ViewModel
         {
             if (item!=null)
             {
+                PairEntity editablPairEntity= new PairEntity()
+                {
+                    Id = item.Id,
+                    Key = item.Key,
+                    Value = item.Value,
+                    
+                };
                 AEPairItemWindow AEWindow = new AEPairItemWindow();
                 AEWindow.Title = "Редактировать";
-                AEWindow.Item = item;
+                AEWindow.Item = editablPairEntity;
                 AEWindow.ShowDialog();
-                MailSenderContext.Instance.SaveChanges();
+                editablPairEntity = (PairEntity)AEWindow.Item; //надеемся, что из окна приходит валидный объект, а если не валидный, то будет null
+                if (editablPairEntity!=null)
+                {
+                    if (item.GetType() == typeof(Sender))
+                    {
+                        Senders.NotifyPairModified(Sender.ConvertFromIPair(editablPairEntity));
+                    }
+
+                    if (item.GetType() == typeof(Receiver))
+                    {
+                        Receivers.NotifyPairModified(Receiver.ConvertFromIPair(editablPairEntity));
+                    }
+
+                    if (item.GetType() == typeof(SMTP))
+                    {
+                        SMTPs.NotifyPairModified(SMTP.ConvertFromIPair(editablPairEntity));
+                    }
+                }
             }
             else
             {
@@ -289,6 +315,7 @@ namespace Mail_Sender.ViewModel
             {
                 temp.Topic = temp.Topic.ToString();
                 temp.Created = DateTime.Now;
+                temp.Content = SelectedMail.Content;
             }
             else
             {
@@ -299,7 +326,7 @@ namespace Mail_Sender.ViewModel
 
             SelectedMail = new Mail
             {
-                Topic = SelectedMail.Topic.ToString(),
+                Topic = SelectedMail.Topic?.ToString(),
                 Content = SelectedMail.Content,
                 Created = new DateTime(),
                 IsHTML = SelectedMail.IsHTML

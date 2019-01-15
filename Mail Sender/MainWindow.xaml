@@ -114,9 +114,16 @@
                                    VerticalAlignment="Center"
                                    Text="Тема письма:"/>
                         <TextBox x:Name="tbTopic"
-                                 Text="{Binding SelectedMail.Topic,NotifyOnValidationError=true,ValidatesOnDataErrors=True}"
                                  Grid.Row="1"
-                                 Width="225"/>
+                                 Width="225">
+                            <TextBox.Text>
+                                <Binding Path="SelectedMail.Topic" Mode="TwoWay" NotifyOnValidationError="True" ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <CheckBox x:Name="cbIsHTML" 
                                   Grid.Row="1"
                                   Width="65"

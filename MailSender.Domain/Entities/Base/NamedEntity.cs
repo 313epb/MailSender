@@ -5,5 +5,6 @@ namespace MailSender.Domain.Entities.Base
     public class NamedEntity:BaseEntity
     {
         public virtual string ClassName { get; }
+
     }
 }

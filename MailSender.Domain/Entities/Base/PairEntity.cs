@@ -11,6 +11,12 @@ namespace MailSender.Domain.Entities.Base
 
         public virtual string Error { get; }
 
-        public virtual string this[string columnName] => throw new System.NotImplementedException();
+        public virtual string this[string columnName]
+        {
+            get => string.Empty;
+        }
+
+
+        
     }
 }
