@@ -200,20 +200,9 @@ namespace Mail_Sender.ViewModel
 
             if (item != null)
             {
-                if (item.GetType() == typeof(Sender))
-                {
-                    Senders.DeleteIPair(item);
-                }
-
-                if (item.GetType() == typeof(Receiver))
-                {
-                    Receivers.DeleteIPair(item);
-                }
-
-                if (item.GetType() == typeof(SMTP))
-                {
-                    SMTPs.DeleteIPair(item);
-                }
+                if (item.GetType() == typeof(Sender)){Senders.DeleteIPair(item);}
+                if (item.GetType() == typeof(Receiver)){Receivers.DeleteIPair(item);}
+                if (item.GetType() == typeof(SMTP)){SMTPs.DeleteIPair(item);}
             }
             else
             {
@@ -227,34 +216,21 @@ namespace Mail_Sender.ViewModel
         {
             if (item!=null)
             {
-                PairEntity editablPairEntity= new PairEntity()
-                {
-                    Id = item.Id,
-                    Key = item.Key,
-                    Value = item.Value,
-                    
-                };
                 AEPairItemWindow AEWindow = new AEPairItemWindow();
                 AEWindow.Title = "Редактировать";
-                AEWindow.Item = editablPairEntity;
+
+
+                if (item.GetType() == typeof(Sender)){AEWindow.Item = Sender.ConvertFromIPair(item);}
+                if (item.GetType() == typeof(Receiver)){AEWindow.Item = Receiver.ConvertFromIPair(item);}
+                if (item.GetType() == typeof(SMTP)){AEWindow.Item = SMTP.ConvertFromIPair(item);}
+
                 AEWindow.ShowDialog();
-                editablPairEntity = (PairEntity)AEWindow.Item; //надеемся, что из окна приходит валидный объект, а если не валидный, то будет null
-                if (editablPairEntity!=null)
+                //нам приходит null или валидные данные
+                if (AEWindow.Item!=null)
                 {
-                    if (item.GetType() == typeof(Sender))
-                    {
-                        Senders.NotifyPairModified(Sender.ConvertFromIPair(editablPairEntity));
-                    }
-
-                    if (item.GetType() == typeof(Receiver))
-                    {
-                        Receivers.NotifyPairModified(Receiver.ConvertFromIPair(editablPairEntity));
-                    }
-
-                    if (item.GetType() == typeof(SMTP))
-                    {
-                        SMTPs.NotifyPairModified(SMTP.ConvertFromIPair(editablPairEntity));
-                    }
+                    if (item.GetType() == typeof(Sender)){Senders.NotifyPairModified(AEWindow.Item);}
+                    if (item.GetType() == typeof(Receiver)){Receivers.NotifyPairModified(AEWindow.Item);}
+                    if (item.GetType() == typeof(SMTP)){SMTPs.NotifyPairModified(AEWindow.Item);}
                 }
             }
             else
@@ -271,40 +247,17 @@ namespace Mail_Sender.ViewModel
             AEPairItemWindow AEWindow = new AEPairItemWindow();
             AEWindow.Title = "Добавить";
 
-            if (className == ClassNamesConstants.SMTPClassName)
-            {
-                AEWindow.Item = new SMTP();
-            }
-
-            if (className == ClassNamesConstants.SenderClassName)
-            {
-
-                AEWindow.Item = new Sender();
-            }
-
-            if (className == ClassNamesConstants.ReceiverClassName)
-            {
-                AEWindow.Item = new Receiver();
-            }
+            if (className == ClassNamesConstants.SMTPClassName){AEWindow.Item = new SMTP();}
+            if (className == ClassNamesConstants.SenderClassName){AEWindow.Item = new Sender();}
+            if (className == ClassNamesConstants.ReceiverClassName){AEWindow.Item = new Receiver();}
 
             AEWindow.ShowDialog();
 
             _item = AEWindow.Item;
 
-            if (className == ClassNamesConstants.SMTPClassName)
-            {
-                SMTPs.AddIPair(_item);
-            }
-
-            if (className == ClassNamesConstants.SenderClassName)
-            {
-                Senders.AddIPair(_item);
-            }
-
-            if (className == ClassNamesConstants.ReceiverClassName)
-            {
-                Receivers.AddIPair(_item);
-            }
+            if (className == ClassNamesConstants.SMTPClassName){SMTPs.AddIPair(_item);}
+            if (className == ClassNamesConstants.SenderClassName){Senders.AddIPair(_item);}
+            if (className == ClassNamesConstants.ReceiverClassName){Receivers.AddIPair(_item);}
         }
 
         private void SaveMail()
@@ -343,7 +296,10 @@ namespace Mail_Sender.ViewModel
 
         private void DeleteMail(Mail mail)
         {
-            Mails.DeleteMail(mail);
+            if (mail!=null)
+            {
+                Mails.DeleteMail(mail);
+            }
         }
 
         private void SendNow()
@@ -422,7 +378,10 @@ namespace Mail_Sender.ViewModel
 
         private void DeleteSended(Sended item)
         {
-            History.DeleteSended(item);
+            if (item!=null)
+            {
+                History.DeleteSended(item);
+            }
         }
 
         #endregion
