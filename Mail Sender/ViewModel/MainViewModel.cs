@@ -11,7 +11,6 @@ using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
 using Mail_Sender.View;
 using System.Windows.Data;
-using MailSender.Domain.Entities.Base;
 using Mail_Sender.DataSets;
 using Mail_Sender.Model;
 
@@ -247,51 +246,52 @@ namespace Mail_Sender.ViewModel
             AEPairItemWindow AEWindow = new AEPairItemWindow();
             AEWindow.Title = "Добавить";
 
-            if (className == ClassNamesConstants.SMTPClassName){AEWindow.Item = new SMTP();}
             if (className == ClassNamesConstants.SenderClassName){AEWindow.Item = new Sender();}
             if (className == ClassNamesConstants.ReceiverClassName){AEWindow.Item = new Receiver();}
+            if (className == ClassNamesConstants.SMTPClassName) { AEWindow.Item = new SMTP(); }
 
             AEWindow.ShowDialog();
 
             _item = AEWindow.Item;
 
-            if (className == ClassNamesConstants.SMTPClassName){SMTPs.AddIPair(_item);}
             if (className == ClassNamesConstants.SenderClassName){Senders.AddIPair(_item);}
             if (className == ClassNamesConstants.ReceiverClassName){Receivers.AddIPair(_item);}
+            if (className == ClassNamesConstants.SMTPClassName){SMTPs.AddIPair(_item);}
         }
 
         private void SaveMail()
         {
             Mail temp;
-
-            if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
+            if (SelectedMail!=null)
             {
-                temp.Topic = temp.Topic.ToString();
-                temp.Created = DateTime.Now;
-                temp.Content = SelectedMail.Content;
+                if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
+                {
+                    temp.Topic = temp.Topic.ToString();
+                    temp.Created = DateTime.Now;
+                    temp.Content = SelectedMail.Content;
+                }
+                else
+                {
+                    SelectedMail.Topic = SelectedMail.Topic.ToString();
+                    SelectedMail.Created = DateTime.Now;
+                    Mails.AddMail(SelectedMail);
+                }
+
+                SelectedMail = new Mail
+                {
+                    Topic = SelectedMail.Topic?.ToString(),
+                    Content = SelectedMail.Content,
+                    Created = new DateTime(),
+                    IsHTML = SelectedMail.IsHTML
+                };
             }
-            else
-            {
-                SelectedMail.Topic = SelectedMail.Topic.ToString();
-                SelectedMail.Created = DateTime.Now;
-                Mails.AddMail(SelectedMail);
-            }
-
-            SelectedMail = new Mail
-            {
-                Topic = SelectedMail.Topic?.ToString(),
-                Content = SelectedMail.Content,
-                Created = new DateTime(),
-                IsHTML = SelectedMail.IsHTML
-            };
-
         }
 
         private void LoadMail()
         {
             LoadMailsWindow lmw= new LoadMailsWindow(Mails);
             lmw.ShowDialog();
-            SelectedMail = lmw.Selected;
+            if(lmw.Selected!=null) SelectedMail = lmw.Selected;
         }
 
         private void DeleteMail(Mail mail)
