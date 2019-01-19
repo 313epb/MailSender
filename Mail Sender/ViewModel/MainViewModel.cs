@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
@@ -222,9 +221,9 @@ namespace Mail_Sender.ViewModel
                 AEWindow.Title = "Редактировать";
 
 
-                if (item.GetType() == typeof(Sender)){AEWindow.Item = Sender.ConvertFromIPair(item);}
-                if (item.GetType() == typeof(Receiver)){AEWindow.Item = Receiver.ConvertFromIPair(item);}
-                if (item.GetType() == typeof(SMTP)){AEWindow.Item = SMTP.ConvertFromIPair(item);}
+                if (item.GetType() == typeof(Sender)){AEWindow.Item = (Sender)item;}
+                if (item.GetType() == typeof(Receiver)){AEWindow.Item = (Receiver)item;}
+                if (item.GetType() == typeof(SMTP)){AEWindow.Item = (SMTP)item;}
 
                 AEWindow.ShowDialog();
                 //приходит null или валидные данные
@@ -263,12 +262,12 @@ namespace Mail_Sender.ViewModel
         private void SaveMail()
         {
             List<string> errList = new List<string>();
-            Mail temp;
 
             if (SelectedMail!=null)
             {
                 if (!string.IsNullOrEmpty(SelectedMail.Topic))
                 {
+                    Mail temp;
                     if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
                     {
                         temp.Content = SelectedMail.Content;
@@ -325,57 +324,61 @@ namespace Mail_Sender.ViewModel
 
         private void SendNow()
         {
-            if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)))
+            List<string> errList = new List<string>();
+            List<Receiver> tempReceivers=new List<Receiver>();
+            foreach (Receiver receiver in Receivers)
             {
-                MessageBox.Show("Топик или письмо путсые");
+                if (receiver.IsMailing) tempReceivers.Add(receiver); 
             }
 
+            if (!((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)) || SelectedSender == null|| SelectdSMTP == null|| tempReceivers.Count==0))
+            {
+                Sended sn = new Sended
+                {
+                    Mail = SelectedMail,
+                    Created = DateTime.Now,
+                    Sender = (Sender) SelectedSender,
+                    SMTP = (SMTP) SelectdSMTP,
+                    SendedReceivers = new ObservableCollection<SendedReceiver>()
+                };
+
+                foreach (Receiver receiver in tempReceivers)
+                {
+                    SendedReceiver sr = new SendedReceiver
+                    {
+                        Receiver = receiver,
+                        Sended = sn
+                    };
+                    sn.SendedReceivers.Add(sr);
+                }
+
+                SendingMails.Send(sn);
+                History.AddSended(sn);
+            }
             else
             {
+                if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)))
+                {
+                    errList.Add("Выберите или создайте письмо. Новое письмо обязательно должно иметь тему.");
+                }
+
                 if (SelectedSender == null)
                 {
-                    MessageBox.Show("Вы не выбрали отправителя");}
-                else
-                {
-                    if (SelectdSMTP == null)
-                    {
-                        MessageBox.Show("Вы не выбрали SMTP сервер");
-                    }
-                    else
-                    {
-                        Sended sn = new Sended
-                        {
-                            Mail = SelectedMail,
-                            Created = DateTime.Now,
-                            Sender = (Sender) SelectedSender,
-                            SMTP = (SMTP) SelectdSMTP,
-                            SendedReceivers = new ObservableCollection<SendedReceiver>()
-                        };
-
-                        foreach (Receiver receiver in Receivers)
-                        {
-                            if (receiver.IsMailing)
-                            {
-                                SendedReceiver sr = new SendedReceiver
-                                {
-                                    Receiver = receiver,
-                                    Sended = sn
-                                };
-                                sn.SendedReceivers.Add(sr);
-                            }
-                        }
-
-                        if (sn.SendedReceivers.Count == 0)
-                        {
-                            MessageBox.Show("Вы не выбрали получателей");
-                        }
-                        else
-                        {
-                            SendingMails.Send(sn);
-                            History.AddSended(sn);
-                        }
-                    }
+                    errList.Add("Вы не выбрали отправителя на странице Рассылка");
                 }
+
+                if (SelectdSMTP == null)
+                {
+                    errList.Add("Вы не выбрали SMTP сервер на странице Рассылка");
+                }
+
+                if (tempReceivers.Count == 0)
+                {
+                    errList.Add("Вы не выбрали получателей на странице Рассылка");
+                }
+
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                window.ShowDialog();
             }
         }
 
@@ -399,16 +402,22 @@ namespace Mail_Sender.ViewModel
 
         private void DeleteSended(Sended item)
         {
+            List<string> errList = new List<string>();
+
             if (item!=null)
             {
                 History.DeleteSended(item);
             }
+            else errList.Add("Вы не выбрали рассылку для удаления.");
+
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                window.ShowDialog();
+            }
         }
 
         #endregion
-
-
-
 
     }
 }
