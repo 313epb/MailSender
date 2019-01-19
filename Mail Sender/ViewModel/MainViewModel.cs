@@ -196,16 +196,17 @@ namespace Mail_Sender.ViewModel
         private void DeleteIPairItem(IPair item)
         {
             List<string> errList= new List<string>();
-
+            
             if (item != null)
             {
                 if (item.GetType() == typeof(Sender)){Senders.DeleteIPair(item);}
                 if (item.GetType() == typeof(Receiver)){Receivers.DeleteIPair(item);}
                 if (item.GetType() == typeof(SMTP)){SMTPs.DeleteIPair(item);}
             }
-            else
+            else errList.Add("Не выбран объект для удаления");
+
+            if (errList.Count != 0)
             {
-                errList.Add("Не выбран объект для удаления");
                 MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
                 window.ShowDialog();
             }
@@ -213,6 +214,8 @@ namespace Mail_Sender.ViewModel
 
         private void EditPairItem(IPair item)
         {
+            List<string> errList = new List<string>();
+
             if (item!=null)
             {
                 AEPairItemWindow AEWindow = new AEPairItemWindow();
@@ -224,7 +227,7 @@ namespace Mail_Sender.ViewModel
                 if (item.GetType() == typeof(SMTP)){AEWindow.Item = SMTP.ConvertFromIPair(item);}
 
                 AEWindow.ShowDialog();
-                //нам приходит null или валидные данные
+                //приходит null или валидные данные
                 if (AEWindow.Item!=null)
                 {
                     if (item.GetType() == typeof(Sender)){Senders.NotifyPairModified(AEWindow.Item);}
@@ -232,17 +235,17 @@ namespace Mail_Sender.ViewModel
                     if (item.GetType() == typeof(SMTP)){SMTPs.NotifyPairModified(AEWindow.Item);}
                 }
             }
-            else
-            {
-                MessageBox.Show("Выберите значение для редактирования");
-            }
+            else errList.Add("Выберите значение для редактирования");
 
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                window.ShowDialog();
+            }
         }
 
         private void AddPairItem(string className)
         {
-            IPair _item;
-
             AEPairItemWindow AEWindow = new AEPairItemWindow();
             AEWindow.Title = "Добавить";
 
@@ -252,38 +255,47 @@ namespace Mail_Sender.ViewModel
 
             AEWindow.ShowDialog();
 
-            _item = AEWindow.Item;
-
-            if (className == ClassNamesConstants.SenderClassName){Senders.AddIPair(_item);}
-            if (className == ClassNamesConstants.ReceiverClassName){Receivers.AddIPair(_item);}
-            if (className == ClassNamesConstants.SMTPClassName){SMTPs.AddIPair(_item);}
+            if (className == ClassNamesConstants.SenderClassName){Senders.AddIPair(AEWindow.Item);}
+            if (className == ClassNamesConstants.ReceiverClassName){Receivers.AddIPair(AEWindow.Item);}
+            if (className == ClassNamesConstants.SMTPClassName){SMTPs.AddIPair(AEWindow.Item);}
         }
 
         private void SaveMail()
         {
+            List<string> errList = new List<string>();
             Mail temp;
+
             if (SelectedMail!=null)
             {
-                if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
+                if (!string.IsNullOrEmpty(SelectedMail.Topic))
                 {
-                    temp.Topic = temp.Topic.ToString();
-                    temp.Created = DateTime.Now;
-                    temp.Content = SelectedMail.Content;
-                }
-                else
-                {
-                    SelectedMail.Topic = SelectedMail.Topic.ToString();
-                    SelectedMail.Created = DateTime.Now;
-                    Mails.AddMail(SelectedMail);
-                }
+                    if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
+                    {
+                        temp.Content = SelectedMail.Content;
+                        Mails.NotifyMailModified(temp);
+                    }
+                    else
+                    {
+                        SelectedMail.Created = DateTime.Now;
+                        Mails.AddMail(SelectedMail);
+                    }
 
-                SelectedMail = new Mail
-                {
-                    Topic = SelectedMail.Topic?.ToString(),
-                    Content = SelectedMail.Content,
-                    Created = new DateTime(),
-                    IsHTML = SelectedMail.IsHTML
-                };
+                    SelectedMail = new Mail
+                    {
+                        Topic = SelectedMail.Topic,
+                        Content = SelectedMail.Content,
+                        Created = new DateTime(),
+                        IsHTML = SelectedMail.IsHTML
+                    };
+                }
+                else errList.Add("Тема письма не должна быть пустой.");
+            }
+            else errList.Add("Создайте новое письмо. (этой ошибки не должно быть)");
+
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                window.ShowDialog();
             }
         }
 
@@ -296,9 +308,18 @@ namespace Mail_Sender.ViewModel
 
         private void DeleteMail(Mail mail)
         {
+            List<string> errList = new List<string>();
+
             if (mail!=null)
             {
                 Mails.DeleteMail(mail);
+            }
+            else errList.Add("Вы не выбрали письмо для удаления.");
+
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                window.ShowDialog();
             }
         }
 

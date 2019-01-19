@@ -67,8 +67,6 @@ namespace Mail_Sender.DataSets
         {
             Remove(mail);
             _context.Entry(mail).State = EntityState.Deleted;
-            _context.Mails.Remove(mail);
-
             SaveContext();
         }
     }

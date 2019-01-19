@@ -54,7 +54,7 @@ namespace Mail_Sender.View
         {
             RadioButton pressed = (RadioButton) sender;
             Selected = _mails.FirstOrDefault(m => m.Topic == pressed.Content);
-            delButton.CommandParameter = Selected;
+            delButton.CommandParameter = Selected;       //костыль
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -74,16 +74,23 @@ namespace Mail_Sender.View
         {
             List<RadioButton> radioButtons = new List<RadioButton>();
             WalkLogicalTree(radioButtons, spTopicPanel);
+            bool commandParametertoNull = true; //следствие костыля
 
             foreach (RadioButton rbutton in radioButtons)
             {
                 if ((bool)rbutton.IsChecked)
                 {
                     spTopicPanel.Children.Remove(rbutton);
+                    commandParametertoNull = false;
                 }
             }
 
-            Selected = new Mail();
+            if (commandParametertoNull)
+            {
+                delButton.CommandParameter = null;
+            }
+
+            Selected = null;
         }
 
         private void WalkLogicalTree(List<RadioButton> radioButtons, object parent)

@@ -20,6 +20,7 @@ namespace Mail_Sender.View
                 errorPanel.Children.Add(new TextBox
                 {
                     Text = err,
+                    IsReadOnly = true,
                     TextWrapping = TextWrapping.Wrap
                 });
                 LastErrorList.Add(err);

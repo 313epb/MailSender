@@ -28,7 +28,8 @@
                     Margin="10 3 10 3" 
                     DataContext="{Binding Main, Source={StaticResource Locator}}"
                     Command="{Binding DeleteMailCommand}"
-                    Click="DelButton_OnClick">
+                    Click="DelButton_OnClick"
+                    >
                 <DockPanel>
                     <Viewbox   VerticalAlignment="Center" 
                                HorizontalAlignment="Left"
