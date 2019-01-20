@@ -66,7 +66,7 @@ namespace Mail_Sender.View
                     {
                         "Не все поля валидны."
                     };
-                    MyMessageBoxWindow errWindow = new MyMessageBoxWindow(errList);
+                    MyMessageBoxWindow errWindow = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                     errWindow.ShowDialog();
                     Item = null;
                 }

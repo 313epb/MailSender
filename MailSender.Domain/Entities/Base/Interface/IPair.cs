@@ -8,5 +8,7 @@ namespace MailSender.Domain.Entities.Base.Interface
         string KeyName { get; }
         string Value { get; set; }
         string ValueName { get; }
+
+
     }
 }

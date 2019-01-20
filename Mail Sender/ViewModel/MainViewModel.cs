@@ -198,15 +198,13 @@ namespace Mail_Sender.ViewModel
             
             if (item != null)
             {
-                if (item.GetType() == typeof(Sender)){Senders.DeleteIPair(item);}
-                if (item.GetType() == typeof(Receiver)){Receivers.DeleteIPair(item);}
-                if (item.GetType() == typeof(SMTP)){SMTPs.DeleteIPair(item);}
+                ForObsCollection(item)?.DeleteIPair(item);
             }
             else errList.Add("Не выбран объект для удаления");
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList,"Обнаружена ошибка.");
                 window.ShowDialog();
             }
         }
@@ -219,26 +217,19 @@ namespace Mail_Sender.ViewModel
             {
                 AEPairItemWindow AEWindow = new AEPairItemWindow();
                 AEWindow.Title = "Редактировать";
-
-
-                if (item.GetType() == typeof(Sender)){AEWindow.Item = (Sender)item;}
-                if (item.GetType() == typeof(Receiver)){AEWindow.Item = (Receiver)item;}
-                if (item.GetType() == typeof(SMTP)){AEWindow.Item = (SMTP)item;}
-
+                AEWindow.Item = item;
                 AEWindow.ShowDialog();
                 //приходит null или валидные данные
                 if (AEWindow.Item!=null)
                 {
-                    if (item.GetType() == typeof(Sender)){Senders.NotifyPairModified(AEWindow.Item);}
-                    if (item.GetType() == typeof(Receiver)){Receivers.NotifyPairModified(AEWindow.Item);}
-                    if (item.GetType() == typeof(SMTP)){SMTPs.NotifyPairModified(AEWindow.Item);}
+                    ForObsCollection(item)?.NotifyPairModified(item);
                 }
             }
             else errList.Add("Выберите значение для редактирования");
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                 window.ShowDialog();
             }
         }
@@ -254,9 +245,7 @@ namespace Mail_Sender.ViewModel
 
             AEWindow.ShowDialog();
 
-            if (className == ClassNamesConstants.SenderClassName){Senders.AddIPair(AEWindow.Item);}
-            if (className == ClassNamesConstants.ReceiverClassName){Receivers.AddIPair(AEWindow.Item);}
-            if (className == ClassNamesConstants.SMTPClassName){SMTPs.AddIPair(AEWindow.Item);}
+            ForObsCollection(AEWindow.Item)?.AddIPair(AEWindow.Item);
         }
 
         private void SaveMail()
@@ -293,7 +282,7 @@ namespace Mail_Sender.ViewModel
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                 window.ShowDialog();
             }
         }
@@ -317,7 +306,7 @@ namespace Mail_Sender.ViewModel
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                 window.ShowDialog();
             }
         }
@@ -377,7 +366,7 @@ namespace Mail_Sender.ViewModel
                     errList.Add("Вы не выбрали получателей на странице Рассылка");
                 }
 
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                 window.ShowDialog();
             }
         }
@@ -412,12 +401,23 @@ namespace Mail_Sender.ViewModel
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList);
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                 window.ShowDialog();
             }
         }
 
         #endregion
 
+        #region MainViewModel Methods
+
+        private IPairObsCollection ForObsCollection(IPair item)
+        {
+            if (item.GetType() == typeof(Sender)) return Senders;
+            if (item.GetType() == typeof(Receiver)) return Receivers;
+            if (item.GetType() == typeof(SMTP)) return SMTPs;
+            return null;
+        }
+
+        #endregion
     }
 }

@@ -12,7 +12,7 @@ namespace Mail_Sender.View
     {
         internal List<string> LastErrorList { get; set; }= new List<string>();
 
-        public MyMessageBoxWindow(List<string> errList)
+        public MyMessageBoxWindow(List<string> errList, string title)
         {
             InitializeComponent();
             foreach (string err in errList)
@@ -25,6 +25,8 @@ namespace Mail_Sender.View
                 });
                 LastErrorList.Add(err);
             }
+
+            this.Title = title;
         }
 
         private void ButtonReady_OnClick(object sender, RoutedEventArgs e)

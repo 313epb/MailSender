@@ -124,7 +124,6 @@ namespace Mail_Sender.DataSets
         public void NotifyPairModified(IPair item)
         {
             IPair dbItem;
-            SetItem(GetIndexOfItem(item),item);
 
             if (item.GetType()==typeof(Sender))
             {

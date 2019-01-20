@@ -25,11 +25,11 @@
             <Button Grid.Row="1" 
                     x:Name="delButton"
                     Height="33" Width="Auto" 
-                    Margin="10 3 10 3" 
+                    Margin="10 3 10 3"
+                    IsEnabled="False"
                     DataContext="{Binding Main, Source={StaticResource Locator}}"
                     Command="{Binding DeleteMailCommand}"
-                    Click="DelButton_OnClick"
-                    >
+                    Click="DelButton_OnClick">
                 <DockPanel>
                     <Viewbox   VerticalAlignment="Center" 
                                HorizontalAlignment="Left"

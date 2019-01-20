@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using MailSender.Domain.Entities;
 using Mail_Sender.Annotations;
+using System;
 
 namespace Mail_Sender.View
 {
@@ -35,17 +36,31 @@ namespace Mail_Sender.View
 
             _mails = mails;
             InitializeComponent();
-            foreach (Mail mail in _mails)
+            if (_mails.Count != 0)
             {
-                RadioButton rb = new RadioButton
+                foreach (Mail mail in _mails)
                 {
-                    Name = "rbMail" + mail.Id,
-                    Content = mail.Topic,
-                    GroupName = "Mails",
-                    Margin = new Thickness(5, 3, 3, 3)
-                };
-                rb.Checked += RbChecked_Handler;
-                spTopicPanel.Children.Add(rb);
+                    RadioButton rb = new RadioButton
+                    {
+                        Name = "rbMail" + mail.Id,
+                        Content = mail.Topic,
+                        GroupName = "Mails",
+                        Margin = new Thickness(5, 3, 3, 3)
+                    };
+                    rb.Checked += RbChecked_Handler;
+                    spTopicPanel.Children.Add(rb);
+                }
+            }
+            else
+            {
+                spTopicPanel.Children.Add(new TextBox
+                {
+                    Name = "zeroMails",
+                    Text = "У вас пока еще нет сохранённых писем. Для того чтобы создать письмо закройте это окно, заполните тему и текст письма, нажмите сохранить.",
+                    Height = 150,
+                    IsReadOnly = true,
+                    TextWrapping = TextWrapping.Wrap
+                });
             }
         }
 
@@ -55,6 +70,7 @@ namespace Mail_Sender.View
             RadioButton pressed = (RadioButton) sender;
             Selected = _mails.FirstOrDefault(m => m.Topic == pressed.Content);
             delButton.CommandParameter = Selected;       //костыль
+            delButton.IsEnabled = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -85,6 +101,9 @@ namespace Mail_Sender.View
                 }
             }
 
+            delButton.IsEnabled = false;
+
+            //на всякий случай оставлю, но засерение должно работать
             if (commandParametertoNull)
             {
                 delButton.CommandParameter = null;
