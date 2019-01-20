@@ -198,7 +198,7 @@ namespace Mail_Sender.ViewModel
             
             if (item != null)
             {
-                ForObsCollection(item)?.DeleteIPair(item);
+                ForObsCollection(item.GetType())?.DeleteIPair(item);
             }
             else errList.Add("Не выбран объект для удаления");
 
@@ -222,7 +222,7 @@ namespace Mail_Sender.ViewModel
                 //приходит null или валидные данные
                 if (AEWindow.Item!=null)
                 {
-                    ForObsCollection(item)?.NotifyPairModified(item);
+                    ForObsCollection(item.GetType())?.NotifyPairModified(item);
                 }
             }
             else errList.Add("Выберите значение для редактирования");
@@ -245,7 +245,7 @@ namespace Mail_Sender.ViewModel
 
             AEWindow.ShowDialog();
 
-            ForObsCollection(AEWindow.Item)?.AddIPair(AEWindow.Item);
+            ForObsCollection(AEWindow.Item.GetType())?.AddIPair(AEWindow.Item);
         }
 
         private void SaveMail()
@@ -410,11 +410,12 @@ namespace Mail_Sender.ViewModel
 
         #region MainViewModel Methods
 
-        private IPairObsCollection ForObsCollection(IPair item)
+        private IPairObsCollection ForObsCollection(Type type)
         {
-            if (item.GetType() == typeof(Sender)) return Senders;
-            if (item.GetType() == typeof(Receiver)) return Receivers;
-            if (item.GetType() == typeof(SMTP)) return SMTPs;
+            //switch по типам не работает, почему то. 
+            if (type == typeof(Sender)) return Senders;
+            if (type == typeof(Receiver)) return Receivers;
+            if (type == typeof(SMTP)) return SMTPs;
             return null;
         }
 
