@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Windows;
 using MailSender.Domain.Entities;
 
 namespace Mail_Sender.Model
@@ -15,7 +16,7 @@ namespace Mail_Sender.Model
 
         public static event SendedHandler AllSended;
 
-        public static void ClearErrDic()
+        private static void ClearErrDic()
         {
             errDic = new Dictionary<SendedReceiver, string>();
         }
@@ -27,7 +28,9 @@ namespace Mail_Sender.Model
                 await SendMailsAsync(item, itemSR);
             }
 
-            AllSended.Invoke(errDic, item);
+            AllSended?.Invoke(errDic, item);
+
+            ClearErrDic();
         }
 
         private static async Task SendMailsAsync(Sended item, SendedReceiver itemSR)

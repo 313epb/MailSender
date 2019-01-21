@@ -206,8 +206,6 @@ namespace Mail_Sender.ViewModel
                 SendingMails.AllSended+=OnAllSended;
             }
 
-        
-
         #region Methods
 
         private void DeleteIPairItem(IPair item)
@@ -457,7 +455,6 @@ namespace Mail_Sender.ViewModel
 
             History.AddSended(sn);
 
-            SendingMails.ClearErrDic();
         }
 
         #endregion
