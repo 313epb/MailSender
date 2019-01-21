@@ -29,6 +29,7 @@
                     IsEnabled="False"
                     DataContext="{Binding Main, Source={StaticResource Locator}}"
                     Command="{Binding DeleteMailCommand}"
+                    CommandParameter="{Binding Selected, ElementName=LoadWindow}"
                     Click="DelButton_OnClick">
                 <DockPanel>
                     <Viewbox   VerticalAlignment="Center" 

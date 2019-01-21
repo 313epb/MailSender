@@ -42,7 +42,7 @@
                         Height="31" 
                         Margin="125 0 10 0" 
                         Command="{Binding AddPairCommand}"
-                        CommandParameter="{Binding ClassName, ElementName=RecList}">
+                        CommandParameter="{Binding ObjectIPair, ElementName=RecList}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>

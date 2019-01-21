@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
@@ -43,6 +44,8 @@ namespace Mail_Sender.ViewModel
         private readonly string _mailClassName = MailSender.Domain.Constants.ClassNamesConstants.MailClassName;
         public string MailsClassName => _mailClassName;
 
+
+
         #endregion
 
         #region Senders
@@ -64,6 +67,10 @@ namespace Mail_Sender.ViewModel
         private readonly string _senderClassName = MailSender.Domain.Constants.ClassNamesConstants.SenderClassName;
         public string SenderClassName => _senderClassName;
 
+        private IPair _objSender = new Sender();
+
+        public IPair ObjSender { get => _objSender; set => _objSender = value; }
+
         #endregion
 
         #region SMTPs
@@ -81,6 +88,9 @@ namespace Mail_Sender.ViewModel
         private readonly string _SMTPSClassName = MailSender.Domain.Constants.ClassNamesConstants.SMTPClassName;
         public string SMTPClassName => _SMTPSClassName;
 
+        private IPair _objSmtp = new SMTP();
+
+        public IPair OBjSmtp { get => _objSmtp; set => _objSmtp = value; }
 
         #endregion
 
@@ -123,11 +133,15 @@ namespace Mail_Sender.ViewModel
         private readonly string _receiverClassName = MailSender.Domain.Constants.ClassNamesConstants.ReceiverClassName;
         public string ReceiverClassName => _receiverClassName;
 
+        private IPair _objReceiver = new Receiver();
+
+        public IPair OBjReceiver { get => _objReceiver; set => _objReceiver = value; }
+
         #endregion
 
         #region History
-        
-            private SendedObsCollection _history= new SendedObsCollection(DataContext);
+
+        private SendedObsCollection _history= new SendedObsCollection(DataContext);
 
         public SendedObsCollection History
         {
@@ -147,7 +161,7 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
-        public RelayCommand<string> AddPairCommand{ get; set; }
+        public RelayCommand<IPair> AddPairCommand{ get; set; }
 
         public RelayCommand<IPair> EditPairCommand { get; set; }
 
@@ -172,7 +186,7 @@ namespace Mail_Sender.ViewModel
                 #region CommandsIni
 
                 DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
-                AddPairCommand= new RelayCommand<string>(AddPairItem);
+                AddPairCommand= new RelayCommand<IPair>(AddPairItem);
                 EditPairCommand= new RelayCommand<IPair>(EditPairItem);
 
                 LoadMailCommand= new RelayCommand(LoadMail);
@@ -234,18 +248,19 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private void AddPairItem(string className)
+        private void AddPairItem(IPair item)
         {
             AEPairItemWindow AEWindow = new AEPairItemWindow();
             AEWindow.Title = "Добавить";
 
-            if (className == ClassNamesConstants.SenderClassName){AEWindow.Item = new Sender();}
-            if (className == ClassNamesConstants.ReceiverClassName){AEWindow.Item = new Receiver();}
-            if (className == ClassNamesConstants.SMTPClassName) { AEWindow.Item = new SMTP(); }
+            AEWindow.Item = (IPair)Activator.CreateInstance(item.GetType());
 
             AEWindow.ShowDialog();
 
-            ForObsCollection(AEWindow.Item.GetType())?.AddIPair(AEWindow.Item);
+            if (AEWindow.Item != null) 
+            {
+                ForObsCollection(AEWindow.Item.GetType())?.AddIPair(AEWindow.Item);
+            }
         }
 
         private void SaveMail()

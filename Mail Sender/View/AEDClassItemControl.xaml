@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Mail_Sender.View"
              mc:Ignorable="d" 
-             x:Name="parent"
+             x:Name="ThisWindow"
              d:DesignHeight="80" d:DesignWidth="410"
              >
 <ToolBar >
@@ -20,13 +20,13 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <TextBlock DataContext="{Binding ElementName=parent}" 
+            <TextBlock DataContext="{Binding ElementName=ThisWindow}" 
                    x:Name="tbClassName"
                    Text="{Binding ClassName}"
                    Grid.Row="0" Grid.Column="0" 
                    Width="Auto" 
                    Margin="10 0 0 0"/>
-        <ComboBox DataContext="{Binding ElementName=parent}"
+            <ComboBox DataContext="{Binding ElementName=ThisWindow}"
                   x:Name="cbSelect" 
                   ItemsSource="{Binding ItemsList}"
                   Grid.Column="0" Grid.Row="1"
@@ -39,7 +39,7 @@
         <Button x:Name="btnAdd"
                 DataContext="{Binding Main, Source={StaticResource Locator}}"
                 Command="{Binding AddPairCommand}"
-                CommandParameter="{Binding Text, ElementName=tbClassName}"
+                CommandParameter="{Binding ObjectIPair, ElementName=ThisWindow}"
                 Grid.Column="1" Grid.Row="1"
                 ToolTip="Добавить" 
                 Height="27" Width="25"

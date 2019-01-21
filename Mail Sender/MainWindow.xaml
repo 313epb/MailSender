@@ -34,22 +34,22 @@
                                 x:Name="aedSenders"
                                 Grid.Column="0"
                                 Grid.Row="0" Margin="2"  
-                                ClassName="{Binding SenderClassName}" 
                                 ItemsList="{Binding Senders}"
                                 SelectedIPair="{Binding SelectedSender, Mode=TwoWay}"
+                                ObjectIPair="{Binding ObjSender}"
                                 />
                             <view:AEDClassItemControl 
                                 x:Name="aedSMTPS"
                                 Grid.Column="1"
                                 Grid.Row="0" Margin="2" 
-                                ClassName="{Binding SMTPClassName}"
                                 ItemsList="{Binding SMTPs}"
                                 SelectedIPair="{Binding SelectdSMTP, Mode=TwoWay}"
+                                ObjectIPair="{Binding OBjSmtp}"
                                 />
                     </Grid>
                     <view:ReceiversList x:Name="ReceiversList" 
                                         Grid.Row="1"
-                                        ClassName="{Binding ReceiverClassName}"/>
+                                        ObjectIPair="{Binding OBjReceiver}"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"
