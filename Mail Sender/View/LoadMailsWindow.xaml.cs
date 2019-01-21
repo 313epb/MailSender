@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using MailSender.Domain.Entities;
 using Mail_Sender.Annotations;
-using System;
 
 namespace Mail_Sender.View
 {
@@ -69,7 +68,6 @@ namespace Mail_Sender.View
         {
             RadioButton pressed = (RadioButton) sender;
             Selected = _mails.FirstOrDefault(m => m.Topic == pressed.Content);
-            delButton.CommandParameter = Selected;       //костыль
             delButton.IsEnabled = true;
         }
 
@@ -90,26 +88,15 @@ namespace Mail_Sender.View
         {
             List<RadioButton> radioButtons = new List<RadioButton>();
             WalkLogicalTree(radioButtons, spTopicPanel);
-            bool commandParametertoNull = true; //следствие костыля
 
             foreach (RadioButton rbutton in radioButtons)
             {
                 if ((bool)rbutton.IsChecked)
                 {
                     spTopicPanel.Children.Remove(rbutton);
-                    commandParametertoNull = false;
                 }
             }
-
             delButton.IsEnabled = false;
-
-            //на всякий случай оставлю, но засерение должно работать
-            if (commandParametertoNull)
-            {
-                delButton.CommandParameter = null;
-            }
-
-            Selected = null;
         }
 
         private void WalkLogicalTree(List<RadioButton> radioButtons, object parent)

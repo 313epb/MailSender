@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.Domain.Entities.Base.Interface;
@@ -202,7 +203,10 @@ namespace Mail_Sender.ViewModel
 
                 _receiversViewSource = new CollectionViewSource() {Source = _receivers};
                 _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
+                SendingMails.AllSended+=OnAllSended;
             }
+
+        
 
         #region Methods
 
@@ -357,7 +361,8 @@ namespace Mail_Sender.ViewModel
                 }
 
                 SendingMails.Send(sn);
-                History.AddSended(sn);
+                //происходит ивент, о том, что ошибки загрузились и отправка закончилась.  OnAllSended
+
             }
             else
             {
@@ -432,6 +437,27 @@ namespace Mail_Sender.ViewModel
             if (type == typeof(Receiver)) return Receivers;
             if (type == typeof(SMTP)) return SMTPs;
             return null;
+        }
+
+        private void OnAllSended(Dictionary<SendedReceiver, string> errDic, Sended sn)
+        {
+            List<string> errList = new List<string>();
+
+            foreach (KeyValuePair<SendedReceiver, string> pair in errDic)
+            {
+                sn.SendedReceivers.Remove(pair.Key);
+                errList.Add($"Письмо для {pair.Key.Receiver.Key}  не было доставлено потому, что {pair.Value}");
+            }
+
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
+                window.ShowDialog();
+            }
+
+            History.AddSended(sn);
+
+            SendingMails.ClearErrDic();
         }
 
         #endregion

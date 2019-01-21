@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -8,17 +9,30 @@ namespace Mail_Sender.Model
 {
     class SendingMails
     {
+        private  static Dictionary<SendedReceiver, string> errDic = new Dictionary<SendedReceiver, string>();
+
+        public delegate void SendedHandler(Dictionary<SendedReceiver, string> errDictionary, Sended item);
+
+        public static event SendedHandler AllSended;
+
+        public static void ClearErrDic()
+        {
+            errDic = new Dictionary<SendedReceiver, string>();
+        }
+
         public async static void Send(Sended item)
         {
             foreach (SendedReceiver itemSR in item.SendedReceivers)
             {
-                await SendMailsAsync(item, itemSR.Receiver);
+                await SendMailsAsync(item, itemSR);
             }
+
+            AllSended.Invoke(errDic, item);
         }
 
-        private static Task SendMailsAsync(Sended item, Receiver itemSR)
+        private static async Task SendMailsAsync(Sended item, SendedReceiver itemSR)
         {
-            MailMessage mm = new MailMessage(item.Sender.Key, itemSR.Key);
+            MailMessage mm = new MailMessage(item.Sender.Key, itemSR.Receiver.Key);
             mm.Subject = item.Mail.Topic;
             mm.Body = item.Mail.Content;
             mm.IsBodyHtml = item.Mail.IsHTML;
@@ -27,12 +41,11 @@ namespace Mail_Sender.Model
             sc.Credentials = new NetworkCredential(item.Sender.Key, item.Sender.Value);
             try
             {
-                return Task.Run(()=>sc.Send(mm));
+                await Task.Run(()=>sc.Send(mm));
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                errDic.Add(itemSR, e.Message);
             }
         }
     }
