@@ -364,25 +364,13 @@ namespace Mail_Sender.ViewModel
             }
             else
             {
-                if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)))
-                {
-                    errList.Add("Выберите или создайте письмо. Новое письмо обязательно должно иметь тему.");
-                }
+                if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic))) errList.Add("Выберите или создайте письмо. Новое письмо обязательно должно иметь тему.");
 
-                if (SelectedSender == null)
-                {
-                    errList.Add("Вы не выбрали отправителя на странице Рассылка");
-                }
+                if (SelectedSender == null) errList.Add("Вы не выбрали отправителя на странице Рассылка");
 
-                if (SelectdSMTP == null)
-                {
-                    errList.Add("Вы не выбрали SMTP сервер на странице Рассылка");
-                }
+                if (SelectdSMTP == null) errList.Add("Вы не выбрали SMTP сервер на странице Рассылка");
 
-                if (tempReceivers.Count == 0)
-                {
-                    errList.Add("Вы не выбрали получателей на странице Рассылка");
-                }
+                if (tempReceivers.Count == 0) errList.Add("Вы не выбрали получателей на странице Рассылка");
 
                 MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                 window.ShowDialog();
@@ -444,7 +432,7 @@ namespace Mail_Sender.ViewModel
             foreach (KeyValuePair<SendedReceiver, string> pair in errDic)
             {
                 sn.SendedReceivers.Remove(pair.Key);
-                errList.Add($"Письмо для {pair.Key.Receiver.Key}  не было доставлено потому, что {pair.Value}");
+                errList.Add($"Письмо для {pair.Key.Receiver.Key}  не было доставлено потому, что {pair.Value}.");
             }
 
             if (errList.Count != 0)
