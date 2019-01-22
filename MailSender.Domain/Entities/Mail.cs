@@ -33,23 +33,25 @@ namespace MailSender.Domain.Entities
 
         #region Валидация
 
-        public string Error { get; }
+        private string _error; 
+
+        public string Error { get=>_error; }
 
         public string this[string columnName]
         {
             get
             {
-                string error = String.Empty;
+                 _error = String.Empty;
                 switch (columnName)
                 {
                     case "Topic":
                         if (string.IsNullOrEmpty(Topic))
                         {
-                            error = "Тема письма должна быть заполнена.";
+                            _error = "Тема письма должна быть заполнена.";
                         }
                        break;
                 }
-                return error;
+                return _error;
             }
         }
 

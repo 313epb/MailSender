@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
-using System.Windows;
 using MailSender.Domain.Entities;
 using Mail_Sender.Model;
 
@@ -25,12 +24,12 @@ namespace Mail_Sender.DataSets
         public void SaveContext()
         {
             _context.SaveChanges();
+            _context.Database.BeginTransaction().Commit();
         }
 
         public void AddSendedReceiver(SendedReceiver item) //*
         {
             Add(item);
-            _context.SendedReceivers.Add(item);
             _context.Entry(item).State = EntityState.Added;
         }
 
@@ -52,7 +51,6 @@ namespace Mail_Sender.DataSets
         {
             Remove(item);
             _context.Entry(item).State = EntityState.Deleted;
-            _context.SendedReceivers.Remove(item);
         }
     }
 }

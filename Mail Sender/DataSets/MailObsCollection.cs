@@ -27,39 +27,35 @@ namespace Mail_Sender.DataSets
             _context.Database.BeginTransaction().Commit();
         }
 
-        public void AddMail(Mail mail)
+        public Mail AddMail(Mail mail)
         {
-            if ((_context.Mails.Where(x => x.Topic == mail.Topic)).FirstOrDefault<Mail>() == null)
+            Mail newmail=mail;
+            if (!string.IsNullOrEmpty(mail.Topic))
             {
-                if (!string.IsNullOrEmpty(mail.Topic))
-                {
-                    Add(mail);
-                    _context.Entry(mail).State = EntityState.Added;
-                }
-                else
-                {
-                    MessageBox.Show("Имя письма не может быть пустым");
-
-                }
+                Add(mail);
+                newmail=_context.Mails.Add(mail);
+                SaveContext();
             }
             else
             {
-                MessageBox.Show("Письмо с таким именем уже существует. Имя должно быть уникальным");
+                MessageBox.Show("Имя письма не может быть пустым");
             }
 
-            SaveContext();
+            return newmail ;
         }
 
         public void NotifyMailModified(Mail mail)
         {
-            if ((_context.Mails.Where(x => x.Topic == mail.Topic)).FirstOrDefault<Mail>() != null)
+            if ((_context.Mails.Where(x => x.Id == mail.Id)).FirstOrDefault<Mail>() != null)
             {
                 _context.Entry(mail).State = EntityState.Modified;
             }
             else
             {
+                Add(mail);
                 _context.Entry(mail).State = EntityState.Added;
             }
+            SaveContext();
         }
 
 

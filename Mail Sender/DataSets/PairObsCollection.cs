@@ -9,12 +9,12 @@ using Mail_Sender.Model;
 
 namespace Mail_Sender.DataSets
 {
-    public class IPairObsCollection : ObservableCollection<IPair>
+    public class PairObsCollection : ObservableCollection<IPair>
     {
 
         private MailSenderContext _context;
 
-        public IPairObsCollection(string className, MailSenderContext context)
+        public PairObsCollection(string className, MailSenderContext context)
         {
             _context = context;
 

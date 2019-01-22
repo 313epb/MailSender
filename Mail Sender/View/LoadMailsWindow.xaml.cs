@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Mail_Sender.View
             }
         }
 
+        private bool CloseWindowButton = true;
 
         private ObservableCollection<Mail> _mails;
 
@@ -69,6 +71,7 @@ namespace Mail_Sender.View
             RadioButton pressed = (RadioButton) sender;
             Selected = _mails.FirstOrDefault(m => m.Topic == pressed.Content);
             delButton.IsEnabled = true;
+            btnReady.IsEnabled = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -81,6 +84,7 @@ namespace Mail_Sender.View
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
+            CloseWindowButton = false;
             this.Close();
         }
 
@@ -97,6 +101,7 @@ namespace Mail_Sender.View
                 }
             }
             delButton.IsEnabled = false;
+            btnReady.IsEnabled = false;
         }
 
         private void WalkLogicalTree(List<RadioButton> radioButtons, object parent)
@@ -112,6 +117,13 @@ namespace Mail_Sender.View
 
                 WalkLogicalTree(radioButtons, child);
             }
+        }
+
+        private void LoadMailsWindow_OnClosed(object sender, EventArgs e)
+        {
+            //костыль т.к. Selected после удаления почистить не получается (OnClick вызывается до команды) то чистить его
+            //нужно в том числе и если окно закрывается сразу после удаления элемента причем не выбирая нового.
+            if ((!btnReady.IsEnabled)||CloseWindowButton) Selected = null;
         }
     }
 }

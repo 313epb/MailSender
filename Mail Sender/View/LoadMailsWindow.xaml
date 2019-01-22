@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         Title="Сохраненнные письма" Height="450" Width="875"
         MinWidth="875" MinHeight="450"
-        DataContext="{Binding ElementName=LoadWindow}">
+        DataContext="{Binding ElementName=LoadWindow}"
+        Closed="LoadMailsWindow_OnClosed">
         
     <Grid Background="#FF4E4E4C">
         <Grid.ColumnDefinitions>
@@ -44,7 +45,10 @@
                     <TextBlock Text="Удалить" VerticalAlignment="Center" Margin="10 0 10 0" />
                 </DockPanel>
             </Button>
-            <Button Grid.Row="2" Height="33" Width="Auto" Margin="10 3 10 3" Click="ButtonBase_OnClick">
+            <Button x:Name="btnReady"  Grid.Row="2" 
+                    Height="33" Width="Auto" 
+                    IsEnabled="False"
+                    Margin="10 3 10 3" Click="ButtonBase_OnClick">
                 <DockPanel>
                     <Viewbox   VerticalAlignment="Center" 
                                HorizontalAlignment="Left"

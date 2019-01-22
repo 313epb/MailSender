@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
@@ -22,7 +20,12 @@ namespace Mail_Sender.ViewModel
     {
         #region Mails
 
-        private Mail _selectedMail= new Mail();
+        private Mail _selectedMail= new Mail
+        {
+            Id=-1,
+            Topic = string.Empty,
+            Content = string.Empty
+        };
 
         public Mail SelectedMail
         {
@@ -53,9 +56,9 @@ namespace Mail_Sender.ViewModel
 
         public IPair SelectedSender { get; set; }
 
-        private IPairObsCollection _senders= new IPairObsCollection(ClassNamesConstants.SenderClassName,DataContext);
+        private PairObsCollection _senders= new PairObsCollection(ClassNamesConstants.SenderClassName,DataContext);
 
-        public IPairObsCollection Senders
+        public PairObsCollection Senders
         {
             get => _senders;
             set
@@ -78,9 +81,9 @@ namespace Mail_Sender.ViewModel
 
         public IPair SelectdSMTP { get; set; }
 
-        private IPairObsCollection _smtps= new IPairObsCollection(ClassNamesConstants.SMTPClassName,DataContext);
+        private PairObsCollection _smtps= new PairObsCollection(ClassNamesConstants.SMTPClassName,DataContext);
 
-        public IPairObsCollection SMTPs
+        public PairObsCollection SMTPs
         {
             get => _smtps;
             set => _smtps = value;
@@ -97,9 +100,9 @@ namespace Mail_Sender.ViewModel
 
         #region Receivers
 
-        private IPairObsCollection _receivers= new IPairObsCollection(ClassNamesConstants.ReceiverClassName, DataContext);
+        private PairObsCollection _receivers= new PairObsCollection(ClassNamesConstants.ReceiverClassName, DataContext);
 
-        public IPairObsCollection Receivers
+        public PairObsCollection Receivers
         {
             get => _receivers;
             set
@@ -168,7 +171,7 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand LoadMailCommand { get; set; }
 
-        public RelayCommand SaveMailCommand { get; set; }
+        public RelayCommand<Mail> SaveMailCommand { get; set; }
 
         public RelayCommand<Mail> DeleteMailCommand { get; set; }
 
@@ -177,6 +180,8 @@ namespace Mail_Sender.ViewModel
         public RelayCommand SendLaterCommand { get; set; }
 
         public RelayCommand<Sended> DeleteSendedCommand { get; set; }
+
+        public RelayCommand NewMailCommand { get; set; }
 
         #endregion
 
@@ -191,8 +196,10 @@ namespace Mail_Sender.ViewModel
                 EditPairCommand= new RelayCommand<IPair>(EditPairItem);
 
                 LoadMailCommand= new RelayCommand(LoadMail);
-                SaveMailCommand= new RelayCommand(SaveMail);
+                SaveMailCommand= new RelayCommand<Mail>(SaveMail);
                 DeleteMailCommand= new RelayCommand<Mail>(DeleteMail);
+                NewMailCommand= new RelayCommand(NewMail);
+
 
                 SendNowCommand = new RelayCommand(SendNow);
                 SendLaterCommand= new RelayCommand(SendLater);
@@ -204,8 +211,8 @@ namespace Mail_Sender.ViewModel
                 _receiversViewSource = new CollectionViewSource() {Source = _receivers};
                 _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
                 SendingMails.AllSended+=OnAllSended;
-            }
-
+        }
+        
         #region Methods
 
         private void DeleteIPairItem(IPair item)
@@ -238,7 +245,7 @@ namespace Mail_Sender.ViewModel
                 //приходит null или валидные данные
                 if (AEWindow.Item!=null)
                 {
-                    ForObsCollection(item.GetType())?.NotifyPairModified(item);
+                    ForObsCollection(AEWindow.Item.GetType())?.NotifyPairModified(AEWindow.Item);
                 }
             }
             else errList.Add("Выберите значение для редактирования");
@@ -265,43 +272,38 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private void SaveMail()
+        private void SaveMail(Mail mail)
         {
             List<string> errList = new List<string>();
-
-            if (SelectedMail!=null)
+            if (!string.IsNullOrEmpty(SelectedMail.Error))
             {
-                if (!string.IsNullOrEmpty(SelectedMail.Topic))
+                if (SelectedMail != null)
                 {
-                    Mail temp;
-                    if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
+                    if (!string.IsNullOrEmpty(SelectedMail.Topic))
                     {
-                        temp.Content = SelectedMail.Content;
-                        Mails.NotifyMailModified(temp);
+                        if (mail.Created.Equals(new DateTime())) mail.Created = DateTime.Now;
+                        if (mail.Id == -1) SelectedMail = Mails.AddMail(SelectedMail);
+                        else Mails.NotifyMailModified(SelectedMail);
                     }
-                    else
-                    {
-                        SelectedMail.Created = DateTime.Now;
-                        Mails.AddMail(SelectedMail);
-                    }
-
-                    SelectedMail = new Mail
-                    {
-                        Topic = SelectedMail.Topic,
-                        Content = SelectedMail.Content,
-                        Created = new DateTime(),
-                        IsHTML = SelectedMail.IsHTML
-                    };
+                    else errList.Add("Тема письма не должна быть пустой.");
                 }
-                else errList.Add("Тема письма не должна быть пустой.");
+                else errList.Add("Создайте новое письмо. (этой ошибки не должно быть)");
             }
-            else errList.Add("Создайте новое письмо. (этой ошибки не должно быть)");
+            else
+            {
+                errList.Add(SelectedMail.Error);
+            }
 
             if (errList.Count != 0)
             {
                 MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                 window.ShowDialog();
             }
+        }
+
+        private void NewMail()
+        {
+            SelectedMail = new Mail(){Id=-1};
         }
 
         private void LoadMail()
@@ -416,7 +418,7 @@ namespace Mail_Sender.ViewModel
 
         #region MainViewModel Methods
 
-        private IPairObsCollection ForObsCollection(Type type)
+        private PairObsCollection ForObsCollection(Type type)
         {
             //switch по типам не работает, почему то. 
             if (type == typeof(Sender)) return Senders;

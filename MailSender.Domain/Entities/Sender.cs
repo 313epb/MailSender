@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Net.Mail;
-using System.Text.RegularExpressions;
 using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
 

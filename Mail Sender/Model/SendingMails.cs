@@ -8,9 +8,9 @@ using MailSender.Domain.Entities;
 
 namespace Mail_Sender.Model
 {
-    class SendingMails
+    internal class SendingMails
     {
-        private  static Dictionary<SendedReceiver, string> errDic = new Dictionary<SendedReceiver, string>();
+        private  static Dictionary<SendedReceiver, string> _errDic = new Dictionary<SendedReceiver, string>();
 
         public delegate void SendedHandler(Dictionary<SendedReceiver, string> errDictionary, Sended item);
 
@@ -18,17 +18,17 @@ namespace Mail_Sender.Model
 
         private static void ClearErrDic()
         {
-            errDic = new Dictionary<SendedReceiver, string>();
+            _errDic = new Dictionary<SendedReceiver, string>();
         }
 
-        public async static void Send(Sended item)
+        public static async void Send(Sended item)
         {
             foreach (SendedReceiver itemSR in item.SendedReceivers)
             {
                 await SendMailsAsync(item, itemSR);
             }
 
-            AllSended?.Invoke(errDic, item);
+            AllSended?.Invoke(_errDic, item);
 
             ClearErrDic();
         }
@@ -39,16 +39,17 @@ namespace Mail_Sender.Model
             mm.Subject = item.Mail.Topic;
             mm.Body = item.Mail.Content;
             mm.IsBodyHtml = item.Mail.IsHTML;
-            SmtpClient sc = new SmtpClient(item.SMTP.Key, Int32.Parse(item.SMTP.Value));
-            sc.EnableSsl = true;
-            sc.Credentials = new NetworkCredential(item.Sender.Key, item.Sender.Value);
+            SmtpClient sc = new SmtpClient(item.SMTP.Key, int.Parse(item.SMTP.Value))
+            {
+                EnableSsl = true, Credentials = new NetworkCredential(item.Sender.Key, item.Sender.Value)
+            };
             try
             {
                 await Task.Run(()=>sc.Send(mm));
             }
             catch (Exception e)
             {
-                errDic.Add(itemSR, e.Message);
+                _errDic.Add(itemSR, e.Message);
             }
         }
     }
