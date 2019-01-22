@@ -56,7 +56,7 @@ namespace Mail_Sender.ViewModel
 
         public IPair SelectedSender { get; set; }
 
-        private PairObsCollection _senders= new PairObsCollection(ClassNamesConstants.SenderClassName,DataContext);
+        private PairObsCollection _senders= new PairObsCollection(new Sender(), DataContext);
 
         public PairObsCollection Senders
         {
@@ -81,7 +81,7 @@ namespace Mail_Sender.ViewModel
 
         public IPair SelectdSMTP { get; set; }
 
-        private PairObsCollection _smtps= new PairObsCollection(ClassNamesConstants.SMTPClassName,DataContext);
+        private PairObsCollection _smtps= new PairObsCollection(new SMTP(), DataContext);
 
         public PairObsCollection SMTPs
         {
@@ -100,7 +100,7 @@ namespace Mail_Sender.ViewModel
 
         #region Receivers
 
-        private PairObsCollection _receivers= new PairObsCollection(ClassNamesConstants.ReceiverClassName, DataContext);
+        private PairObsCollection _receivers= new PairObsCollection(new Receiver(), DataContext);
 
         public PairObsCollection Receivers
         {

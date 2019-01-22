@@ -14,37 +14,17 @@ namespace Mail_Sender.DataSets
 
         private MailSenderContext _context;
 
-        public PairObsCollection(string className, MailSenderContext context)
+        private DbSet _set;
+
+        public PairObsCollection(IPair item, MailSenderContext context)
         {
             _context = context;
-
-            if (className == ClassNamesConstants.SenderClassName)
+            _set = ForDBSet(item);
+            _set.Load();
+            foreach (IPair pair in _set)
             {
-                _context.Senders.Load();
-                foreach (Sender item in _context.Senders)
-                {
-                    Add(item);
-                }
+                Add(pair);
             }
-
-            if (className == ClassNamesConstants.ReceiverClassName)
-            {
-                _context.Receivers.Load();
-                foreach (Receiver item in _context.Receivers)
-                {
-                    Add(item);
-                }
-            }
-
-            if (className == ClassNamesConstants.SMTPClassName)
-            {
-                _context.SMTPs.Load();
-                foreach (SMTP item in _context.SMTPs)
-                {
-                    Add(item);
-                }
-            }
-
         }
 
         private void SaveContext()
@@ -57,7 +37,7 @@ namespace Mail_Sender.DataSets
         {
             if (item.GetType()==typeof(Sender))
             {
-                if ((_context.Senders.Where(x => x.Key == item.Key)).FirstOrDefault<Sender>() == null)
+                if (_context.Senders.FirstOrDefault(x => x.Key == item.Key) == null)
                 {
                     if (!string.IsNullOrEmpty(item.Key))
                     {
@@ -189,6 +169,14 @@ namespace Mail_Sender.DataSets
             }
 
             return -1;
+        }
+
+        private DbSet ForDBSet(IPair item)
+        {
+            if (item.GetType() == typeof(Sender)) return _context.Senders;
+            if (item.GetType() == typeof(Receiver)) return _context.Receivers;
+            if (item.GetType() == typeof(SMTP)) return _context.SMTPs;
+            return null;
         }
     }
 
