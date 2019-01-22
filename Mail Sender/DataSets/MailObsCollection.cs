@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
-using System.Windows;
 using MailSender.Domain.Entities;
 using Mail_Sender.Model;
 
@@ -29,19 +28,10 @@ namespace Mail_Sender.DataSets
 
         public Mail AddMail(Mail mail)
         {
-            Mail newmail=mail;
-            if (!string.IsNullOrEmpty(mail.Topic))
-            {
-                Add(mail);
-                newmail=_context.Mails.Add(mail);
-                SaveContext();
-            }
-            else
-            {
-                MessageBox.Show("Имя письма не может быть пустым");
-            }
-
-            return newmail ;
+            Add(mail);
+            Mail newmail = _context.Mails.Add(mail);
+            SaveContext();
+            return newmail;
         }
 
         public void NotifyMailModified(Mail mail)
@@ -57,7 +47,6 @@ namespace Mail_Sender.DataSets
             }
             SaveContext();
         }
-
 
         public void DeleteMail(Mail mail)
         {
