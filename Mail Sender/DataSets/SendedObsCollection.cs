@@ -46,19 +46,6 @@ namespace Mail_Sender.DataSets
             SaveContext();
         }
 
-        public void NotifySendedModified(Sended item)
-        {
-            if ((_context.Sendeds.Where(x => x.Created == item.Created)).FirstOrDefault<Sended>() != null)
-            {
-                _context.Entry(item).State = EntityState.Modified;
-            }
-            else
-            {
-                _context.Entry(item).State = EntityState.Added;
-            }
-        }
-
-
         public void DeleteSended(Sended item)
         {
             Remove(item);
