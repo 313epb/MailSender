@@ -1,10 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Linq;
-using System.Windows;
 using MailSender.Domain.Entities;
 using MailSender.Domain.Entities.Base.Interface;
-using MailSender.Domain.Constants;
 using Mail_Sender.Model;
 
 namespace Mail_Sender.DataSets

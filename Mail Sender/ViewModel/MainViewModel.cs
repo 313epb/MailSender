@@ -5,13 +5,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.Domain.Entities.Base.Interface;
 using MailSender.Domain.Constants;
 using Mail_Sender.View;
 using System.Windows.Data;
+using System.Windows.Documents;
 using Mail_Sender.DataSets;
 using Mail_Sender.Model;
+using Xceed.Wpf.Toolkit;
+using System.Threading;
 
 namespace Mail_Sender.ViewModel
 {
@@ -154,9 +158,9 @@ namespace Mail_Sender.ViewModel
         }
 
         private DateTime _selectedTime = DateTime.Now;
-        public DateTime SelectedTime
+        public string SelectedTime
         {
-            get => _selectedTime; set => _selectedTime = value;
+            get => _selectedTime.ToString("HH:mm:ss dd.MM.yyy"); set => _selectedTime = DateTime.Parse(value);
         }
 
         #endregion
@@ -175,9 +179,7 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand<Mail> DeleteMailCommand { get; set; }
 
-        public RelayCommand SendNowCommand { get; set; }
-
-        public RelayCommand SendLaterCommand { get; set; }
+        public RelayCommand<string> SendCommand { get; set; }
 
         public RelayCommand<Sended> DeleteSendedCommand { get; set; }
 
@@ -200,9 +202,7 @@ namespace Mail_Sender.ViewModel
                 DeleteMailCommand= new RelayCommand<Mail>(DeleteMail);
                 NewMailCommand= new RelayCommand(NewMail);
 
-
-                SendNowCommand = new RelayCommand(SendNow);
-                SendLaterCommand= new RelayCommand(SendLater);
+                SendCommand = new RelayCommand<string>(Send);
 
                 DeleteSendedCommand=new RelayCommand<Sended>(DeleteSended);
 
@@ -275,25 +275,19 @@ namespace Mail_Sender.ViewModel
         private void SaveMail(Mail mail)
         {
             List<string> errList = new List<string>();
-            if (!string.IsNullOrEmpty(SelectedMail.Error))
-            {
-                if (SelectedMail != null)
-                {
-                    if (!string.IsNullOrEmpty(SelectedMail.Topic))
-                    {
-                        if (mail.Created.Equals(new DateTime())) mail.Created = DateTime.Now;
-                        if (mail.Id == -1) SelectedMail = Mails.AddMail(SelectedMail);
-                        else Mails.NotifyMailModified(SelectedMail);
-                    }
-                    else errList.Add("Тема письма не должна быть пустой.");
-                }
-                else errList.Add("Создайте новое письмо. (этой ошибки не должно быть)");
-            }
-            else
-            {
-                errList.Add(SelectedMail.Error);
-            }
 
+            if (SelectedMail != null)
+            {
+                if (!string.IsNullOrEmpty(SelectedMail.Topic))
+                {
+                    if (mail.Created.Equals(new DateTime())) mail.Created = DateTime.Now;
+                    if (mail.Id == -1) SelectedMail = Mails.AddMail(SelectedMail);
+                    else Mails.NotifyMailModified(SelectedMail);
+                }
+                else errList.Add("Тема письма не должна быть пустой.");
+            }
+            else errList.Add("Создайте новое письмо. (этой ошибки не должно быть)");
+            
             if (errList.Count != 0)
             {
                 MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
@@ -330,16 +324,17 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private void SendNow()
+        private void Send(string dtSendTime)
         {
             List<string> errList = new List<string>();
-            List<Receiver> tempReceivers=new List<Receiver>();
+            List<Receiver> tempReceivers = new List<Receiver>();
             foreach (Receiver receiver in Receivers)
             {
-                if (receiver.IsMailing) tempReceivers.Add(receiver); 
+                if (receiver.IsMailing) tempReceivers.Add(receiver);
             }
 
-            if (!((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)) || SelectedSender == null|| SelectdSMTP == null|| tempReceivers.Count==0))
+            if (!((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)) || SelectedSender == null ||
+                  SelectdSMTP == null || tempReceivers.Count == 0))
             {
                 Sended sn = new Sended
                 {
@@ -360,41 +355,46 @@ namespace Mail_Sender.ViewModel
                     sn.SendedReceivers.Add(sr);
                 }
 
-                SendingMails.Send(sn);
+                if (string.IsNullOrEmpty(dtSendTime))
+                {
+                    SendingMails.Send(sn);
+                }
+                else
+                {
+                    DateTime sendTime = DateTime.Parse(dtSendTime);
+                    if (sendTime > DateTime.Now)
+                    {
+                        Task.Run(() =>
+                        {
+                            Thread.Sleep(sendTime - DateTime.Now);
+                            System.Windows.Application.Current.Dispatcher.Invoke(()=>SendingMails.Send(sn));
+                        });
+                    }
+                    else
+                    {
+                        errList.Add("Время отправки должно быть позже. ");
+                    }
+                }
                 //происходит ивент, о том, что ошибки загрузились и отправка закончилась.  OnAllSended
 
             }
             else
             {
-                if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic))) errList.Add("Выберите или создайте письмо. Новое письмо обязательно должно иметь тему.");
+                if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)))
+                    errList.Add("Выберите или создайте письмо. Новое письмо обязательно должно иметь тему.");
 
                 if (SelectedSender == null) errList.Add("Вы не выбрали отправителя на странице Рассылка");
 
                 if (SelectdSMTP == null) errList.Add("Вы не выбрали SMTP сервер на странице Рассылка");
 
                 if (tempReceivers.Count == 0) errList.Add("Вы не выбрали получателей на странице Рассылка");
+            }
 
+            if (errList.Count != 0)
+            {
                 MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
                 window.ShowDialog();
             }
-        }
-
-        private void SendLater()
-        {
-            Sended sn = new Sended
-            {
-                Mail = SelectedMail,
-                Created = SelectedTime,
-                Id = History.Max(s => s.Id) + 1,
-                Sender = Sender.ConvertFromIPair(SelectedSender),
-                SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
-                //Receievers = new ObservableCollection<Receiver>()
-            };
-
-            //foreach (Receiver receiver in Receivers)
-            //{
-            //    if (receiver.IsMailing) sn.Receievers.Add(receiver);
-            //}
         }
 
         private void DeleteSended(Sended item)

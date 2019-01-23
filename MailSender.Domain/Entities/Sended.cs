@@ -9,7 +9,10 @@ namespace MailSender.Domain.Entities
     /// </summary>
     public class Sended : DateTimeEntity
     {
-
+        //public Sended()
+        //{
+        //    Name= Mail.Topic + " " + Sender.Key + " " + Created;
+        //}
         /// <summary>
         /// Все получатели писем в этой рассылке
         /// </summary>
@@ -37,6 +40,6 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public Mail Mail { get; set; }
 
-        public string Name => Mail.Topic + " " + Sender.Key + " " + Created;
+        public string Name => Mail?.Topic + " " + Sender?.Key + " " + Created;
     }
 }
