@@ -225,6 +225,7 @@
                                    HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding SelectedItem.Name ,ElementName=cbHistory}"
                                    Grid.Column="1"
+                                   Width="auto"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
                         <CheckBox x:Name="cbHIsHTML" 
@@ -253,7 +254,11 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <xctk:RichTextBox Grid.Row="3" Height="Auto" Margin="3" IsReadOnly="False" 
-                                      Text="{Binding SelectedItem.Mail.Content,ElementName=cbHistory, Mode=TwoWay}"/>
+                                      Text="{Binding SelectedItem.Mail.Content,ElementName=cbHistory, Mode=TwoWay}">
+                        <xctk:RichTextBox.TextFormatter>
+                            <xctk:PlainTextFormatter />
+                        </xctk:RichTextBox.TextFormatter>
+                    </xctk:RichTextBox>
                 </Grid>
             </TabItem>
         </TabControl>

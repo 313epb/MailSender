@@ -22,46 +22,11 @@ namespace Mail_Sender.ViewModel
 
     public class MainViewModel : ViewModelBase
     {
-        #region Mails
-
-        private Mail _selectedMail= new Mail
-        {
-            Id=-1,
-            Topic = string.Empty,
-            Content = string.Empty
-        };
-
-        public Mail SelectedMail
-        {
-            get => _selectedMail;
-            set
-            {
-                _selectedMail = value;
-                RaisePropertyChanged(nameof(SelectedMail));
-            }
-        }
-
-        private MailObsCollection _mails = new MailObsCollection(DataContext);
-
-        public MailObsCollection Mails
-        {
-            get => _mails;
-            set => _mails = value;
-        }
-
-        private readonly string _mailClassName = MailSender.Domain.Constants.ClassNamesConstants.MailClassName;
-        public string MailsClassName => _mailClassName;
-
-
-
-        #endregion
-
         #region Senders
 
         public IPair SelectedSender { get; set; }
 
-        private PairObsCollection _senders= new PairObsCollection(new Sender(), DataContext);
-
+        private PairObsCollection _senders;
         public PairObsCollection Senders
         {
             get => _senders;
@@ -81,30 +46,9 @@ namespace Mail_Sender.ViewModel
 
         #endregion
 
-        #region SMTPs
-
-        public IPair SelectdSMTP { get; set; }
-
-        private PairObsCollection _smtps= new PairObsCollection(new SMTP(), DataContext);
-
-        public PairObsCollection SMTPs
-        {
-            get => _smtps;
-            set => _smtps = value;
-        }
-
-        private readonly string _SMTPSClassName = MailSender.Domain.Constants.ClassNamesConstants.SMTPClassName;
-        public string SMTPClassName => _SMTPSClassName;
-
-        private IPair _objSmtp = new SMTP();
-
-        public IPair OBjSmtp { get => _objSmtp; set => _objSmtp = value; }
-
-        #endregion
-
         #region Receivers
 
-        private PairObsCollection _receivers= new PairObsCollection(new Receiver(), DataContext);
+        private PairObsCollection _receivers;
 
         public PairObsCollection Receivers
         {
@@ -147,9 +91,64 @@ namespace Mail_Sender.ViewModel
 
         #endregion
 
+        #region SMTPs
+
+        public IPair SelectdSMTP { get; set; }
+
+        private PairObsCollection _smtps;
+
+        public PairObsCollection SMTPs
+        {
+            get => _smtps;
+            set => _smtps = value;
+        }
+
+        private readonly string _SMTPSClassName = MailSender.Domain.Constants.ClassNamesConstants.SMTPClassName;
+        public string SMTPClassName => _SMTPSClassName;
+
+        private IPair _objSmtp = new SMTP();
+
+        public IPair OBjSmtp { get => _objSmtp; set => _objSmtp = value; }
+
+        #endregion
+
+        #region Mails
+
+        private Mail _selectedMail = new Mail
+        {
+            Id = -1,
+            Topic = string.Empty,
+            Content = string.Empty
+        };
+
+        public Mail SelectedMail
+        {
+            get => _selectedMail;
+            set
+            {
+                _selectedMail = value;
+                RaisePropertyChanged(nameof(SelectedMail));
+            }
+        }
+
+        private MailObsCollection _mails;
+
+        public MailObsCollection Mails
+        {
+            get => _mails;
+            set => _mails = value;
+        }
+
+        private readonly string _mailClassName = MailSender.Domain.Constants.ClassNamesConstants.MailClassName;
+        public string MailsClassName => _mailClassName;
+
+
+
+        #endregion
+
         #region History
 
-        private SendedObsCollection _history= new SendedObsCollection(DataContext);
+        private SendedObsCollection _history;
 
         public SendedObsCollection History
         {
@@ -185,34 +184,55 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand NewMailCommand { get; set; }
 
+        public MailSenderContext _context { get; }
+
         #endregion
 
-        public static MailSenderContext DataContext = MailSenderContext.Instance;
+        public MainViewModel(MailSenderContext context)
+        {
+            _context = context;
 
-        public MainViewModel()
-            {
-                #region CommandsIni
+            #region Ini
 
-                DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
-                AddPairCommand= new RelayCommand<IPair>(AddPairItem);
-                EditPairCommand= new RelayCommand<IPair>(EditPairItem);
+            _senders = new PairObsCollection(new Sender(), _context);
+            _receivers = new PairObsCollection(new Receiver(), _context);
+            _smtps = new PairObsCollection(new SMTP(), _context);
 
-                LoadMailCommand= new RelayCommand(LoadMail);
-                SaveMailCommand= new RelayCommand<Mail>(SaveMail);
-                DeleteMailCommand= new RelayCommand<Mail>(DeleteMail);
-                NewMailCommand= new RelayCommand(NewMail);
+            _mails = new MailObsCollection(_context);
 
-                SendCommand = new RelayCommand<string>(Send);
-
-                DeleteSendedCommand=new RelayCommand<Sended>(DeleteSended);
+            _history = new SendedObsCollection(_context);
 
             #endregion
 
-                _receiversViewSource = new CollectionViewSource() {Source = _receivers};
-                _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
-                SendingMails.AllSended+=OnAllSended;
+            #region CommandsIni
+
+            DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
+            AddPairCommand = new RelayCommand<IPair>(AddPairItem);
+            EditPairCommand = new RelayCommand<IPair>(EditPairItem);
+
+            LoadMailCommand = new RelayCommand(LoadMail);
+            SaveMailCommand = new RelayCommand<Mail>(SaveMail);
+            DeleteMailCommand = new RelayCommand<Mail>(DeleteMail);
+            NewMailCommand = new RelayCommand(NewMail);
+
+            SendCommand = new RelayCommand<string>(Send);
+
+            DeleteSendedCommand = new RelayCommand<Sended>(DeleteSended);
+
+            #endregion
+
+            #region EventHandlers
+
+            _receiversViewSource = new CollectionViewSource() { Source = _receivers };
+            _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
+
+            SendingMails.AllSended += OnAllSended;
+
+            #endregion
+
+
         }
-        
+
         #region Methods
 
         private void DeleteIPairItem(IPair item)
