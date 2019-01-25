@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:Mail_Sender.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:converters="clr-namespace:Mail_Sender.Converters"
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
@@ -12,6 +13,19 @@
         DataContext="{Binding Main, Source={StaticResource Locator}}">
     
     <Window.Resources>
+        <converters:TabSizeConverter x:Key="tabSizeConverter" />
+        <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+            <Setter Property="Width">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource tabSizeConverter}">
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+            AncestorType={x:Type TabControl}}" />
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+            AncestorType={x:Type TabControl}}" Path="ActualWidth" />
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -24,14 +38,13 @@
         </Style>
     </Window.Resources>
     <Grid Background="#FF4E4E4C">
-        <UniformGrid Columns="4" Margin="5,0">
+        <UniformGrid Columns="3" Margin="5" >
             <FrameworkElement x:Name="c1"/>
         </UniformGrid>
         <TabControl x:Name="tabControl"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
             <TabItem x:Name="tabSenders" Header="Формирование рассылки"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}"
                      Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -66,7 +79,6 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}"
                      Margin="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -175,7 +187,6 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabHistory" Header="История"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}"
                      Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>

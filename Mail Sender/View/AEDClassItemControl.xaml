@@ -22,10 +22,10 @@
         </Grid.ColumnDefinitions>
             <TextBlock DataContext="{Binding ElementName=ThisWindow}" 
                    x:Name="tbClassName"
-                   Text="{Binding ClassName}"
+                   Text="{Binding ObjectIPair.ClassName, ElementName=ThisWindow}"
                    Grid.Row="0" Grid.Column="0" 
                    Width="Auto" 
-                   Margin="10 0 0 0"/>
+                   Margin="20 10 0 0"/>
             <ComboBox DataContext="{Binding ElementName=ThisWindow}"
                   x:Name="cbSelect" 
                   ItemsSource="{Binding ItemsList}"

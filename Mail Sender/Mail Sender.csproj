@@ -97,6 +97,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\TabSizeConverter.cs" />
     <Compile Include="DataSets\PairObsCollection.cs" />
     <Compile Include="DataSets\MailObsCollection.cs" />
     <Compile Include="DataSets\SendedReceiverObsCollection.cs" />
