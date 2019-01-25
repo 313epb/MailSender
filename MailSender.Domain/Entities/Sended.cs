@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MailSender.Domain.Entities.Base;
 
@@ -29,6 +30,8 @@ namespace MailSender.Domain.Entities
         /// Почта, с которой отправлялось
         /// </summary>
         public Sender Sender { get; set; }
+
+        public override DateTime Created { get; set; }
 
         /// <summary>
         /// SMTP сервер отправитель

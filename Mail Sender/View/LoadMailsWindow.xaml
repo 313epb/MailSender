@@ -22,7 +22,9 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <StackPanel x:Name="spTopicPanel" Grid.Row="0"/>
+            <ScrollViewer Grid.Row="0">
+                <StackPanel x:Name="spTopicPanel"/>
+            </ScrollViewer>
             <Button Grid.Row="1" 
                     x:Name="delButton"
                     Height="33" Width="Auto" 
