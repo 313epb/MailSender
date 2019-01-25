@@ -4,18 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.Domain.Entities.Base.Interface;
-using MailSender.Domain.Constants;
 using Mail_Sender.View;
 using System.Windows.Data;
-using System.Windows.Documents;
 using Mail_Sender.DataSets;
 using Mail_Sender.Model;
-using Xceed.Wpf.Toolkit;
 using System.Threading;
+using MailSender.Domain.Constants;
 
 namespace Mail_Sender.ViewModel
 {
@@ -37,7 +34,7 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private readonly string _senderClassName = MailSender.Domain.Constants.ClassNamesConstants.SenderClassName;
+        private readonly string _senderClassName = ClassNamesConstants.SenderClassName;
         public string SenderClassName => _senderClassName;
 
         private IPair _objSender = new Sender();
@@ -82,7 +79,7 @@ namespace Mail_Sender.ViewModel
                 e.Accepted = false;
         }
 
-        private readonly string _receiverClassName = MailSender.Domain.Constants.ClassNamesConstants.ReceiverClassName;
+        private readonly string _receiverClassName = ClassNamesConstants.ReceiverClassName;
         public string ReceiverClassName => _receiverClassName;
 
         private IPair _objReceiver = new Receiver();
@@ -103,7 +100,7 @@ namespace Mail_Sender.ViewModel
             set => _smtps = value;
         }
 
-        private readonly string _SMTPSClassName = MailSender.Domain.Constants.ClassNamesConstants.SMTPClassName;
+        private readonly string _SMTPSClassName = ClassNamesConstants.SMTPClassName;
         public string SMTPClassName => _SMTPSClassName;
 
         private IPair _objSmtp = new SMTP();
@@ -139,7 +136,7 @@ namespace Mail_Sender.ViewModel
             set => _mails = value;
         }
 
-        private readonly string _mailClassName = MailSender.Domain.Constants.ClassNamesConstants.MailClassName;
+        private readonly string _mailClassName = ClassNamesConstants.MailClassName;
         public string MailsClassName => _mailClassName;
 
 
@@ -159,7 +156,7 @@ namespace Mail_Sender.ViewModel
         private DateTime _selectedTime = DateTime.Now;
         public string SelectedTime
         {
-            get => _selectedTime.ToString("HH:mm:ss dd.MM.yyy"); set => _selectedTime = DateTime.Parse(value);
+            get => _selectedTime.ToString(OtherConstants.DateTimeFormat); set => _selectedTime = DateTime.Parse(value);
         }
 
         #endregion
@@ -230,7 +227,6 @@ namespace Mail_Sender.ViewModel
 
             #endregion
 
-
         }
 
         #region Methods
@@ -238,16 +234,16 @@ namespace Mail_Sender.ViewModel
         private void DeleteIPairItem(IPair item)
         {
             List<string> errList= new List<string>();
-            
+
             if (item != null)
             {
                 ForObsCollection(item.GetType())?.DeleteIPair(item);
             }
-            else errList.Add("Не выбран объект для удаления");
+            else errList.Add($"{item.ClassName} для удаления не выбран.");
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList,"Обнаружена ошибка.");
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
                 window.ShowDialog();
             }
         }
@@ -256,23 +252,23 @@ namespace Mail_Sender.ViewModel
         {
             List<string> errList = new List<string>();
 
-            if (item!=null)
+            if (item != null)
             {
                 AEPairItemWindow AEWindow = new AEPairItemWindow();
                 AEWindow.Title = "Редактировать";
                 AEWindow.Item = item;
                 AEWindow.ShowDialog();
                 //приходит null или валидные данные
-                if (AEWindow.Item!=null)
+                if (AEWindow.Item != null)
                 {
                     ForObsCollection(AEWindow.Item.GetType())?.NotifyPairModified(AEWindow.Item);
                 }
             }
-            else errList.Add("Выберите значение для редактирования");
+            else errList.Add($"{item.ClassName} для редактирования не выбран.");
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
                 window.ShowDialog();
             }
         }
@@ -304,20 +300,20 @@ namespace Mail_Sender.ViewModel
                     if (mail.Id == -1) SelectedMail = Mails.AddMail(SelectedMail);
                     else Mails.NotifyMailModified(SelectedMail);
                 }
-                else errList.Add("Тема письма не должна быть пустой.");
+                else errList.Add($"{ClassNamesConstants.Topic} письма не должна быть пустой.");
             }
-            else errList.Add("Создайте новое письмо. (этой ошибки не должно быть)");
+            else errList.Add("Создайте новое письмо.");
             
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
                 window.ShowDialog();
             }
         }
 
         private void NewMail()
         {
-            SelectedMail = new Mail(){Id=-1};
+            SelectedMail = new Mail(){Id=-1};//Id для того, чтобы определять по-простому, что это новое письмо. 
         }
 
         private void LoadMail()
@@ -335,11 +331,11 @@ namespace Mail_Sender.ViewModel
             {
                 Mails.DeleteMail(mail);
             }
-            else errList.Add("Вы не выбрали письмо для удаления.");
+            else errList.Add($"{ClassNamesConstants.MailClassName} для удаления не выбран.");
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
                 window.ShowDialog();
             }
         }
@@ -392,7 +388,7 @@ namespace Mail_Sender.ViewModel
                     }
                     else
                     {
-                        errList.Add("Время отправки должно быть позже. ");
+                        errList.Add("Время отправки должно быть позже.");
                     }
                 }
                 //происходит ивент, о том, что ошибки загрузились и отправка закончилась.  OnAllSended
@@ -403,16 +399,16 @@ namespace Mail_Sender.ViewModel
                 if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)))
                     errList.Add("Выберите или создайте письмо. Новое письмо обязательно должно иметь тему.");
 
-                if (SelectedSender == null) errList.Add("Вы не выбрали отправителя на странице Рассылка");
+                if (SelectedSender == null) errList.Add($"{ClassNamesConstants.SenderClassName} на странице Формирование рассылки не выбран.");
 
-                if (SelectdSMTP == null) errList.Add("Вы не выбрали SMTP сервер на странице Рассылка");
+                if (SelectdSMTP == null) errList.Add($"{ClassNamesConstants.SMTPClassName} на странице Формирование рассылки не выбран.");
 
-                if (tempReceivers.Count == 0) errList.Add("Вы не выбрали получателей на странице Рассылка");
+                if (tempReceivers.Count == 0) errList.Add($"Ни один {ClassNamesConstants.ReceiverClassName} на странице Формирование рассылки не выбран.");
             }
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
                 window.ShowDialog();
             }
         }
@@ -421,15 +417,15 @@ namespace Mail_Sender.ViewModel
         {
             List<string> errList = new List<string>();
 
-            if (item!=null)
+            if (item != null)
             {
                 History.DeleteSended(item);
             }
-            else errList.Add("Вы не выбрали рассылку для удаления.");
+            else errList.Add($"{ClassNamesConstants.SendedClassName} для удаления не выбрана.");
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
                 window.ShowDialog();
             }
         }
@@ -459,7 +455,7 @@ namespace Mail_Sender.ViewModel
 
             if (errList.Count != 0)
             {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
                 window.ShowDialog();
             }
 
