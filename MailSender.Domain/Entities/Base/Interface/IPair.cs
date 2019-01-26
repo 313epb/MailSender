@@ -2,7 +2,7 @@
 
 namespace MailSender.Domain.Entities.Base.Interface
 {
-    public interface IPair : INamedEntity, IDataErrorInfo
+    public interface IPair : INamedEntity
     {
         string Key { get; set; }
         string KeyName { get; }

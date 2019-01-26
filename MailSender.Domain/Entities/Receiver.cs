@@ -34,16 +34,6 @@ namespace MailSender.Domain.Entities
         public override string Value { get; set; }
         public override string ValueName { get=>Constants.ClassNamesConstants.ReceiverValueName; }
 
-        public static Receiver ConvertFromIPair(IPair item)
-        {
-            return new Receiver()
-            {
-                Id = item.Id,
-                Key = item.Key,
-                Value = item.Value
-            };
-        }
-
         #region Валидация
 
         public override string Error { get; }

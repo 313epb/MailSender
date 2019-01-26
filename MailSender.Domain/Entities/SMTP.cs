@@ -18,23 +18,11 @@ namespace MailSender.Domain.Entities
             get => Constants.ClassNamesConstants.SMTPClassName;
         }
 
-
-
         public override string Key { get; set; }
         public override string KeyName { get=>Constants.ClassNamesConstants.SMTPKeyName; }
 
         public override string Value { get; set; }
         public override string ValueName { get=>Constants.ClassNamesConstants.SMTPValueName; }
-
-        public static SMTP ConvertFromIPair(IPair item)
-        {
-            return new SMTP
-            {
-                Id = item.Id,
-                Key = item.Key,
-                Value = item.Value
-            };
-        }
 
         #region Валидация
 

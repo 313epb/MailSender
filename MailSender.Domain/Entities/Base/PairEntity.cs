@@ -9,14 +9,6 @@ namespace MailSender.Domain.Entities.Base
         public virtual string Value { get; set; }
         public virtual string ValueName { get; }
 
-        public virtual string Error { get; }
 
-        public virtual string this[string columnName]
-        {
-            get => string.Empty;
-        }
-
-
-        
     }
 }
