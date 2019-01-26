@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using MailSender.Domain.Entities.Base;
@@ -15,8 +16,6 @@ namespace MailSender.Domain.Entities
     /// </summary>
     public class Receiver: PairEntity
     {
-        public string Email { get; set; }
-        public string ReceiverName { get; set; }
 
         public ICollection<SendedReceiver> SendedReceivers { get; set; }
 
@@ -24,7 +23,7 @@ namespace MailSender.Domain.Entities
         {
             SendedReceivers= new ObservableCollection<SendedReceiver>();
         }
-
+        [NotMapped]
         public bool IsMailing { get; set; }
 
         public override string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }

@@ -110,6 +110,18 @@
     <Compile Include="Migrations\201812241717206_M2.Designer.cs">
       <DependentUpon>201812241717206_M2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901261604169_M21.cs" />
+    <Compile Include="Migrations\201901261604169_M21.Designer.cs">
+      <DependentUpon>201901261604169_M21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901261604585_M3.cs" />
+    <Compile Include="Migrations\201901261604585_M3.Designer.cs">
+      <DependentUpon>201901261604585_M3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901261607253_M4.cs" />
+    <Compile Include="Migrations\201901261607253_M4.Designer.cs">
+      <DependentUpon>201901261607253_M4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\MailSenderContext.cs" />
     <Compile Include="Model\SendingMails.cs" />
@@ -195,6 +207,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812241717206_M2.resx">
       <DependentUpon>201812241717206_M2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901261604169_M21.resx">
+      <DependentUpon>201901261604169_M21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901261604585_M3.resx">
+      <DependentUpon>201901261604585_M3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901261607253_M4.resx">
+      <DependentUpon>201901261607253_M4.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

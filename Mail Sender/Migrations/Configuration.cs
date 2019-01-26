@@ -9,7 +9,7 @@ namespace Mail_Sender.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Mail_Sender.Model.MailSenderContext context)

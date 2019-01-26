@@ -18,8 +18,6 @@ namespace MailSender.Domain.Entities
             get => Constants.ClassNamesConstants.SMTPClassName;
         }
 
-        public  string SMTPName { get; set; }
-        public  string Port { get; set; }
 
 
         public override string Key { get; set; }
