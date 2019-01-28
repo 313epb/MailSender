@@ -5,21 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:Mail_Sender.View"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:validation="clr-namespace:Mail_Sender.Validation"
+        xmlns:converters="clr-namespace:Mail_Sender.Converters"
         mc:Ignorable="d"
         Icon="Styles/MainWindowIcon.png"
         Title="Рассыльщик" Height="680" Width="875"
         MinWidth="875" MinHeight="680"
         DataContext="{Binding Main, Source={StaticResource Locator}}">
+    
+    <Window.Resources>
+        <converters:TabSizeConverter x:Key="tabSizeConverter" />
+        <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+            <Setter Property="Width">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource tabSizeConverter}">
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+            AncestorType={x:Type TabControl}}" />
+                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor,
+            AncestorType={x:Type TabControl}}" Path="ActualWidth" />
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self},
+                    Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid Background="#FF4E4E4C">
-        <UniformGrid Columns="4" Margin="5,0">
+        <UniformGrid Columns="3" Margin="5" >
             <FrameworkElement x:Name="c1"/>
         </UniformGrid>
         <TabControl x:Name="tabControl"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
             <TabItem x:Name="tabSenders" Header="Формирование рассылки"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}"
                      Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -35,26 +60,25 @@
                                 x:Name="aedSenders"
                                 Grid.Column="0"
                                 Grid.Row="0" Margin="2"  
-                                ClassName="{Binding SenderClassName}" 
                                 ItemsList="{Binding Senders}"
                                 SelectedIPair="{Binding SelectedSender, Mode=TwoWay}"
+                                ObjectIPair="{Binding ObjSender}"
                                 />
                             <view:AEDClassItemControl 
                                 x:Name="aedSMTPS"
                                 Grid.Column="1"
                                 Grid.Row="0" Margin="2" 
-                                ClassName="{Binding SMTPClassName}"
                                 ItemsList="{Binding SMTPs}"
                                 SelectedIPair="{Binding SelectdSMTP, Mode=TwoWay}"
+                                ObjectIPair="{Binding OBjSmtp}"
                                 />
                     </Grid>
                     <view:ReceiversList x:Name="ReceiversList" 
                                         Grid.Row="1"
-                                        ClassName="{Binding ReceiverClassName}"/>
+                                        ObjectIPair="{Binding OBjReceiver}"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabMail" Header="Рассылка"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}"
                      Margin="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -73,25 +97,24 @@
                         <TextBlock Text="Введите время:" Grid.Row="1" 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
-                        <TextBox  Grid.Row="2" Margin="10 3 10 3" >
+                        <TextBox  Grid.Row="2" Margin="10 3 10 3" x:Name="tbSelectedTime" >
                             <TextBox.Text>
                                 <Binding Path="SelectedTime" Mode="TwoWay" 
                                          ValidatesOnExceptions="True"
                                          ValidatesOnDataErrors="True" 
                                          NotifyOnValidationError="True">
-                                    <Binding.ValidationRules>
-                                        <validation:DateTimeValidation/>
-                                    </Binding.ValidationRules>
+                                    
                                 </Binding>
                             </TextBox.Text>
                         </TextBox>
                        
                         <Button Grid.Row="3" Margin="10 3 10 3"
                                 Content="Запланировать отправку"
-                                Command="{Binding SendLaterCommand}"/>
+                                Command="{Binding SendCommand}"
+                                CommandParameter="{Binding Text, ElementName=tbSelectedTime}"/>
                         <Button Grid.Row="4" Margin="10 3 10 3"
                                 Content="Отправить сейчас"
-                                Command="{Binding SendNowCommand}"/>
+                                Command="{Binding SendCommand}"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -112,14 +135,28 @@
                                 VerticalAlignment="Center"
                                 Margin="510 3 10 3"
                                 Command="{Binding LoadMailCommand}"/>
+                        <Button x:Name="btnNewMail"
+                                Grid.Row="1"
+                                Width="125" Height="27" 
+                                Content="Новое письмо"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Command="{Binding NewMailCommand}"/>
                         <TextBlock Grid.Row="1"
-                                   Margin="125 3 3 3"
+                                   Margin="150 3 3 3"
                                    VerticalAlignment="Center"
                                    Text="Тема письма:"/>
-                        <TextBox x:Name="tbTopic"
-                                 Text="{Binding SelectedMail.Topic,NotifyOnValidationError=true,ValidatesOnDataErrors=True}"
+                        <TextBox x:Name="tbTopic" 
                                  Grid.Row="1"
-                                 Width="225"/>
+                                 Width="225">
+                            <TextBox.Text>
+                                <Binding Path="SelectedMail.Topic" Mode="TwoWay" NotifyOnValidationError="True" ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                         <CheckBox x:Name="cbIsHTML" 
                                   Grid.Row="1"
                                   Width="65"
@@ -133,19 +170,23 @@
                                 Content="Сохранить письмо"
                                 VerticalAlignment="Center"
                                 Margin="510 3 10 3"
-                                Command="{Binding SaveMailCommand}"/>
+                                Command="{Binding SaveMailCommand}"
+                                CommandParameter="{Binding SelectedMail}"/>
                         <xctk:RichTextBox x:Name="rtbContent" 
                                      Grid.Row="2"
                                      HorizontalAlignment="Stretch"
                                      Text="{Binding SelectedMail.Content}"
                                      VerticalAlignment="Stretch"
                                      Height="Auto"
-                                     Margin="5 5 10 5"/>
+                                     Margin="5 5 10 5">
+                            <xctk:RichTextBox.TextFormatter>
+                                <xctk:PlainTextFormatter />
+                            </xctk:RichTextBox.TextFormatter>
+                        </xctk:RichTextBox>
                     </Grid>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabHistory" Header="История"
-                     Width="{Binding ElementName=c1, Path=ActualWidth}"
                      Margin="0">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -195,6 +236,7 @@
                                    HorizontalAlignment="Center"/>
                         <TextBlock Text="{Binding SelectedItem.Name ,ElementName=cbHistory}"
                                    Grid.Column="1"
+                                   Width="auto"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Center"/>
                         <CheckBox x:Name="cbHIsHTML" 
@@ -223,7 +265,11 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <xctk:RichTextBox Grid.Row="3" Height="Auto" Margin="3" IsReadOnly="False" 
-                                      Text="{Binding SelectedItem.Mail.Content,ElementName=cbHistory, Mode=TwoWay}"/>
+                                      Text="{Binding SelectedItem.Mail.Content,ElementName=cbHistory, Mode=TwoWay}">
+                        <xctk:RichTextBox.TextFormatter>
+                            <xctk:PlainTextFormatter />
+                        </xctk:RichTextBox.TextFormatter>
+                    </xctk:RichTextBox>
                 </Grid>
             </TabItem>
         </TabControl>

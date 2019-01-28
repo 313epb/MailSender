@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
@@ -10,15 +11,14 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс для SMTP серверов
     /// </summary>
-    public class SMTP: PairEntity,IDataErrorInfo
+    public class SMTP: PairEntity
     {
         public override string ClassName
         {
             get => Constants.ClassNamesConstants.SMTPClassName;
         }
 
-        public  string SMTPName { get; set; }
-        public  string Port { get; set; }
+
 
         public override string Key { get; set; }
         public override string KeyName { get=>Constants.ClassNamesConstants.SMTPKeyName; }
@@ -36,38 +36,54 @@ namespace MailSender.Domain.Entities
             };
         }
 
-        public string Error { get => ""; }
+        #region Валидация
 
-        public string this[string columnName]
+        public override string Error { get; }
+
+        public override string this[string columnName] 
         {
             get
             {
-                if (columnName == Key)
+                string error = String.Empty;
+                switch (columnName)
                 {
-                    Regex reg = new Regex("^[a-zA-Z0-9.!£#$%&'^_`{}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
-                    if (!reg.IsMatch(Convert.ToString(Key)))
-                    {
-                        return "Введите корректный адрес SMTP";
-                    }
+                    case "Key":
+                        if (!string.IsNullOrEmpty(Key))
+                        {
+                            try
+                            {
+                                var smtpClient = new SmtpClient(Key);
+                            }
+                            catch (Exception e)
+                            {
+                                error = e.Message;
+                            }
+                        }
+                        else
+                        {
+                            error = $"Введите корректный непустой {KeyName}.";
+                        }
+                        break;
+                    case "Value":
+                        if (!string.IsNullOrEmpty(Value))
+                        {
+                            int port;
+                            bool res;
+                            res = Int32.TryParse(Value, out port);
+                            if (!res) error = "Можно вводить только числа.";
+                            else if (port < 100 || port > 999)
+                                error = $"Корректный {ValueName} находится в диапазоне от 100 до 1000.";
+                        }
+                        else
+                        {
+                            error = $"{ValueName} должен быть определён.";
+                        }
+                        break;
                 }
-
-                if (columnName == Value)
-                {
-                    int port;
-                    try
-                    {
-                        port = Convert.ToInt32(Port);
-                    }
-                    catch (Exception e)
-                    {
-                        return  "Вводите только цифры";
-                    }
-
-                    if ((port < 100) && (port > 999)) return "Введите корректное значение порта";
-                }
-
-                return "";
+                return error;
             }
         }
+
+        #endregion
     }
 }

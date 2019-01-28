@@ -1,6 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Text.RegularExpressions;
+using System.Net.Mail;
 using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
 
@@ -10,7 +9,7 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс отправителя
     /// </summary>
-    public class Sender: PairEntity,IDataErrorInfo
+    public class Sender: PairEntity
     {
         /// <summary>
         /// Название класса
@@ -20,8 +19,6 @@ namespace MailSender.Domain.Entities
             get => Constants.ClassNamesConstants.SenderClassName;
         }
 
-        public string Email { get; set; }
-        public string Password { get; set; }
 
         public override string Key { get; set; }
         public override string KeyName { get=>Constants.ClassNamesConstants.SenderKeyName; }
@@ -39,28 +36,49 @@ namespace MailSender.Domain.Entities
             };
         }
 
-        public string Error { get => ""; }
+        #region Валидация
 
-        public string this[string columnName]
+        public override string Error { get; }
+
+        public override string this[string columnName]
         {
             get
             {
-                if (columnName == Key)
+                string error = String.Empty;
+                switch (columnName)
                 {
-                    Regex reg = new Regex("^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$");
-                    if (!reg.IsMatch(Convert.ToString(Key)))
-                    {
-                        return "Введите корректный почтовый адрес";
-                    }
+                    case "Key":
+                        if (!string.IsNullOrEmpty(Key))
+                        {
+                            try
+                            {
+                                var mailAdress = new MailAddress(Key);
+                            }
+                            catch (Exception e)
+                            {
+                                error = e.Message;
+                            }
+                        }
+                        else
+                        {
+                            error = $"Введите корректный непустой {KeyName}.";
+                        }
+                        break;
+                    case "Value":
+                        if (!string.IsNullOrEmpty(Value))
+                        {
+                            if (Value.Length < 6) error = $"Ваш {ValueName} слишком короткий.";
+                        }
+                        else
+                        {
+                            error = $"{ValueName} должен быть определён.";
+                        }
+                        break;
                 }
-
-                if (columnName == Value)
-                {
-                    if (Value.Length < 6) return "Пароль не может быть короче 6 символов";
-                }
-
-                return "";
+                return error;
             }
         }
+
+        #endregion
     }
 }

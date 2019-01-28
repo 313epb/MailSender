@@ -1,10 +1,13 @@
-﻿using MailSender.Domain.Entities;
+﻿using System.Data.Entity;
+using MailSender.Domain.Entities;
+using MailSender.Domain.Entities.Base.Interface;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using DbContext = System.Data.Entity.DbContext;
 
 namespace Mail_Sender.Model
 {
-    class MailSenderContext:DbContext
+    public class MailSenderContext:DbContext
     {
         protected void OnModelCreating(ModelBuilder modelBuilder)
         {

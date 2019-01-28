@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
@@ -12,10 +14,8 @@ namespace MailSender.Domain.Entities
     /// <summary>
     /// Класс получателя
     /// </summary>
-    public class Receiver: PairEntity,IDataErrorInfo
+    public class Receiver: PairEntity
     {
-        public string Email { get; set; }
-        public string ReceiverName { get; set; }
 
         public ICollection<SendedReceiver> SendedReceivers { get; set; }
 
@@ -23,15 +23,15 @@ namespace MailSender.Domain.Entities
         {
             SendedReceivers= new ObservableCollection<SendedReceiver>();
         }
-
+        [NotMapped]
         public bool IsMailing { get; set; }
 
         public override string ClassName { get => Constants.ClassNamesConstants.ReceiverClassName; }
 
-        public override string Key { get=>Email; set=>Email=value; }
+        public override string Key { get; set; }
         public override string KeyName { get=>Constants.ClassNamesConstants.ReceiverKeyName;}
         
-        public override string Value { get=>ReceiverName; set=>ReceiverName=value; }
+        public override string Value { get; set; }
         public override string ValueName { get=>Constants.ClassNamesConstants.ReceiverValueName; }
 
         public static Receiver ConvertFromIPair(IPair item)
@@ -44,29 +44,49 @@ namespace MailSender.Domain.Entities
             };
         }
 
+        #region Валидация
 
-        public string Error { get=>""; }
+        public override string Error { get; }
 
-        public string this[string columnName]
+        public override string this[string columnName]
         {
             get
             {
-                if (columnName == Key)
+                string error = String.Empty;
+                switch (columnName)
                 {
-                    Regex reg = new Regex("^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\\.)+[a-z]{2,6}$");
-                    if (!reg.IsMatch(Convert.ToString(Key)))
-                    {
-                        return "Введите корректный почтовый адрес";
-                    }
+                    case "Key":
+                        if (!string.IsNullOrEmpty(Key))
+                        {
+                            try
+                            {
+                                var mailAdress = new MailAddress(Key);
+                            }
+                            catch (Exception e)
+                            {
+                                error = e.Message;
+                            }
+                        }
+                        else
+                        {
+                            error = $"Введите корректный непустой {KeyName}.";
+                        }
+                        break;
+                    case "Value":
+                        if (!string.IsNullOrEmpty(Value))
+                        {
+                            if (Value.Length < 2) error = $"Ваш {ValueName} слишком короткий.";
+                        }
+                        else
+                        {
+                            error = $"{ValueName} должен быть определён.";
+                        }
+                        break;
                 }
-
-                if (columnName == Value)
-                {
-                    if (Value.Length < 2) return "Имя не может быть короче 2х символов";
-                }
-
-                return "";
+                return error;
             }
         }
+
+        #endregion
     }
 }

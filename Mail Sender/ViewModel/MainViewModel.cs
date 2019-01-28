@@ -4,56 +4,27 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Data.Entity;
-using System.Linq;
-using System.Windows;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
 using MailSender.Domain.Entities.Base.Interface;
-using MailSender.Domain.Constants;
 using Mail_Sender.View;
 using System.Windows.Data;
 using Mail_Sender.DataSets;
 using Mail_Sender.Model;
+using System.Threading;
+using MailSender.Domain.Constants;
 
 namespace Mail_Sender.ViewModel
 {
 
     public class MainViewModel : ViewModelBase
     {
-        #region Mails
-
-        private Mail _selectedMail= new Mail();
-
-        public Mail SelectedMail
-        {
-            get => _selectedMail;
-            set
-            {
-                _selectedMail = value;
-                RaisePropertyChanged(nameof(SelectedMail));
-            }
-        }
-
-        private MailObsCollection _mails = new MailObsCollection();
-
-        public MailObsCollection Mails
-        {
-            get => _mails;
-            set => _mails = value;
-        }
-
-        private readonly string _mailClassName = MailSender.Domain.Constants.ClassNamesConstants.MailClassName;
-        public string MailsClassName => _mailClassName;
-
-        #endregion
-
         #region Senders
 
         public IPair SelectedSender { get; set; }
 
-        private IPairObsCollection _senders= new IPairObsCollection(ClassNamesConstants.SenderClassName);
-
-        public IPairObsCollection Senders
+        private PairObsCollection _senders;
+        public PairObsCollection Senders
         {
             get => _senders;
             set
@@ -63,69 +34,20 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private readonly string _senderClassName = MailSender.Domain.Constants.ClassNamesConstants.SenderClassName;
+        private readonly string _senderClassName = ClassNamesConstants.SenderClassName;
         public string SenderClassName => _senderClassName;
 
-        #endregion
+        private IPair _objSender = new Sender();
 
-        #region SMTPs
-
-        public IPair SelectdSMTP { get; set; }
-
-        private IPairObsCollection _smtps= new IPairObsCollection(ClassNamesConstants.SMTPClassName);
-
-        public IPairObsCollection SMTPs
-        {
-            get => _smtps;
-            set => _smtps = value;
-        }
-
-        private readonly string _SMTPSClassName = MailSender.Domain.Constants.ClassNamesConstants.SMTPClassName;
-        public string SMTPClassName => _SMTPSClassName;
-
+        public IPair ObjSender { get => _objSender; set => _objSender = value; }
 
         #endregion
 
         #region Receivers
 
-        //private static ObservableCollection<IPair> _receivers = new ObservableCollection<IPair>
-        //{
-        //    new Receiver
-        //    {
-        //        Id = 0,
-        //        Email = "dsderugin@gmail.com",
-        //        ReceiverName = "Дмитрий",
-        //        IsMailing = true
-        //    },
-        //    new Receiver
-        //    {
-        //        Id = 1,
-        //        Email = "rusoptsales@gmail.com",
-        //        ReceiverName = "Дмитрий"
-        //    },
-        //    new Receiver
-        //    {
-        //        Id = 2,
-        //        Email = "uchihasaskekun@gmail.com",
-        //        ReceiverName = "Дмитрий"
-        //    },
-        //    new Receiver
-        //    {
-        //        Id = 3,
-        //        Email = "dsderyugin@gmail.com",
-        //        ReceiverName = "Дмитрий"
-        //    },
-        //    new Receiver
-        //    {
-        //        Id = 4,
-        //        Email = "deruginds@gmail.com",
-        //        ReceiverName = "Дмитрий"
-        //    }
-        //};
+        private PairObsCollection _receivers;
 
-        private IPairObsCollection _receivers= new IPairObsCollection(ClassNamesConstants.ReceiverClassName);
-
-        public IPairObsCollection Receivers
+        public PairObsCollection Receivers
         {
             get => _receivers;
             set
@@ -153,71 +75,77 @@ namespace Mail_Sender.ViewModel
         private void OnSendersCollectionViewSourceFilter(object sender, FilterEventArgs e)
         {
             if (!(e.Item is Receiver re) || string.IsNullOrWhiteSpace(_filterName)) return;
-            if (!re.ReceiverName.Contains(_filterName))
+            if (!re.Value.Contains(_filterName))
                 e.Accepted = false;
         }
 
-        private readonly string _receiverClassName = MailSender.Domain.Constants.ClassNamesConstants.ReceiverClassName;
+        private readonly string _receiverClassName = ClassNamesConstants.ReceiverClassName;
         public string ReceiverClassName => _receiverClassName;
+
+        private IPair _objReceiver = new Receiver();
+
+        public IPair OBjReceiver { get => _objReceiver; set => _objReceiver = value; }
+
+        #endregion
+
+        #region SMTPs
+
+        public IPair SelectdSMTP { get; set; }
+
+        private PairObsCollection _smtps;
+
+        public PairObsCollection SMTPs
+        {
+            get => _smtps;
+            set => _smtps = value;
+        }
+
+        private readonly string _SMTPSClassName = ClassNamesConstants.SMTPClassName;
+        public string SMTPClassName => _SMTPSClassName;
+
+        private IPair _objSmtp = new SMTP();
+
+        public IPair OBjSmtp { get => _objSmtp; set => _objSmtp = value; }
+
+        #endregion
+
+        #region Mails
+
+        private Mail _selectedMail = new Mail
+        {
+            Id = -1,
+            Topic = string.Empty,
+            Content = string.Empty
+        };
+
+        public Mail SelectedMail
+        {
+            get => _selectedMail;
+            set
+            {
+                _selectedMail = value;
+                RaisePropertyChanged(nameof(SelectedMail));
+            }
+        }
+
+        private MailObsCollection _mails;
+
+        public MailObsCollection Mails
+        {
+            get => _mails;
+            set => _mails = value;
+        }
+
+        private readonly string _mailClassName = ClassNamesConstants.MailClassName;
+        public string MailsClassName => _mailClassName;
+
+
 
         #endregion
 
         #region History
-        
-        //private ObservableCollection<Sended> _history= new ObservableCollection<Sended>
-        //{
-        //    new Sended
-        //    {
-        //        Created = DateTime.Now,
-        //        //Receievers = new ObservableCollection<Receiver>
-        //        //{
-        //        //    new Receiver
-        //        //    {
-        //        //        Email = "dsderugin@gmail.com",
-        //        //        ReceiverName = "Alesha",
-        //        //    },
-        //        //    new Receiver
-        //        //    {
-        //        //        Email = "dsugin@gmail.com",
-        //        //        ReceiverName = "Alesha1",
-        //        //    },new Receiver
-        //        //    {
-        //        //        Email = "dsderu@gmail.com",
-        //        //        ReceiverName = "Alesha2",
-        //        //    },
-        //        //},
-        //        SMTP = new SMTP{SMTPName = "ya.ru", Port = "453"},
-        //        Sender = new Sender{Email = "dsderugin@gmail.com",Password = "76147"},
-        //        Mail = new Mail{Topic = "1e letter",Content = "asfqiouwyqw",Created = DateTime.Now,IsHTML = false},
-        //    },
 
-        //    new Sended
-        //    {
-        //        Created = DateTime.Now,
-        //        //Receievers = new ObservableCollection<Receiver>()
-        //        //{
-        //        //    new Receiver
-        //        //    {
-        //        //        Email = "dsderugin@gmail.com",
-        //        //        ReceiverName = "Alisa",
-        //        //    },
-        //        //    new Receiver
-        //        //    {
-        //        //        Email = "dsugin@gmail.com",
-        //        //        ReceiverName = "Alha1",
-        //        //    },new Receiver
-        //        //    {
-        //        //        Email = "dsderu@gmail.com",
-        //        //        ReceiverName = "Aleks",
-        //        //    },
-        //        //},
-        //        SMTP = new SMTP{SMTPName = "net.ru", Port = "453"},
-        //        Sender = new Sender{Email = "dsderin@gmail.com",Password = "76147"},
-        //        Mail = new Mail{Topic = "2e letter",Content = "aSubejctw",Created = DateTime.Now,IsHTML = true},
-        //    },
-        //};
-        
-            private SendedObsCollection _history= new SendedObsCollection();
+        private SendedObsCollection _history;
 
         public SendedObsCollection History
         {
@@ -226,9 +154,9 @@ namespace Mail_Sender.ViewModel
         }
 
         private DateTime _selectedTime = DateTime.Now;
-        public DateTime SelectedTime
+        public string SelectedTime
         {
-            get => _selectedTime; set => _selectedTime = value;
+            get => _selectedTime.ToString(OtherConstants.DateTimeFormat); set => _selectedTime = DateTime.Parse(value);
         }
 
         #endregion
@@ -237,221 +165,304 @@ namespace Mail_Sender.ViewModel
 
         public RelayCommand<IPair> DeletePairCommand{get; set; }
 
-        public RelayCommand<string> AddPairCommand{ get; set; }
+        public RelayCommand<IPair> AddPairCommand{ get; set; }
 
         public RelayCommand<IPair> EditPairCommand { get; set; }
 
         public RelayCommand LoadMailCommand { get; set; }
 
-        public RelayCommand SaveMailCommand { get; set; }
+        public RelayCommand<Mail> SaveMailCommand { get; set; }
 
         public RelayCommand<Mail> DeleteMailCommand { get; set; }
 
-        public RelayCommand SendNowCommand { get; set; }
-
-        public RelayCommand SendLaterCommand { get; set; }
+        public RelayCommand<string> SendCommand { get; set; }
 
         public RelayCommand<Sended> DeleteSendedCommand { get; set; }
 
+        public RelayCommand NewMailCommand { get; set; }
+
+        public MailSenderContext _context { get; }
+
         #endregion
 
-        public MainViewModel()
-            {
-                #region CommandsIni
+        public MainViewModel(MailSenderContext context)
+        {
+            _context = context;
 
-                DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
-                AddPairCommand= new RelayCommand<string>(AddPairItem);
-                EditPairCommand= new RelayCommand<IPair>(EditPairItem);
+            #region Ini
 
-                LoadMailCommand= new RelayCommand(LoadMail);
-                SaveMailCommand= new RelayCommand(SaveMail);
-                DeleteMailCommand= new RelayCommand<Mail>(DeleteMail);
+            _senders = new PairObsCollection(new Sender(), _context);
+            _receivers = new PairObsCollection(new Receiver(), _context);
+            _smtps = new PairObsCollection(new SMTP(), _context);
 
-                SendNowCommand = new RelayCommand(SendNow);
-                SendLaterCommand= new RelayCommand(SendLater);
+            _mails = new MailObsCollection(_context);
 
-                DeleteSendedCommand=new RelayCommand<Sended>(DeleteSended);
+            _history = new SendedObsCollection(_context);
 
             #endregion
 
-                _receiversViewSource = new CollectionViewSource() {Source = _receivers};
-                _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
-            }
+            #region CommandsIni
 
-        
+            DeletePairCommand = new RelayCommand<IPair>(DeleteIPairItem);
+            AddPairCommand = new RelayCommand<IPair>(AddPairItem);
+            EditPairCommand = new RelayCommand<IPair>(EditPairItem);
+
+            LoadMailCommand = new RelayCommand(LoadMail);
+            SaveMailCommand = new RelayCommand<Mail>(SaveMail);
+            DeleteMailCommand = new RelayCommand<Mail>(DeleteMail);
+            NewMailCommand = new RelayCommand(NewMail);
+
+            SendCommand = new RelayCommand<string>(Send);
+
+            DeleteSendedCommand = new RelayCommand<Sended>(DeleteSended);
+
+            #endregion
+
+            #region EventHandlers
+
+            _receiversViewSource = new CollectionViewSource() { Source = _receivers };
+            _receiversViewSource.Filter += new FilterEventHandler(OnSendersCollectionViewSourceFilter);
+
+            SendingMails.AllSended += OnAllSended;
+
+            #endregion
+
+        }
 
         #region Methods
 
-
-
         private void DeleteIPairItem(IPair item)
         {
-            if (item.GetType() == typeof(Sender)){Senders.DeleteIPair(item);}
-            if (item.GetType() == typeof(Receiver)){Receivers.DeleteIPair(item);}
-            if (item.GetType() == typeof(SMTP)) {SMTPs.DeleteIPair(item);}
+            List<string> errList= new List<string>();
+
+            if (item != null)
+            {
+                ForObsCollection(item.GetType())?.DeleteIPair(item);
+            }
+            else errList.Add($"{item.ClassName} для удаления не выбран.");
+
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
+                window.ShowDialog();
+            }
         }
 
         private void EditPairItem(IPair item)
         {
-            if (item!=null)
+            List<string> errList = new List<string>();
+
+            if (item != null)
             {
                 AEPairItemWindow AEWindow = new AEPairItemWindow();
                 AEWindow.Title = "Редактировать";
                 AEWindow.Item = item;
                 AEWindow.ShowDialog();
-                MailSenderContext.Instance.SaveChanges();
+                //приходит null или валидные данные
+                if (AEWindow.Item != null)
+                {
+                    ForObsCollection(AEWindow.Item.GetType())?.NotifyPairModified(AEWindow.Item);
+                }
             }
-            else
-            {
-                MessageBox.Show("Выберите значение для редактирования");
-            }
+            else errList.Add($"{item.ClassName} для редактирования не выбран.");
 
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
+                window.ShowDialog();
+            }
         }
 
-        private void AddPairItem(string className)
+        private void AddPairItem(IPair item)
         {
-            IPair _item;
-
             AEPairItemWindow AEWindow = new AEPairItemWindow();
             AEWindow.Title = "Добавить";
 
-            if (className == ClassNamesConstants.SMTPClassName)
-            {
-                AEWindow.Item = new SMTP();
-            }
-
-            if (className == ClassNamesConstants.SenderClassName)
-            {
-
-                AEWindow.Item = new Sender();
-            }
-
-            if (className == ClassNamesConstants.ReceiverClassName)
-            {
-                AEWindow.Item = new Receiver();
-            }
+            AEWindow.Item = (IPair)Activator.CreateInstance(item.GetType());
 
             AEWindow.ShowDialog();
 
-            _item = AEWindow.Item;
-
-            if (className == ClassNamesConstants.SMTPClassName)
+            if (AEWindow.Item != null) 
             {
-                SMTPs.AddIPair(_item);
-            }
-
-            if (className == ClassNamesConstants.SenderClassName)
-            {
-                Senders.AddIPair(_item);
-            }
-
-            if (className == ClassNamesConstants.ReceiverClassName)
-            {
-                Receivers.AddIPair(_item);
+                ForObsCollection(AEWindow.Item.GetType())?.AddIPair(AEWindow.Item);
             }
         }
 
-        private void SaveMail()
+        private void SaveMail(Mail mail)
         {
-            Mail temp;
+            List<string> errList = new List<string>();
 
-            if ((temp = Mails.FirstOrDefault(m => m.Topic == SelectedMail.Topic)) != null)
+            if (SelectedMail != null)
             {
-                temp.Topic = temp.Topic.ToString();
-                temp.Created = DateTime.Now;
+                if (!string.IsNullOrEmpty(SelectedMail.Topic))
+                {
+                    if (mail.Created.Equals(new DateTime())) mail.Created = DateTime.Now;
+                    if (mail.Id == -1) SelectedMail = Mails.AddMail(SelectedMail);
+                    else Mails.NotifyMailModified(SelectedMail);
+                }
+                else errList.Add($"{ClassNamesConstants.Topic} письма не должна быть пустой.");
             }
-            else
+            else errList.Add("Создайте новое письмо.");
+            
+            if (errList.Count != 0)
             {
-                SelectedMail.Topic = SelectedMail.Topic.ToString();
-                SelectedMail.Created = DateTime.Now;
-                Mails.AddMail(SelectedMail);
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
+                window.ShowDialog();
             }
+        }
 
-            SelectedMail = new Mail
-            {
-                Topic = SelectedMail.Topic.ToString(),
-                Content = SelectedMail.Content,
-                Created = new DateTime(),
-                IsHTML = SelectedMail.IsHTML
-            };
-
+        private void NewMail()
+        {
+            SelectedMail = new Mail(){Id=-1};//Id для того, чтобы определять по-простому, что это новое письмо. 
         }
 
         private void LoadMail()
         {
             LoadMailsWindow lmw= new LoadMailsWindow(Mails);
             lmw.ShowDialog();
-            SelectedMail = lmw.Selected;
+            if(lmw.Selected!=null) SelectedMail = lmw.Selected;
         }
 
         private void DeleteMail(Mail mail)
         {
-            Mails.DeleteMail(mail);
+            List<string> errList = new List<string>();
+
+            if (mail!=null)
+            {
+                Mails.DeleteMail(mail);
+            }
+            else errList.Add($"{ClassNamesConstants.MailClassName} для удаления не выбран.");
+
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
+                window.ShowDialog();
+            }
         }
 
-        private void SendNow()
+        private void Send(string dtSendTime)
         {
-            Sended sn = new Sended
-            {
-                Mail = SelectedMail,
-                Created = DateTime.Now,
-                Sender = new Sender
-                {
-                    Key = SelectedSender.Key,
-                    Value = SelectedSender.Value
-                },
-                SMTP = new SMTP
-                {
-                    Key = SelectdSMTP.Key,
-                    Value = SelectdSMTP.Value
-                },
-                SendedReceivers = new ObservableCollection<SendedReceiver>()
-            };
-
+            List<string> errList = new List<string>();
+            List<Receiver> tempReceivers = new List<Receiver>();
             foreach (Receiver receiver in Receivers)
             {
-                if (receiver.IsMailing)
+                if (receiver.IsMailing) tempReceivers.Add(receiver);
+            }
+
+            if (!((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)) || SelectedSender == null ||
+                  SelectdSMTP == null || tempReceivers.Count == 0))
+            {
+                Sended sn = new Sended
                 {
-                    SendedReceiver sr =new SendedReceiver
+                    Mail = SelectedMail,
+                    Created = DateTime.Now,
+                    Sender = (Sender) SelectedSender,
+                    SMTP = (SMTP) SelectdSMTP,
+                    SendedReceivers = new ObservableCollection<SendedReceiver>()
+                };
+
+                foreach (Receiver receiver in tempReceivers)
+                {
+                    SendedReceiver sr = new SendedReceiver
                     {
                         Receiver = receiver,
                         Sended = sn
                     };
                     sn.SendedReceivers.Add(sr);
-                } 
+                }
+
+                if (string.IsNullOrEmpty(dtSendTime))
+                {
+                    SendingMails.Send(sn);
+                }
+                else
+                {
+                    DateTime sendTime = DateTime.Parse(dtSendTime);
+                    if (sendTime > DateTime.Now)
+                    {
+                        Task.Run(() =>
+                        {
+                            Thread.Sleep(sendTime - DateTime.Now);
+                            System.Windows.Application.Current.Dispatcher.Invoke(()=>SendingMails.Send(sn));
+                        });
+                    }
+                    else
+                    {
+                        errList.Add("Время отправки должно быть позже.");
+                    }
+                }
+                //происходит ивент, о том, что ошибки загрузились и отправка закончилась.  OnAllSended
+
+            }
+            else
+            {
+                if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)))
+                    errList.Add("Выберите или создайте письмо. Новое письмо обязательно должно иметь тему.");
+
+                if (SelectedSender == null) errList.Add($"{ClassNamesConstants.SenderClassName} на странице Формирование рассылки не выбран.");
+
+                if (SelectdSMTP == null) errList.Add($"{ClassNamesConstants.SMTPClassName} на странице Формирование рассылки не выбран.");
+
+                if (tempReceivers.Count == 0) errList.Add($"Ни один {ClassNamesConstants.ReceiverClassName} на странице Формирование рассылки не выбран.");
             }
 
-            //SendingMails.Send(sn);
-            History.AddSended(sn);
-        }
-
-        private void SendLater()
-        {
-            Sended sn = new Sended
+            if (errList.Count != 0)
             {
-                Mail = SelectedMail,
-                Created = SelectedTime,
-                Id = History.Max(s => s.Id) + 1,
-                Sender = Sender.ConvertFromIPair(SelectedSender),
-                SMTP = SMTP.ConvertFromIPair(SelectdSMTP),
-                //Receievers = new ObservableCollection<Receiver>()
-            };
-
-            //foreach (Receiver receiver in Receivers)
-            //{
-            //    if (receiver.IsMailing) sn.Receievers.Add(receiver);
-            //}
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
+                window.ShowDialog();
+            }
         }
 
         private void DeleteSended(Sended item)
         {
-            History.DeleteSended(item);
+            List<string> errList = new List<string>();
+
+            if (item != null)
+            {
+                History.DeleteSended(item);
+            }
+            else errList.Add($"{ClassNamesConstants.SendedClassName} для удаления не выбрана.");
+
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
+                window.ShowDialog();
+            }
         }
 
         #endregion
 
+        #region MainViewModel Methods
 
+        private PairObsCollection ForObsCollection(Type type)
+        {
+            //switch по типам не работает, почему то. 
+            if (type == typeof(Sender)) return Senders;
+            if (type == typeof(Receiver)) return Receivers;
+            if (type == typeof(SMTP)) return SMTPs;
+            return null;
+        }
 
+        private void OnAllSended(Dictionary<SendedReceiver, string> errDic, Sended sn)
+        {
+            List<string> errList = new List<string>();
 
+            foreach (KeyValuePair<SendedReceiver, string> pair in errDic)
+            {
+                sn.SendedReceivers.Remove(pair.Key);
+                errList.Add($"Письмо для {pair.Key.Receiver.Key}  не было доставлено потому, что {pair.Value}.");
+            }
+
+            if (errList.Count != 0)
+            {
+                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
+                window.ShowDialog();
+            }
+
+            History.AddSended(sn);
+
+        }
+
+        #endregion
     }
 }

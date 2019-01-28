@@ -29,18 +29,31 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public string Topic { get; set; }
 
-        public override DateTime Created { get; set; }
-        public string Error { get=>""; }
+
+        #region Валидация
+
+        private string _error; 
+
+        public string Error { get=>_error; }
 
         public string this[string columnName]
         {
             get
             {
-                if (columnName == "Topic")
-                    if (Topic.Length == 0)
-                        return "Тема не должна быть пустой";
-                return "";
+                 _error = String.Empty;
+                switch (columnName)
+                {
+                    case "Topic":
+                        if (string.IsNullOrEmpty(Topic))
+                        {
+                            _error = "Тема письма должна быть заполнена.";
+                        }
+                       break;
+                }
+                return _error;
             }
         }
+
+        #endregion
     }
 }

@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MailSender.Domain.Entities;
-using Mail_Sender.ViewModel;
+using MailSender.Domain.Entities.Base.Interface;
 
 namespace Mail_Sender.View
 {
@@ -22,16 +9,16 @@ namespace Mail_Sender.View
     /// </summary>
     public partial class ReceiversList : UserControl
     {
-        public string ClassName
+        
+        public IPair ObjectIPair
         {
-            get { return (string)GetValue(ClassNameProperty); }
-            set { SetValue(ClassNameProperty, value); }
+            get { return (IPair)GetValue(ObjectIPairProperty); ; }
+            set { SetValue(ObjectIPairProperty, value); }
         }
 
-        public static readonly DependencyProperty ClassNameProperty =
-            DependencyProperty.Register("ClassName", typeof(string),
-                typeof(ReceiversList), new PropertyMetadata(""));
-
+        public static readonly DependencyProperty ObjectIPairProperty =
+            DependencyProperty.Register("ObjectIPair", typeof(IPair),
+                typeof(ReceiversList), new PropertyMetadata(default(IPair)));
 
         public ReceiversList()
         {

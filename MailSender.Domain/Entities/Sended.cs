@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MailSender.Domain.Entities.Base;
 
@@ -9,7 +10,10 @@ namespace MailSender.Domain.Entities
     /// </summary>
     public class Sended : DateTimeEntity
     {
-
+        //public Sended()
+        //{
+        //    Name= Mail.Topic + " " + Sender.Key + " " + Created;
+        //}
         /// <summary>
         /// Все получатели писем в этой рассылке
         /// </summary>
@@ -27,6 +31,8 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public Sender Sender { get; set; }
 
+        public override DateTime Created { get; set; }
+
         /// <summary>
         /// SMTP сервер отправитель
         /// </summary>
@@ -37,6 +43,6 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public Mail Mail { get; set; }
 
-        public string Name => Mail.Topic + " " + Sender.Email + " " + Created;
+        public string Name => Mail?.Topic + " " + Sender?.Key + " " + Created;
     }
 }

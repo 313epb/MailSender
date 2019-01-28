@@ -13,8 +13,8 @@
 */
 
 using CommonServiceLocator;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using Mail_Sender.Model;
 
 namespace Mail_Sender.ViewModel
 {
@@ -31,6 +31,7 @@ namespace Mail_Sender.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<MailSenderContext>();
         }
 
         public MainViewModel Main

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Mail_Sender.View
             }
         }
 
+        private bool CloseWindowButton = true;
 
         private ObservableCollection<Mail> _mails;
 
@@ -35,17 +37,31 @@ namespace Mail_Sender.View
 
             _mails = mails;
             InitializeComponent();
-            foreach (Mail mail in _mails)
+            if (_mails.Count != 0)
             {
-                RadioButton rb = new RadioButton
+                foreach (Mail mail in _mails)
                 {
-                    Name = "rbMail" + mail.Id,
-                    Content = mail.Topic,
-                    GroupName = "Mails",
-                    Margin = new Thickness(5, 3, 3, 3)
-                };
-                rb.Checked += RbChecked_Handler;
-                spTopicPanel.Children.Add(rb);
+                    RadioButton rb = new RadioButton
+                    {
+                        Name = "rbMail" + mail.Id,
+                        Content = mail.Topic,
+                        GroupName = "Mails",
+                        Margin = new Thickness(5, 3, 3, 3)
+                    };
+                    rb.Checked += RbChecked_Handler;
+                    spTopicPanel.Children.Add(rb);
+                }
+            }
+            else
+            {
+                spTopicPanel.Children.Add(new TextBox
+                {
+                    Name = "zeroMails",
+                    Text = "У вас пока еще нет сохранённых писем. Для того чтобы создать письмо закройте это окно, заполните тему и текст письма, нажмите сохранить.",
+                    Height = 150,
+                    IsReadOnly = true,
+                    TextWrapping = TextWrapping.Wrap
+                });
             }
         }
 
@@ -54,7 +70,8 @@ namespace Mail_Sender.View
         {
             RadioButton pressed = (RadioButton) sender;
             Selected = _mails.FirstOrDefault(m => m.Topic == pressed.Content);
-            delButton.CommandParameter = Selected;
+            delButton.IsEnabled = true;
+            btnReady.IsEnabled = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -67,6 +84,7 @@ namespace Mail_Sender.View
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
+            CloseWindowButton = false;
             this.Close();
         }
 
@@ -82,8 +100,8 @@ namespace Mail_Sender.View
                     spTopicPanel.Children.Remove(rbutton);
                 }
             }
-
-            Selected = new Mail();
+            delButton.IsEnabled = false;
+            btnReady.IsEnabled = false;
         }
 
         private void WalkLogicalTree(List<RadioButton> radioButtons, object parent)
@@ -99,6 +117,13 @@ namespace Mail_Sender.View
 
                 WalkLogicalTree(radioButtons, child);
             }
+        }
+
+        private void LoadMailsWindow_OnClosed(object sender, EventArgs e)
+        {
+            //костыль т.к. Selected после удаления почистить не получается (OnClick вызывается до команды) то чистить его
+            //нужно в том числе и если окно закрывается сразу после удаления элемента причем не выбирая нового.
+            if ((!btnReady.IsEnabled)||CloseWindowButton) Selected = null;
         }
     }
 }

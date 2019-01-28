@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using MailSender.Domain.Entities.Base;
 using MailSender.Domain.Entities.Base.Interface;
 using Mail_Sender.Annotations;
@@ -33,10 +25,12 @@ namespace Mail_Sender.View
             }
         }
 
+        private bool save { get; set; } = false;
 
         public AEPairItemWindow()
         {
             InitializeComponent();
+           
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -49,7 +43,38 @@ namespace Mail_Sender.View
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
+            save = true;
             this.Close();
+        }
+
+        private bool AllValid(DependencyObject obj)
+        {
+            return !Validation.GetHasError(obj) &&
+                   LogicalTreeHelper.GetChildren(obj).OfType<DependencyObject>().All(AllValid);
+
+        }
+
+
+
+        private void AEPairItemWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            if (save)
+            {
+                if (!AllValid(this))
+                {
+                    List<string> errList = new List<string>()
+                    {
+                        "Не все поля валидны."
+                    };
+                    MyMessageBoxWindow errWindow = new MyMessageBoxWindow(errList, "Обнаружена ошибка.");
+                    errWindow.ShowDialog();
+                    Item = null;
+                }
+            }
+            else
+            {
+                Item = null;
+            }
         }
     }
 }
