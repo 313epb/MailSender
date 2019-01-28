@@ -123,6 +123,7 @@
       <DependentUpon>201901261607253_M4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\MessagesClass.cs" />
     <Compile Include="Model\MailSenderContext.cs" />
     <Compile Include="Model\SendingMails.cs" />
     <Compile Include="Properties\Annotations.cs" />

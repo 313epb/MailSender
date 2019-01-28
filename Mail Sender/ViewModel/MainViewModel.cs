@@ -233,24 +233,20 @@ namespace Mail_Sender.ViewModel
 
         private void DeleteIPairItem(IPair item)
         {
-            List<string> errList= new List<string>();
+            MessagesClass msg = new MessagesClass(OtherConstants.ErrorWindowTitle);
 
             if (item != null)
             {
                 ForObsCollection(item.GetType())?.DeleteIPair(item);
             }
-            else errList.Add($"{item.ClassName} дл€ удалени€ не выбран.");
+            else msg.MsgList.Add($"{item.ClassName} дл€ удалени€ не выбран.");
 
-            if (errList.Count != 0)
-            {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
-                window.ShowDialog();
-            }
+            msg.ShowMessages();
         }
 
         private void EditPairItem(IPair item)
         {
-            List<string> errList = new List<string>();
+            MessagesClass msg = new MessagesClass(OtherConstants.ErrorWindowTitle);
 
             if (item != null)
             {
@@ -264,13 +260,9 @@ namespace Mail_Sender.ViewModel
                     ForObsCollection(AEWindow.Item.GetType())?.NotifyPairModified(AEWindow.Item);
                 }
             }
-            else errList.Add($"{item.ClassName} дл€ редактировани€ не выбран.");
+            else msg.MsgList.Add($"{item.ClassName} дл€ редактировани€ не выбран.");
 
-            if (errList.Count != 0)
-            {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
-                window.ShowDialog();
-            }
+            msg.ShowMessages();
         }
 
         private void AddPairItem(IPair item)
@@ -281,7 +273,7 @@ namespace Mail_Sender.ViewModel
             AEWindow.Item = (IPair)Activator.CreateInstance(item.GetType());
 
             AEWindow.ShowDialog();
-
+            //приходит null или валидные данные
             if (AEWindow.Item != null) 
             {
                 ForObsCollection(AEWindow.Item.GetType())?.AddIPair(AEWindow.Item);
@@ -290,7 +282,7 @@ namespace Mail_Sender.ViewModel
 
         private void SaveMail(Mail mail)
         {
-            List<string> errList = new List<string>();
+            MessagesClass msg = new MessagesClass(OtherConstants.ErrorWindowTitle);
 
             if (SelectedMail != null)
             {
@@ -300,15 +292,11 @@ namespace Mail_Sender.ViewModel
                     if (mail.Id == -1) SelectedMail = Mails.AddMail(SelectedMail);
                     else Mails.NotifyMailModified(SelectedMail);
                 }
-                else errList.Add($"{ClassNamesConstants.Topic} письма не должна быть пустой.");
+                else msg.MsgList.Add($"{ClassNamesConstants.Topic} письма не должна быть пустой.");
             }
-            else errList.Add("—оздайте новое письмо.");
+            else msg.MsgList.Add("—оздайте новое письмо.");
             
-            if (errList.Count != 0)
-            {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
-                window.ShowDialog();
-            }
+            msg.ShowMessages();
         }
 
         private void NewMail()
@@ -325,25 +313,23 @@ namespace Mail_Sender.ViewModel
 
         private void DeleteMail(Mail mail)
         {
-            List<string> errList = new List<string>();
+            MessagesClass msg = new MessagesClass(OtherConstants.ErrorWindowTitle);
 
             if (mail!=null)
             {
                 Mails.DeleteMail(mail);
             }
-            else errList.Add($"{ClassNamesConstants.MailClassName} дл€ удалени€ не выбран.");
+            else msg.MsgList.Add($"{ClassNamesConstants.MailClassName} дл€ удалени€ не выбран.");
 
-            if (errList.Count != 0)
-            {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
-                window.ShowDialog();
-            }
+            msg.ShowMessages();
         }
 
         private void Send(string dtSendTime)
         {
-            List<string> errList = new List<string>();
+            MessagesClass msg = new MessagesClass(OtherConstants.ErrorWindowTitle);
+
             List<Receiver> tempReceivers = new List<Receiver>();
+
             foreach (Receiver receiver in Receivers)
             {
                 if (receiver.IsMailing) tempReceivers.Add(receiver);
@@ -388,7 +374,7 @@ namespace Mail_Sender.ViewModel
                     }
                     else
                     {
-                        errList.Add("¬рем€ отправки должно быть позже.");
+                        msg.MsgList.Add("¬рем€ отправки должно быть позже.");
                     }
                 }
                 //происходит ивент, о том, что ошибки загрузились и отправка закончилась.  OnAllSended
@@ -397,37 +383,29 @@ namespace Mail_Sender.ViewModel
             else
             {
                 if ((SelectedMail == null) || (string.IsNullOrEmpty(SelectedMail.Topic)))
-                    errList.Add("¬ыберите или создайте письмо. Ќовое письмо об€зательно должно иметь тему.");
+                    msg.MsgList.Add("¬ыберите или создайте письмо. Ќовое письмо об€зательно должно иметь тему.");
 
-                if (SelectedSender == null) errList.Add($"{ClassNamesConstants.SenderClassName} на странице ‘ормирование рассылки не выбран.");
+                if (SelectedSender == null) msg.MsgList.Add($"{ClassNamesConstants.SenderClassName} на странице ‘ормирование рассылки не выбран.");
 
-                if (SelectdSMTP == null) errList.Add($"{ClassNamesConstants.SMTPClassName} на странице ‘ормирование рассылки не выбран.");
+                if (SelectdSMTP == null) msg.MsgList.Add($"{ClassNamesConstants.SMTPClassName} на странице ‘ормирование рассылки не выбран.");
 
-                if (tempReceivers.Count == 0) errList.Add($"Ќи один {ClassNamesConstants.ReceiverClassName} на странице ‘ормирование рассылки не выбран.");
+                if (tempReceivers.Count == 0) msg.MsgList.Add($"Ќи один {ClassNamesConstants.ReceiverClassName} на странице ‘ормирование рассылки не выбран.");
             }
 
-            if (errList.Count != 0)
-            {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
-                window.ShowDialog();
-            }
+            msg.ShowMessages();
         }
 
         private void DeleteSended(Sended item)
         {
-            List<string> errList = new List<string>();
+            MessagesClass msg = new MessagesClass(OtherConstants.ErrorWindowTitle);
 
             if (item != null)
             {
                 History.DeleteSended(item);
             }
-            else errList.Add($"{ClassNamesConstants.SendedClassName} дл€ удалени€ не выбрана.");
+            else msg.MsgList.Add($"{ClassNamesConstants.SendedClassName} дл€ удалени€ не выбрана.");
 
-            if (errList.Count != 0)
-            {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
-                window.ShowDialog();
-            }
+            msg.ShowMessages();
         }
 
         #endregion
@@ -445,24 +423,19 @@ namespace Mail_Sender.ViewModel
 
         private void OnAllSended(Dictionary<SendedReceiver, string> errDic, Sended sn)
         {
-            List<string> errList = new List<string>();
+            MessagesClass msg = new MessagesClass(OtherConstants.ErrorWindowTitle);
 
             foreach (KeyValuePair<SendedReceiver, string> pair in errDic)
             {
                 sn.SendedReceivers.Remove(pair.Key);
-                errList.Add($"ѕисьмо дл€ {pair.Key.Receiver.Key}  не было доставлено потому, что {pair.Value}.");
+                msg.MsgList.Add($"ѕисьмо дл€ {pair.Key.Receiver.Key}  не было доставлено потому, что {pair.Value}.");
             }
 
-            if (errList.Count != 0)
-            {
-                MyMessageBoxWindow window = new MyMessageBoxWindow(errList, OtherConstants.ErrorWindowTitle);
-                window.ShowDialog();
-            }
+            msg.ShowMessages();
 
             History.AddSended(sn);
 
         }
-
         #endregion
     }
 }
