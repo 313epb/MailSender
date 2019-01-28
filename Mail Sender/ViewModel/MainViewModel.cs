@@ -231,6 +231,21 @@ namespace Mail_Sender.ViewModel
 
         #region Methods
 
+        private void AddPairItem(IPair item)
+        {
+            AEPairItemWindow AEWindow = new AEPairItemWindow();
+            AEWindow.Title = "Добавить";
+
+            AEWindow.Item = (IPair)Activator.CreateInstance(item.GetType());
+
+            AEWindow.ShowDialog();
+            //приходит null или валидные данные
+            if (AEWindow.Item != null)
+            {
+                ForObsCollection(AEWindow.Item.GetType())?.AddIPair(AEWindow.Item);
+            }
+        }
+
         private void DeleteIPairItem(IPair item)
         {
             MessagesClass msg = new MessagesClass(OtherConstants.ErrorWindowTitle);
@@ -263,21 +278,6 @@ namespace Mail_Sender.ViewModel
             else msg.MsgList.Add($"{item.ClassName} для редактирования не выбран.");
 
             msg.ShowMessages();
-        }
-
-        private void AddPairItem(IPair item)
-        {
-            AEPairItemWindow AEWindow = new AEPairItemWindow();
-            AEWindow.Title = "Добавить";
-
-            AEWindow.Item = (IPair)Activator.CreateInstance(item.GetType());
-
-            AEWindow.ShowDialog();
-            //приходит null или валидные данные
-            if (AEWindow.Item != null) 
-            {
-                ForObsCollection(AEWindow.Item.GetType())?.AddIPair(AEWindow.Item);
-            }
         }
 
         private void SaveMail(Mail mail)
