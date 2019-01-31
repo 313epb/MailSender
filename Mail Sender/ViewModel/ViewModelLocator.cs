@@ -32,6 +32,7 @@ namespace Mail_Sender.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MailSenderContext>();
+            ServiceLocator.Current.GetInstance<MailSenderContext>().Database.CreateIfNotExists();
         }
 
         public MainViewModel Main
