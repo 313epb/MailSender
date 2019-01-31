@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace MailSender.Domain.Entities.Base.Interface
+﻿namespace MailSender.Domain.Entities.Base.Interface
 {
     public interface IPair : INamedEntity
     {

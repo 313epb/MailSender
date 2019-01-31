@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Mail;
+using MailSender.Domain.Constants;
 using MailSender.Domain.Entities.Base;
-using MailSender.Domain.Entities.Base.Interface;
 
 namespace MailSender.Domain.Entities
 {
@@ -14,16 +14,13 @@ namespace MailSender.Domain.Entities
         /// <summary>
         /// Название класса
         /// </summary>
-        public override string ClassName
-        {
-            get => Constants.ClassNamesConstants.SenderClassName;
-        }
-
+        public override string ClassName => ClassNamesConstants.SenderClassName;
+        
         public override string Key { get; set; }
-        public override string KeyName { get=>Constants.ClassNamesConstants.SenderKeyName; }
+        public override string KeyName { get=>ClassNamesConstants.SenderKeyName; }
 
         public override string Value { get; set; }
-        public override string ValueName { get=>Constants.ClassNamesConstants.SenderValueName; }
+        public override string ValueName { get=>ClassNamesConstants.SenderValueName; }
 
         #region Валидация
 

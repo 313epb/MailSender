@@ -37,12 +37,12 @@ namespace Mail_Sender.Model
         //    Database.EnsureCreated();
         //}
 
-        public System.Data.Entity.DbSet<SendedReceiver> SendedReceivers { get; set; }
-        public System.Data.Entity.DbSet<Mail> Mails { get; set; }
-        public System.Data.Entity.DbSet<Receiver> Receivers { get; set; }
-        public System.Data.Entity.DbSet<Sended> Sendeds { get; set; }
-        public System.Data.Entity.DbSet<Sender> Senders { get; set; }
-        public System.Data.Entity.DbSet<SMTP> SMTPs { get; set; }
+        public virtual System.Data.Entity.DbSet<SendedReceiver> SendedReceivers { get; set; }
+        public virtual System.Data.Entity.DbSet<Mail> Mails { get; set; }
+        public virtual System.Data.Entity.DbSet<Receiver> Receivers { get; set; }
+        public virtual System.Data.Entity.DbSet<Sended> Sendeds { get; set; }
+        public virtual System.Data.Entity.DbSet<Sender> Senders { get; set; }
+        public virtual System.Data.Entity.DbSet<SMTP> SMTPs { get; set; }
 
         #region Singleton MailSenderContext
 

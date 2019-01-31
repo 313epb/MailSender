@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using MailSender.Domain.Constants;
 using MailSender.Domain.Entities.Base;
 
 namespace MailSender.Domain.Entities
@@ -43,6 +44,6 @@ namespace MailSender.Domain.Entities
         /// </summary>
         public Mail Mail { get; set; }
 
-        public string Name => Mail?.Topic + " " + Sender?.Key + " " + Created;
+        public string Name => Mail?.Topic + " " + Sender?.Key + " " + Created.ToString(OtherConstants.DateTimeFormat);
     }
 }

@@ -34,9 +34,6 @@ namespace Mail_Sender.ViewModel
             }
         }
 
-        private readonly string _senderClassName = ClassNamesConstants.SenderClassName;
-        public string SenderClassName => _senderClassName;
-
         private IPair _objSender = new Sender();
 
         public IPair ObjSender { get => _objSender; set => _objSender = value; }
@@ -79,9 +76,6 @@ namespace Mail_Sender.ViewModel
                 e.Accepted = false;
         }
 
-        private readonly string _receiverClassName = ClassNamesConstants.ReceiverClassName;
-        public string ReceiverClassName => _receiverClassName;
-
         private IPair _objReceiver = new Receiver();
 
         public IPair OBjReceiver { get => _objReceiver; set => _objReceiver = value; }
@@ -99,9 +93,6 @@ namespace Mail_Sender.ViewModel
             get => _smtps;
             set => _smtps = value;
         }
-
-        private readonly string _SMTPSClassName = ClassNamesConstants.SMTPClassName;
-        public string SMTPClassName => _SMTPSClassName;
 
         private IPair _objSmtp = new SMTP();
 
@@ -135,11 +126,6 @@ namespace Mail_Sender.ViewModel
             get => _mails;
             set => _mails = value;
         }
-
-        private readonly string _mailClassName = ClassNamesConstants.MailClassName;
-        public string MailsClassName => _mailClassName;
-
-
 
         #endregion
 
@@ -254,7 +240,7 @@ namespace Mail_Sender.ViewModel
             {
                 ForObsCollection(item.GetType())?.DeleteIPair(item);
             }
-            else msg.MsgList.Add($"{item.ClassName} для удаления не выбран.");
+            else msg.MsgList.Add($"Объект для удаления не выбран.");
 
             msg.ShowMessages();
         }
@@ -275,7 +261,7 @@ namespace Mail_Sender.ViewModel
                     ForObsCollection(AEWindow.Item.GetType())?.NotifyPairModified(AEWindow.Item);
                 }
             }
-            else msg.MsgList.Add($"{item.ClassName} для редактирования не выбран.");
+            else msg.MsgList.Add($"Объект для редактирования не выбран.");
 
             msg.ShowMessages();
         }

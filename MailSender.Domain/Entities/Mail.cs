@@ -34,9 +34,9 @@ namespace MailSender.Domain.Entities
 
         private string _error; 
 
-        public string Error { get=>_error; }
+        public override string Error { get=>_error; }
 
-        public string this[string columnName]
+        public override string this[string columnName]
         {
             get
             {

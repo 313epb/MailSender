@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using System.Windows;
 using MailSender.Domain.Entities;
 
 namespace Mail_Sender.Model

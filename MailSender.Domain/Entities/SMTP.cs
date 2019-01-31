@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
-using System.Text.RegularExpressions;
+using MailSender.Domain.Constants;
 using MailSender.Domain.Entities.Base;
-using MailSender.Domain.Entities.Base.Interface;
 
 namespace MailSender.Domain.Entities
 {
@@ -13,16 +10,13 @@ namespace MailSender.Domain.Entities
     /// </summary>
     public class SMTP: PairEntity
     {
-        public override string ClassName
-        {
-            get => Constants.ClassNamesConstants.SMTPClassName;
-        }
+        public override string ClassName => ClassNamesConstants.SMTPClassName;
 
         public override string Key { get; set; }
-        public override string KeyName { get=>Constants.ClassNamesConstants.SMTPKeyName; }
+        public override string KeyName { get=>ClassNamesConstants.SMTPKeyName; }
 
         public override string Value { get; set; }
-        public override string ValueName { get=>Constants.ClassNamesConstants.SMTPValueName; }
+        public override string ValueName { get=>ClassNamesConstants.SMTPValueName; }
 
         #region Валидация
 
