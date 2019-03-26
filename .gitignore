@@ -259,3 +259,15 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+	/.vs/angular2-research/v15
+    /.vs/config/applicationhost.config
+    /.vs/slnx.sqlite
+    /.vs/slnx.sqlite-journal
+    /cleanui/cleanui-admin-template-angular/node_modules
+    /cleanui/.vs
+    /.vs
+    slnx.sqlite
+    *.sqlite
+    /.vs/*.sqlite
+    .vs/*.sqlite` 
